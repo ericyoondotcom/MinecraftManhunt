@@ -18,10 +18,10 @@ commands:
     description: Start the Manhunt game.
     usage: /start
     permission: minecraftmanhunt.start
-  stop:
+  end:
     description: Stops the Manhunt game.
-    usage: /stop
-    permission: minecraftmanhunt.stop
+    usage: /end
+    permission: minecraftmanhunt.end
   compass:
     description: Use to obtain a compass.
     usage: /compass

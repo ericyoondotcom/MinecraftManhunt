@@ -26,7 +26,7 @@ public class PluginCommands implements CommandExecutor {
             "speedrunner",
             "spectator",
             "start",
-            "stop",
+            "end",
             "compass"
     };
 
@@ -194,7 +194,7 @@ public class PluginCommands implements CommandExecutor {
             getServer().broadcastMessage("Manhunt started!");
 
             return true;
-        } else if ("stop".equals(label)) {
+        } else if ("end".equals(label)) {
             if (compassTask != -1) {
                 BukkitScheduler scheduler = getServer().getScheduler();
                 scheduler.cancelTask(compassTask);
