@@ -94,7 +94,7 @@ public class PluginCommands implements CommandExecutor {
             }
             for (String i : main.hunters) {
                 if (target.getName().equalsIgnoreCase(i)) {
-                    main.runners.remove(i);
+                    main.hunters.remove(i);
                     break;
                 }
             }
@@ -129,7 +129,7 @@ public class PluginCommands implements CommandExecutor {
             }
             for (String i : main.hunters) {
                 if (target.getName().equalsIgnoreCase(i)) {
-                    main.spectators.remove(i);
+                    main.hunters.remove(i);
                     break;
                 }
             }
