@@ -40,7 +40,7 @@ public class PluginMain extends JavaPlugin {
         }
 
         ScoreboardManager scoreboardManager = getScoreboardManager();
-        Scoreboard board = scoreboardManager.getNewScoreboard();
+        Scoreboard board = scoreboardManager.getMainScoreboard();
         huntersTeam = board.getTeam("hunters");
         runnersTeam = board.getTeam("speedrunners");
         spectatorsTeam = board.getTeam("spectators");
