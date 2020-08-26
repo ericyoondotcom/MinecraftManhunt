@@ -1,0 +1,20 @@
+name: MinecraftManhunt
+version: 1.0
+main: com.yoonicode.minecraftmanhunt.PluginMain
+commands:
+  hunter:
+    description: Register a player as a manhunt Hunter.
+    usage: /hunter <target>
+    permission: minecraftmanhunt.hunter
+  speedrunner:
+    description: Register a player as a manhunt Speedrunner.
+    usage: /speedrunner <target>
+    permission: minecraftmanhunt.speedrunner
+  spectator:
+    description: Register a player as a manhunt Spectator.
+    usage: /spectator <target>
+    permission: minecraftmanhunt.spectator
+  start:
+    description: Start the Manhunt game.
+    usage: /start
+    permission: minecraftmanhunt.start
