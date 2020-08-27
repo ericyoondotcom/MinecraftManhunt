@@ -13,6 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -76,6 +77,10 @@ public class PluginCommands implements CommandExecutor {
                 }
             }
             main.hunters.add(target.getName());
+            main.huntersTeam.addEntry(target.getName());
+            if(!main.discord.AssignRole(ManhuntTeam.HUNTER, target.getName())){
+                commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
+            }
             target.sendMessage("You have been marked as a hunter.");
             commandSender.sendMessage("Marked player as hunter");
             return true;
@@ -105,6 +110,10 @@ public class PluginCommands implements CommandExecutor {
                 }
             }
             main.runners.add(target.getName());
+            main.runnersTeam.addEntry(target.getName());
+            if(!main.discord.AssignRole(ManhuntTeam.RUNNER, target.getName())){
+                commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
+            }
             target.sendMessage("You have been marked as a speedrunner.");
             commandSender.sendMessage("Marked player as speedrunner");
             return true;
@@ -134,6 +143,10 @@ public class PluginCommands implements CommandExecutor {
                 }
             }
             main.spectators.add(target.getName());
+            main.spectatorsTeam.addEntry(target.getName());
+            if(!main.discord.AssignRole(ManhuntTeam.SPECTATOR, target.getName())){
+                commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
+            }
             target.sendMessage("You have been marked as a spectator.");
             commandSender.sendMessage("Marked player as spectator");
             return true;
@@ -161,6 +174,9 @@ public class PluginCommands implements CommandExecutor {
                 if (player == null) continue;
                 player.setGameMode(GameMode.SPECTATOR);
                 main.spectatorsTeam.addEntry(player.getName());
+                if(!main.discord.AssignRole(ManhuntTeam.SPECTATOR, player.getName())){
+                    commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
+                }
             }
             for (String i : main.runners) {
                 Player player = Bukkit.getPlayer(i);
@@ -170,6 +186,9 @@ public class PluginCommands implements CommandExecutor {
                 player.setFoodLevel(20);
                 player.getInventory().clear();
                 main.runnersTeam.addEntry(player.getName());
+                if(!main.discord.AssignRole(ManhuntTeam.RUNNER, player.getName())){
+                    commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
+                }
             }
             for (String i : main.hunters) {
                 Player player = Bukkit.getPlayer(i);
@@ -182,6 +201,9 @@ public class PluginCommands implements CommandExecutor {
                 player.getInventory().clear();
                 player.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
                 main.huntersTeam.addEntry(player.getName());
+                if(!main.discord.AssignRole(ManhuntTeam.HUNTER, player.getName())){
+                    commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
+                }
             }
 
             BukkitScheduler scheduler = getServer().getScheduler();

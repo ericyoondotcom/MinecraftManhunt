@@ -7,6 +7,11 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="jcenter" />
+      <option name="name" value="jcenter-bintray" />
+      <option name="url" value="https://jcenter.bintray.com" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="spigotmc-repo" />
       <option name="name" value="spigotmc-repo" />
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />

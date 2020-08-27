@@ -1,1 +1,10 @@
 headStartDuration: 30
+
+enableDiscord: false
+discordToken: "XXXXX"
+ip: "a minecraft server"
+
+discordServerId: "XXXXX"
+hunterRoleId: "XXXXX"
+runnerRoleId: "XXXXX"
+spectatorRoleId: "XXXXX"

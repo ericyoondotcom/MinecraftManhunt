@@ -12,11 +12,15 @@ import java.util.logging.Logger;
 
 import static org.bukkit.Bukkit.getScoreboardManager;
 
+enum ManhuntTeam {
+    HUNTER,
+    RUNNER,
+    SPECTATOR
+}
+
 public class PluginMain extends JavaPlugin {
 
-    // TODO:
-    // Player head grab event is not cancelled
-    // Hunters are displayed in menu not runners!
+    // Plugin not working? Maybe try downgrading to java version 7
 
     public ArrayList<String> hunters = new ArrayList<String>();
     public ArrayList<String> runners = new ArrayList<String>();
@@ -26,6 +30,7 @@ public class PluginMain extends JavaPlugin {
     public Team runnersTeam;
     public Team spectatorsTeam;
     public Logger logger;
+    public DiscordManager discord;
 
     @Override
     public void onEnable() {
@@ -56,6 +61,8 @@ public class PluginMain extends JavaPlugin {
             spectatorsTeam = board.registerNewTeam("spectators");
             spectatorsTeam.setColor(ChatColor.AQUA);
         }
+
+        discord = new DiscordManager(this);
     }
 
     @Override
