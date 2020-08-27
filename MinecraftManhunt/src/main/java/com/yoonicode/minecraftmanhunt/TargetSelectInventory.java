@@ -38,6 +38,7 @@ public class TargetSelectInventory {
             stack.setItemMeta(meta);
 
             inv.setItem(pos, stack);
+            pos++;
         }
     }
 
