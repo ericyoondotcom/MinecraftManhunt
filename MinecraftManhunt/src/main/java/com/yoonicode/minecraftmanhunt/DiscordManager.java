@@ -1,12 +1,15 @@
 package com.yoonicode.minecraftmanhunt;
 
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.managers.AudioManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +25,9 @@ public class DiscordManager extends ListenerAdapter {
     Role hunterRole;
     Role runnerRole;
     Role spectatorRole;
+    MusicManager music;
+    AudioPlayerManager playerManager;
+    TrackManager trackManager;
 
     public DiscordManager(PluginMain main) {
         this.main = main;
@@ -57,6 +63,12 @@ public class DiscordManager extends ListenerAdapter {
         hunterRole = guild.getRoleById(hunterRoleId);
         runnerRole = guild.getRoleById(runnerRoleId);
         spectatorRole = guild.getRoleById(spectatorRoleId);
+
+        playerManager = new DefaultAudioPlayerManager();
+        AudioManager audioManager = guild.getAudioManager();
+        music = new MusicManager(playerManager, audioManager, main);
+        audioManager.setSendingHandler(music.getSendHandler());
+        trackManager = new TrackManager(music);
         main.logger.info("Discord up and running");
     }
 
