@@ -26,3 +26,7 @@ commands:
     description: Use to obtain a compass.
     usage: /compass
     permission: minecraftmanhunt.compass
+  music:
+    description: Play a music track.
+    usage: /music <auto|stop|list|track name>
+    permission: minecraftmanhunt.music

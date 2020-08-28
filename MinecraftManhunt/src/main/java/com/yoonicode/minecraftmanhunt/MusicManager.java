@@ -2,6 +2,7 @@ package com.yoonicode.minecraftmanhunt;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -15,6 +16,8 @@ public class MusicManager {
 
     public MusicManager(AudioPlayerManager playerManager, AudioManager audioManager, PluginMain main){
         this.playerManager = playerManager;
+        AudioSourceManagers.registerRemoteSources(playerManager);
+        AudioSourceManagers.registerLocalSource(playerManager);
         this.audioManager = audioManager;
         player = this.playerManager.createPlayer();
         this.main = main;
@@ -42,12 +45,12 @@ public class MusicManager {
         }
     }
 
-    public void PlayTrack(AudioTrack track){
+    public void playTrack(AudioTrack track){
         Connect();
-        player.startTrack(track, false);
+        player.startTrack(track.makeClone(), false);
     }
 
-    public void StopTrack(){
+    public void stopTrack(){
         player.stopTrack();
     }
 

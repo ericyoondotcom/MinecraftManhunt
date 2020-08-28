@@ -7,9 +7,10 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
@@ -68,7 +69,8 @@ public class DiscordManager extends ListenerAdapter {
         AudioManager audioManager = guild.getAudioManager();
         music = new MusicManager(playerManager, audioManager, main);
         audioManager.setSendingHandler(music.getSendHandler());
-        trackManager = new TrackManager(music);
+        trackManager = new TrackManager(music, main);
+        Bukkit.getServer().getPluginManager().registerEvents(trackManager, main);
         main.logger.info("Discord up and running");
     }
 
@@ -108,5 +110,15 @@ public class DiscordManager extends ListenerAdapter {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
+        if(event.getAuthor().isBot()) return;
+        String message = event.getMessage().getContentDisplay().trim().toLowerCase();
+        if(message.startsWith("music")){
+            String arg1 = message.replaceAll("music", "").trim();
+            event.getChannel().sendMessage(trackManager.parseCommand(arg1)).queue();
+        }
     }
 }

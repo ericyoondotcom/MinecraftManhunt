@@ -28,7 +28,8 @@ public class PluginCommands implements CommandExecutor {
             "spectator",
             "start",
             "end",
-            "compass"
+            "compass",
+            "music"
     };
 
     int compassTask = -1;
@@ -229,6 +230,12 @@ public class PluginCommands implements CommandExecutor {
             sender.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
             commandSender.sendMessage("Here you go!");
 
+            return true;
+        }else if("music".equals(label)){
+            if(args.length == 0){
+                return false;
+            }
+            commandSender.sendMessage(main.discord.trackManager.parseCommand(args[0]));
             return true;
         }
         return false;
