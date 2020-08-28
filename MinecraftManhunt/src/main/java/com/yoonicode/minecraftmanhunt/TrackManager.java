@@ -7,8 +7,12 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,27 +20,29 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     MusicManager musicManager;
     PluginMain main;
     boolean autoEnabled = false;
+    boolean specialPlaying = false;
 
     public enum DangerLevel {
-        Fighting,
         Chasing,
         InSight,
+        RunnerInNether,
         Stealth,
         Approaching,
         FarAway
     }
 
+    public DangerLevel dangerLevel;
+
     public HashMap<String, String> trackURLs = new HashMap<String, String>() {{
         put("intro", "https://www.youtube.com/watch?v=beCC9xJjLZQ");
         put("headstart", "https://www.youtube.com/watch?v=tJFqdLg58i4");
-
         put("pirates", "https://www.youtube.com/watch?v=27mB8verLK8");
-
         put("gatheringresources", "https://www.youtube.com/watch?v=tKfpwSVpXxU");
-        put("fun", "https://www.youtube.com/watch?v=O9cWfV_3J7o");
         put("montage", "https://www.youtube.com/watch?v=BezpUnoZObw");
-        put("relaxing", "https://www.youtube.com/watch?v=ipCeVg-SA-Y");
         put("xmas", "https://www.youtube.com/watch?v=R5swgaETU1g");
+
+        put("relaxing", "https://www.youtube.com/watch?v=ipCeVg-SA-Y");
+        put("fun", "https://www.youtube.com/watch?v=O9cWfV_3J7o");
 
         put("preparing-safe", "https://www.youtube.com/watch?v=gehk17hjEdU");
         put("preparing-danger", "https://www.youtube.com/watch?v=CYcTNDXUOoY");
@@ -44,7 +50,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
         put("risingaction", "https://www.youtube.com/watch?v=ghAeHHTID2k");
 
-        put("nether", "https://www.youtube.com/watch?v=tQdAiG29HiM"); // When both teams are in the nether
+        put("nether", "https://www.youtube.com/watch?v=tQdAiG29HiM");
 
         put("spooked", "https://www.youtube.com/watch?v=3kclVzQ3S4M");
         put("tense", "https://www.youtube.com/watch?v=Vv9-cxbacOg");
@@ -57,17 +63,21 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("discovered", "https://www.youtube.com/watch?v=BMUPNgU3lII");
         put("found", "https://www.youtube.com/watch?v=YMwQQJ0ChCU");
 
+        // on runner hit, less than two pieces of armor
         put("chase", "https://www.youtube.com/watch?v=CX9wFdExF_k");
         put("chase2", "https://www.youtube.com/watch?v=6S3f_AVEnSM");
+
+        // on runner hit, more than two pieces of armor
         put("epicwar", "https://www.youtube.com/watch?v=_UBZmrQwD9o");
         put("endwar", "https://www.youtube.com/watch?v=0EsBItv1Pns");
 
-        put("winning", "https://open.spotify.com/track/7tT4uf3CpCVaXbvH2w450d?si=ATLTa-eET2qRodPjsUYIMg");
+        // On hunter kill by runner
         put("beastmode", "https://www.youtube.com/watch?v=4rGl1KXV4eA");
 
         put("resolution", "https://www.youtube.com/watch?v=B4K7Hqv4vts");
         put("resolution2", "https://www.youtube.com/watch?v=eM6WxujEGy8");
 
+        // On runner death
         put("loss", "https://www.youtube.com/watch?v=9Fx314TyuWI");
         put("sad", "https://www.youtube.com/watch?v=OK7a4EQVRc0");
 
@@ -108,6 +118,10 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         if(argument.length() == 0){
             return "Specify a track to play!";
         }
+        if(argument.equalsIgnoreCase("forceupdate")){
+            playDangerLevelTrack();
+            return "Forcing music update to match danger level.";
+        }
         if(argument.equalsIgnoreCase("auto")){
             autoEnabled = true;
             return "Automatic music enabled";
@@ -137,5 +151,86 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         super.onTrackEnd(player, track, endReason);
 
         if(!autoEnabled) return;
+        playDangerLevelTrack();
+    }
+
+    public void reset(){
+        dangerLevel = DangerLevel.FarAway;
+    }
+
+    public void playDangerLevelTrack(){
+        /*Chasing,
+        InSight,
+        RunnerInNether,
+        Stealth,
+        Approaching,
+        FarAway*/
+        ArrayList<String> candidates = new ArrayList<String>();
+        switch(dangerLevel){
+            case Chasing:
+                candidates.add("danger");
+                candidates.add("risingaction");
+                break;
+            case InSight:
+                candidates.add("preparing-danger");
+                candidates.add("danger2");
+                candidates.add("timesup");
+            case Stealth:
+                candidates.add("approaching");
+                candidates.add("found");
+                candidates.add("plotting");
+            case Approaching:
+                candidates.add("relaxing");
+                candidates.add("discovered");
+                candidates.add("tense");
+            case FarAway:
+                candidates.add("fun");
+                candidates.add("preparing-safe");
+                candidates.add("lowdanger");
+                candidates.add("resolution");
+                candidates.add("resolution2");
+            case RunnerInNether:
+                candidates.add("nether");
+                candidates.add("spooked");
+        }
+        int random = (int)(Math.random() * candidates.size());
+        musicManager.playTrack(tracks.get(candidates.get(random)));
+    }
+
+    public void updateDangerLevel(){
+        if(!autoEnabled) return;
+        double distance = 9999999;
+        boolean hunterInNetherDimension = false;
+        boolean runnerInNetherDimension = false;
+        for(String huntername : main.hunters){
+            Player hunter = Bukkit.getPlayer(huntername);
+            if(hunter.getWorld().getEnvironment() == World.Environment.NETHER) hunterInNetherDimension = true;
+            if(hunter == null) continue;
+            for(String runnername : main.runners){
+                Player runner = Bukkit.getPlayer(runnername);
+                if(runner.getWorld().getEnvironment() == World.Environment.NETHER) runnerInNetherDimension = true;
+                if(runner == null) continue;
+                double newDistance = hunter.getLocation().distance(runner.getLocation());
+                if(newDistance < distance) distance = newDistance;
+            }
+        }
+        DangerLevel oldLevel = dangerLevel;
+        if(distance < 15){
+            dangerLevel = DangerLevel.Chasing;
+        }else if(distance < 40){
+            dangerLevel = DangerLevel.InSight;
+        }else if(distance < 100){
+            dangerLevel = DangerLevel.Stealth;
+        }else if(distance < 200){
+            dangerLevel = DangerLevel.Approaching;
+        }else{
+            dangerLevel = DangerLevel.FarAway;
+        }
+        if(runnerInNetherDimension && !hunterInNetherDimension){
+            dangerLevel = DangerLevel.RunnerInNether;
+        }
+        if(oldLevel.compareTo(dangerLevel) > 0 || musicManager.player.getPlayingTrack() == null){
+            if(!specialPlaying) playDangerLevelTrack();;
+        }
     }
 }

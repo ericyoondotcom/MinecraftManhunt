@@ -20,7 +20,9 @@ enum ManhuntTeam {
 
 public class PluginMain extends JavaPlugin {
 
-    // Plugin not working? Maybe try downgrading to java version 7
+    // TODO:
+    // show portal position when one person goes to the nether
+    // Nether music not working; check location distance function when players are in diff dimensions?
 
     public ArrayList<String> hunters = new ArrayList<String>();
     public ArrayList<String> runners = new ArrayList<String>();

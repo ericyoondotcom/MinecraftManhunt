@@ -33,6 +33,7 @@ public class PluginCommands implements CommandExecutor {
     };
 
     int compassTask = -1;
+    int dangerLevelTask = -1;
 
     private final PluginMain main;
 
@@ -206,7 +207,7 @@ public class PluginCommands implements CommandExecutor {
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
                 }
             }
-
+            main.discord.trackManager.reset();
             BukkitScheduler scheduler = getServer().getScheduler();
             compassTask = scheduler.scheduleSyncRepeatingTask(main, new Runnable() {
                 public void run() {
@@ -214,13 +215,22 @@ public class PluginCommands implements CommandExecutor {
                 }
             }, 0L, 20L);
 
+            dangerLevelTask = scheduler.scheduleSyncRepeatingTask(main, new Runnable() {
+                public void run() {
+                    main.discord.trackManager.updateDangerLevel();
+                }
+            }, 0L, 20L * 5);
+
             getServer().broadcastMessage("Manhunt started!");
 
             return true;
         } else if ("end".equals(label)) {
+            BukkitScheduler scheduler = getServer().getScheduler();
             if (compassTask != -1) {
-                BukkitScheduler scheduler = getServer().getScheduler();
                 scheduler.cancelTask(compassTask);
+            }
+            if (compassTask != -1) {
+                scheduler.cancelTask(dangerLevelTask);
             }
             getServer().broadcastMessage("Manhunt stopped!");
 
