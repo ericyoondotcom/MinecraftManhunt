@@ -20,11 +20,6 @@ enum ManhuntTeam {
 }
 
 public class PluginMain extends JavaPlugin {
-
-    // TODO:
-    // show portal position when one person goes to the nether
-    // Nether music not working; check location distance function when players are in diff dimensions?
-
     public ArrayList<String> hunters = new ArrayList<String>();
     public ArrayList<String> runners = new ArrayList<String>();
     public ArrayList<String> spectators = new ArrayList<String>();
