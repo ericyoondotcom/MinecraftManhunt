@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -41,5 +42,10 @@ public class PluginListener implements Listener {
             hunter.closeInventory();
             hunter.sendMessage("Compass is now targeting " + target.getName());
         }
+    }
+
+    @EventHandler
+    public void PlayerEnterPortalEvent(PlayerPortalEvent event){
+        main.portals.put(event.getPlayer().getName(), event.getFrom());
     }
 }

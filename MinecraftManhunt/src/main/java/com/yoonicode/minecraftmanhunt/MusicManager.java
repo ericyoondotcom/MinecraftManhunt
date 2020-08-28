@@ -52,6 +52,7 @@ public class MusicManager {
 
     public void stopTrack(){
         player.stopTrack();
+        main.discord.trackManager.specialPlaying = false;
     }
 
 }

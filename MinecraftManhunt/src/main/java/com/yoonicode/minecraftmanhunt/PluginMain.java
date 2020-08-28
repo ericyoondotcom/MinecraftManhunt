@@ -1,6 +1,7 @@
 package com.yoonicode.minecraftmanhunt;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -28,6 +29,7 @@ public class PluginMain extends JavaPlugin {
     public ArrayList<String> runners = new ArrayList<String>();
     public ArrayList<String> spectators = new ArrayList<String>();
     public HashMap<String, String> targets = new HashMap<String, String>();
+    public HashMap<String, Location> portals = new HashMap<String, Location>();
     public Team huntersTeam;
     public Team runnersTeam;
     public Team spectatorsTeam;

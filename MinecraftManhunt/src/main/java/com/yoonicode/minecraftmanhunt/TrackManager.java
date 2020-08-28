@@ -8,11 +8,21 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,6 +161,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         super.onTrackEnd(player, track, endReason);
 
         if(!autoEnabled) return;
+        specialPlaying = false;
         playDangerLevelTrack();
     }
 
@@ -159,12 +170,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     }
 
     public void playDangerLevelTrack(){
-        /*Chasing,
-        InSight,
-        RunnerInNether,
-        Stealth,
-        Approaching,
-        FarAway*/
+        if(!autoEnabled) return;
         ArrayList<String> candidates = new ArrayList<String>();
         switch(dangerLevel){
             case Chasing:
@@ -231,6 +237,116 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         }
         if(oldLevel.compareTo(dangerLevel) > 0 || musicManager.player.getPlayingTrack() == null){
             if(!specialPlaying) playDangerLevelTrack();;
+        }
+    }
+
+    public void playSpecialTrack(String trackName, boolean override){
+        if(!autoEnabled) return;
+        if(specialPlaying && !override) return;
+        specialPlaying = true;
+        musicManager.playTrack(tracks.get(trackName));
+    }
+
+    public void playSpecialTrack(String trackName){
+        playSpecialTrack(trackName, false);
+    }
+
+    @EventHandler
+    public void playerEnterPortalEvent(PlayerPortalEvent event){
+        playDangerLevelTrack();
+    }
+
+    @EventHandler
+    public void onPlayerVehicleEnter(VehicleEnterEvent event){
+        if(event.getVehicle().getType() != EntityType.BOAT) return;
+        if(event.getEntered().getType() != EntityType.PLAYER) return;
+
+        boolean found = false;
+        for(String i : main.hunters){
+            Player player = Bukkit.getPlayer(i);
+            if(player == null) continue;
+            if(player.isInsideVehicle() && player.getVehicle().getType() == EntityType.BOAT){
+                found = true;
+                break;
+            }
+        }
+        if(!found) return;
+
+        found = false;
+        for(String i : main.runners) {
+            Player player = Bukkit.getPlayer(i);
+            if (player == null) continue;
+            if (player.isInsideVehicle() && player.getVehicle().getType() == EntityType.BOAT) {
+                found = true;
+                break;
+            }
+        }
+        if(!found) return;
+
+        playSpecialTrack("pirates");
+    }
+
+    @EventHandler
+    public void onBlockMine(BlockBreakEvent event){
+        Material type = event.getBlock().getType();
+        if(type == Material.IRON_ORE){
+            if(!main.runners.contains(event.getPlayer().getName())) return;
+
+            for(String i : main.runners){
+                Player p = Bukkit.getPlayer(i);
+                if(p == null) return;
+                if(p.getInventory().contains(Material.IRON_ORE) || p.getInventory().contains(Material.IRON_INGOT)) return;
+            }
+
+            playSpecialTrack("gatheringresources", true);
+        }else if(type == Material.DIAMOND_ORE){
+            if(event.getPlayer().getInventory().contains(Material.DIAMOND)) return;
+            playSpecialTrack("xmas", true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerHit(EntityDamageByEntityEvent event){
+        if(event.getDamager().getType() != EntityType.PLAYER || event.getEntity().getType() != EntityType.PLAYER) return;
+        Player damager = (Player)event.getDamager();
+        Player damagee = (Player)event.getEntity();
+        if(main.hunters.contains(damager.getName())){
+            if(!main.runners.contains(damagee.getName())){
+                return;
+            }
+        }else if(main.runners.contains(damager.getName())){
+            if(!main.hunters.contains(damagee.getName())){
+                return;
+            }
+        }else{
+            return;
+        }
+        int random = (int)(Math.random() * 2);
+        long armorCount = Arrays.stream(damager.getInventory().getArmorContents()).filter(stack -> stack != null).count() +
+                Arrays.stream(damagee.getInventory().getArmorContents()).filter(stack -> stack != null).count();
+        if(armorCount > 2){
+            if(random == 0) playSpecialTrack("epicwar");
+            else playSpecialTrack("endwar");
+        }else{
+            if(random == 0) playSpecialTrack("chase");
+            else playSpecialTrack("chase2");
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event){
+        if(main.hunters.contains(event.getEntity().getName())){
+            playSpecialTrack("beastmode", true);
+        }else if(main.runners.contains(event.getEntity().getName())){
+            for(String i : main.runners){
+                Player p = Bukkit.getPlayer(i);
+                if(p == null) return;
+                if(p.getGameMode() == GameMode.SURVIVAL && !p.getName().equalsIgnoreCase(event.getEntity().getName())){
+                    playSpecialTrack("loss", true);
+                    return;
+                }
+            }
+            playSpecialTrack("sad", true);
         }
     }
 }

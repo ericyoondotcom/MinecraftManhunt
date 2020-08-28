@@ -2,6 +2,7 @@ package com.yoonicode.minecraftmanhunt;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,7 +49,14 @@ public class PluginCommands implements CommandExecutor {
             if(hunter == null || target == null){
                 continue;
             }
-            hunter.setCompassTarget(target.getLocation());
+            if(hunter.getWorld().getEnvironment() != target.getWorld().getEnvironment()){
+                Location loc = main.portals.get(target.getName());
+                if(loc != null){
+                    hunter.setCompassTarget(loc);
+                }
+            }else{
+                hunter.setCompassTarget(target.getLocation());
+            }
         }
     }
 
@@ -208,6 +216,7 @@ public class PluginCommands implements CommandExecutor {
                 }
             }
             main.discord.trackManager.reset();
+            main.discord.trackManager.playSpecialTrack("headstart");
             BukkitScheduler scheduler = getServer().getScheduler();
             compassTask = scheduler.scheduleSyncRepeatingTask(main, new Runnable() {
                 public void run() {
