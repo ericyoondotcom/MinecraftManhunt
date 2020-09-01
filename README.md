@@ -1,4 +1,9 @@
 # MinecraftManhunt
+[View on Bukkit](https://dev.bukkit.org/projects/dream-style-manhunt) • 
+[View on SpigotMC](https://www.spigotmc.org/resources/dream-style-manhunt.83309/)
+
+---
+
 Made by Eric<br>
 Github: [yummypasta](https://github.com/yummypasta)<br>
 Minecraft: [i18n](https://namemc.com/profile/i18n.4)
