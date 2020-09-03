@@ -215,8 +215,10 @@ public class PluginCommands implements CommandExecutor {
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
                 }
             }
-            main.discord.trackManager.reset();
-            main.discord.trackManager.playSpecialTrack("headstart");
+            if(main.discord.enabled){
+                main.discord.trackManager.reset();
+                main.discord.trackManager.playSpecialTrack("headstart");
+            }
             BukkitScheduler scheduler = getServer().getScheduler();
             compassTask = scheduler.scheduleSyncRepeatingTask(main, new Runnable() {
                 public void run() {
@@ -224,12 +226,13 @@ public class PluginCommands implements CommandExecutor {
                 }
             }, 0L, 20L);
 
-            dangerLevelTask = scheduler.scheduleSyncRepeatingTask(main, new Runnable() {
-                public void run() {
-                    main.discord.trackManager.updateDangerLevel();
-                }
-            }, 0L, 20L * 5);
-
+            if(main.discord.enabled) {
+                dangerLevelTask = scheduler.scheduleSyncRepeatingTask(main, new Runnable() {
+                    public void run() {
+                        main.discord.trackManager.updateDangerLevel();
+                    }
+                }, 0L, 20L * 5);
+            }
             getServer().broadcastMessage("Manhunt started!");
 
             return true;
@@ -238,7 +241,7 @@ public class PluginCommands implements CommandExecutor {
             if (compassTask != -1) {
                 scheduler.cancelTask(compassTask);
             }
-            if (compassTask != -1) {
+            if (dangerLevelTask != -1) {
                 scheduler.cancelTask(dangerLevelTask);
             }
             getServer().broadcastMessage("Manhunt stopped!");
@@ -251,6 +254,9 @@ public class PluginCommands implements CommandExecutor {
 
             return true;
         }else if("music".equals(label)){
+            if(!main.discord.enabled){
+                commandSender.sendMessage("Cannot use this command when Discord is disabled.");
+            }
             if(args.length == 0){
                 return false;
             }

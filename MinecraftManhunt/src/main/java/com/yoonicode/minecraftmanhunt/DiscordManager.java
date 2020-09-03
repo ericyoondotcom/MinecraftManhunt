@@ -81,6 +81,7 @@ public class DiscordManager extends ListenerAdapter {
      * @return true if a user was found and a role was assigned, false otherwise.
      */
     public boolean AssignRole(ManhuntTeam team, String username){
+        if(!enabled) return true;
         main.logger.info("Assigning role " + team.toString() + " to " + username);
         if(guild == null){
             main.logger.warning("Guild is null. Make sure the Discord Server ID is set correctly in the config file.");
