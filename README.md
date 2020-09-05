@@ -4,7 +4,7 @@
 
 ---
 
-Made by Eric<br>
+Made by Eric ([yoonicode.com](http://yoonicode.com/?utm_source=github&utm_medium=web&utm_campaign=manhunt-github))<br>
 Github: [yummypasta](https://github.com/yummypasta)<br>
 Minecraft: [i18n](https://namemc.com/profile/i18n.4)
 
