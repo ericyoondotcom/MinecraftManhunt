@@ -45,6 +45,7 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   Key|Description|Type|Required?
   --|--|--|--
   headStartDuration | How long the hunters should get blindness and slowness when the match starts. | int | Required
+  compassEnabledInNether | Set to true to allow the compass to work in the nether. | boolean | Required
   enableDiscord | Set to true to turn on Discord integration. Read below for more information. | boolean | Required
   discordToken | Enter the token of your Discord bot here. | string | Required if `enableDiscord` is `true`
   ip | The Discord status message portion. Will display as `Playing on {value}` so it's recommended that you make this your server's IP. | string | Required if `enableDiscord` is `true`

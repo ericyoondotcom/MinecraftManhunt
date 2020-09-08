@@ -8,7 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -17,7 +20,10 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.*;
 
@@ -56,7 +62,58 @@ public class PluginCommands implements CommandExecutor {
                 }
             }else{
                 hunter.setCompassTarget(target.getLocation());
+                boolean compassEnabledInNether = main.getConfig().getBoolean("compassEnabledInNether");
+
+                if(compassEnabledInNether) {
+                    PlayerInventory inv = hunter.getInventory();
+                    ItemStack compass = null;
+                    for (int j = 0; j < inv.getSize(); j++) {
+                        ItemStack stack = inv.getItem(j);
+                        if (stack == null) continue;
+                        if (stack.getType() != Material.COMPASS) continue;
+                        compass = stack;
+
+                        break;
+                    }
+                    if (compass != null) {
+                        CompassMeta meta = (CompassMeta) compass.getItemMeta();
+                        meta.setLodestone(target.getLocation());
+                        meta.setLodestoneTracked(false);
+                        compass.setItemMeta(meta);
+                    }
+                }
             }
+        }
+    }
+
+    public List<String> getCompletions(String[] args, List<String> existingCompletions){
+        switch (args[0]){
+            case "/hunter":
+            case "/speedrunner":
+            case "/spectator": {
+                return getOnlinePlayers().stream().map(i -> i.getName()).collect(Collectors.toList());
+            }
+            case "/music": {
+                ArrayList<String> ret = new ArrayList<String>(){
+                    {
+                        add("auto");
+                        add("stop");
+                        add("list");
+                        add("forceupdate");
+                    }
+                };
+                for(String track : main.discord.trackManager.trackURLs.keySet()){
+                    ret.add(track);
+                }
+                return ret;
+            }
+            case "/start":
+            case "/end":
+            case "/compass":
+                return new ArrayList<String>();
+            default:
+                return existingCompletions;
+
         }
     }
 

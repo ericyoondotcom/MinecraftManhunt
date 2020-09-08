@@ -30,6 +30,7 @@ public class PluginMain extends JavaPlugin {
     public Team spectatorsTeam;
     public Logger logger;
     public DiscordManager discord;
+    public PluginCommands commands;
 
     @Override
     public void onEnable() {
@@ -38,7 +39,7 @@ public class PluginMain extends JavaPlugin {
         saveDefaultConfig();
         getServer().getPluginManager().registerEvents(new PluginListener(this), this);
 
-        PluginCommands commands = new PluginCommands(this);
+        commands = new PluginCommands(this);
         for(String command : PluginCommands.registeredCommands){
             this.getCommand(command).setExecutor(commands);
         }

@@ -129,6 +129,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
             return "Specify a track to play!";
         }
         if(argument.equalsIgnoreCase("forceupdate")){
+            specialPlaying = false;
             playDangerLevelTrack();
             return "Forcing music update to match danger level.";
         }
@@ -172,6 +173,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     public void playDangerLevelTrack(){
         if(!autoEnabled) return;
         ArrayList<String> candidates = new ArrayList<String>();
+        if(dangerLevel == null) return;
         switch(dangerLevel){
             case Chasing:
                 candidates.add("danger");

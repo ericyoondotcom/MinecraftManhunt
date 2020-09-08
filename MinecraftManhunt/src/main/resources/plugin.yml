@@ -1,6 +1,7 @@
 name: MinecraftManhunt
-version: 1.1
+version: 1.2
 main: com.yoonicode.minecraftmanhunt.PluginMain
+api-version: 1.16
 commands:
   hunter:
     description: Register a player as a manhunt Hunter.
@@ -28,5 +29,5 @@ commands:
     permission: minecraftmanhunt.compass
   music:
     description: Play a music track.
-    usage: /music <auto|stop|list|track name>
+    usage: /music <auto|stop|list|forceupdate|track name>
     permission: minecraftmanhunt.music

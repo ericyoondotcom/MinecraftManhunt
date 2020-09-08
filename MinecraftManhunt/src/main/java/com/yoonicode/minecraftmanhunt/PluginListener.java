@@ -2,16 +2,20 @@ package com.yoonicode.minecraftmanhunt;
 
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.annotation.Target;
+import java.util.List;
 
 public class PluginListener implements Listener {
 
@@ -45,7 +49,19 @@ public class PluginListener implements Listener {
     }
 
     @EventHandler
-    public void PlayerEnterPortalEvent(PlayerPortalEvent event){
+    public void onPlayerEnterPortal(PlayerPortalEvent event){
         main.portals.put(event.getPlayer().getName(), event.getFrom());
+    }
+
+    @EventHandler
+    public void onAutocomplete(TabCompleteEvent event){
+        String buffer = event.getBuffer();
+        if(!buffer.startsWith("/")) return;
+        String[] args = buffer.split(" ");
+
+        List<String> completions = main.commands.getCompletions(args, event.getCompletions());
+
+        event.setCompletions(completions);
+
     }
 }

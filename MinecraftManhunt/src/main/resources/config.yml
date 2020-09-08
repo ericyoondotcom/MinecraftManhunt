@@ -1,4 +1,5 @@
 headStartDuration: 30
+compassEnabledInNether: true
 
 enableDiscord: false
 discordToken: "XXXXX"
