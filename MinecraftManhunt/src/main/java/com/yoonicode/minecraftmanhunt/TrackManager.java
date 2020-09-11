@@ -218,6 +218,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
                 Player runner = Bukkit.getPlayer(runnername);
                 if(runner.getWorld().getEnvironment() == World.Environment.NETHER) runnerInNetherDimension = true;
                 if(runner == null) continue;
+                if(hunter.getWorld().getEnvironment() != runner.getWorld().getEnvironment()) continue;
                 double newDistance = hunter.getLocation().distance(runner.getLocation());
                 if(newDistance < distance) distance = newDistance;
             }
@@ -225,11 +226,11 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         DangerLevel oldLevel = dangerLevel;
         if(distance < 15){
             dangerLevel = DangerLevel.Chasing;
-        }else if(distance < 40){
+        }else if(distance < 80){
             dangerLevel = DangerLevel.InSight;
-        }else if(distance < 100){
+        }else if(distance < 230){
             dangerLevel = DangerLevel.Stealth;
-        }else if(distance < 200){
+        }else if(distance < 350){
             dangerLevel = DangerLevel.Approaching;
         }else{
             dangerLevel = DangerLevel.FarAway;
@@ -238,7 +239,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
             dangerLevel = DangerLevel.RunnerInNether;
         }
         if(oldLevel.compareTo(dangerLevel) > 0 || musicManager.player.getPlayingTrack() == null){
-            if(!specialPlaying) playDangerLevelTrack();;
+            if(!specialPlaying) playDangerLevelTrack();
         }
     }
 

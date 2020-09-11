@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c82e04b3-d049-4957-a49d-e6fd972f5698" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/MinecraftManhunt/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MinecraftManhunt/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinecraftManhunt/src/main/java/com/yoonicode/minecraftmanhunt/PluginCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/MinecraftManhunt/src/main/java/com/yoonicode/minecraftmanhunt/PluginCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinecraftManhunt/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/MinecraftManhunt/src/main/resources/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinecraftManhunt/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/MinecraftManhunt/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="c82e04b3-d049-4957-a49d-e6fd972f5698" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +24,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -40,7 +36,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1599585695767</updated>
+      <workItem from="1599596678372" duration="61000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

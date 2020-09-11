@@ -8,21 +8,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.*;
@@ -33,6 +28,7 @@ public class PluginCommands implements CommandExecutor {
             "hunter",
             "speedrunner",
             "spectator",
+            "clearteams",
             "start",
             "end",
             "compass",
@@ -110,6 +106,7 @@ public class PluginCommands implements CommandExecutor {
             case "/start":
             case "/end":
             case "/compass":
+            case "/clearteams":
                 return new ArrayList<String>();
             default:
                 return existingCompletions;
@@ -145,7 +142,7 @@ public class PluginCommands implements CommandExecutor {
             }
             main.hunters.add(target.getName());
             main.huntersTeam.addEntry(target.getName());
-            if(!main.discord.AssignRole(ManhuntTeam.HUNTER, target.getName())){
+            if(!main.discord.assignRole(ManhuntTeam.HUNTER, target.getName())){
                 commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
             }
             target.sendMessage("You have been marked as a hunter.");
@@ -178,7 +175,7 @@ public class PluginCommands implements CommandExecutor {
             }
             main.runners.add(target.getName());
             main.runnersTeam.addEntry(target.getName());
-            if(!main.discord.AssignRole(ManhuntTeam.RUNNER, target.getName())){
+            if(!main.discord.assignRole(ManhuntTeam.RUNNER, target.getName())){
                 commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
             }
             target.sendMessage("You have been marked as a speedrunner.");
@@ -211,7 +208,7 @@ public class PluginCommands implements CommandExecutor {
             }
             main.spectators.add(target.getName());
             main.spectatorsTeam.addEntry(target.getName());
-            if(!main.discord.AssignRole(ManhuntTeam.SPECTATOR, target.getName())){
+            if(!main.discord.assignRole(ManhuntTeam.SPECTATOR, target.getName())){
                 commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
             }
             target.sendMessage("You have been marked as a spectator.");
@@ -241,7 +238,7 @@ public class PluginCommands implements CommandExecutor {
                 if (player == null) continue;
                 player.setGameMode(GameMode.SPECTATOR);
                 main.spectatorsTeam.addEntry(player.getName());
-                if(!main.discord.AssignRole(ManhuntTeam.SPECTATOR, player.getName())){
+                if(!main.discord.assignRole(ManhuntTeam.SPECTATOR, player.getName())){
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
                 }
             }
@@ -253,7 +250,7 @@ public class PluginCommands implements CommandExecutor {
                 player.setFoodLevel(20);
                 player.getInventory().clear();
                 main.runnersTeam.addEntry(player.getName());
-                if(!main.discord.AssignRole(ManhuntTeam.RUNNER, player.getName())){
+                if(!main.discord.assignRole(ManhuntTeam.RUNNER, player.getName())){
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
                 }
             }
@@ -268,7 +265,7 @@ public class PluginCommands implements CommandExecutor {
                 player.getInventory().clear();
                 player.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
                 main.huntersTeam.addEntry(player.getName());
-                if(!main.discord.AssignRole(ManhuntTeam.HUNTER, player.getName())){
+                if(!main.discord.assignRole(ManhuntTeam.HUNTER, player.getName())){
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
                 }
             }
@@ -310,16 +307,39 @@ public class PluginCommands implements CommandExecutor {
             commandSender.sendMessage("Here you go!");
 
             return true;
-        }else if("music".equals(label)){
-            if(!main.discord.enabled){
+        }else if("music".equals(label)) {
+            if (!main.discord.enabled) {
                 commandSender.sendMessage("Cannot use this command when Discord is disabled.");
             }
-            if(args.length == 0){
+            if (args.length == 0) {
                 return false;
             }
             commandSender.sendMessage(main.discord.trackManager.parseCommand(args[0]));
             return true;
+        } else if("clearteams".equals(label)){
+            commandSender.sendMessage(clearTeams());
+            return true;
         }
         return false;
+    }
+
+    public String clearTeams(){
+        for(String i : main.hunters){
+            main.huntersTeam.removeEntry(i);
+            main.discord.removeRoles(i);
+        }
+        for(String i : main.spectators){
+            main.spectatorsTeam.removeEntry(i);
+            main.discord.removeRoles(i);
+        }
+        for(String i : main.runners) {
+            main.runnersTeam.removeEntry(i);
+            main.discord.removeRoles(i);
+        }
+        int playersCleared = main.hunters.size() + main.spectators.size() + main.runners.size();
+        main.hunters.clear();
+        main.spectators.clear();
+        main.runners.clear();
+        return playersCleared + " players cleared from teams";
     }
 }

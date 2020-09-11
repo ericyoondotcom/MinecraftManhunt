@@ -80,7 +80,7 @@ public class DiscordManager extends ListenerAdapter {
      * @param username The Discord/Minecraft username of the target.
      * @return true if a user was found and a role was assigned, false otherwise.
      */
-    public boolean AssignRole(ManhuntTeam team, String username){
+    public boolean assignRole(ManhuntTeam team, String username){
         if(!enabled) return true;
         main.logger.info("Assigning role " + team.toString() + " to " + username);
         if(guild == null){
@@ -110,6 +110,24 @@ public class DiscordManager extends ListenerAdapter {
             main.logger.warning("Team was not one of the valid options.");
             return false;
         }
+        return true;
+    }
+
+    public boolean removeRoles(String username){
+        if(!enabled) return true;
+        if(guild == null){
+            main.logger.warning("Guild is null. Make sure the Discord Server ID is set correctly in the config file.");
+            return false;
+        }
+        List<Member> found = guild.retrieveMembersByPrefix(username, 1).get();
+        if(found.size() == 0){
+            main.logger.warning("No username " + username + " found");
+            return false;
+        }
+        Member target = found.get(0);
+        guild.removeRoleFromMember(target, runnerRole).queue();
+        guild.removeRoleFromMember(target, spectatorRole).queue();
+        guild.removeRoleFromMember(target, hunterRole).queue();
         return true;
     }
 

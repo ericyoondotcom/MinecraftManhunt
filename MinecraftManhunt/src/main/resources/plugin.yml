@@ -1,5 +1,5 @@
 name: MinecraftManhunt
-version: 1.2
+version: 1.2.1
 main: com.yoonicode.minecraftmanhunt.PluginMain
 api-version: 1.16
 commands:
@@ -15,6 +15,10 @@ commands:
     description: Register a player as a manhunt Spectator.
     usage: /spectator <target>
     permission: minecraftmanhunt.spectator
+  clearteams:
+    description: Clears teams and removes Discord roles.
+    usage: /clearteams
+    permission: minecraftmanhunt.clearteams
   start:
     description: Start the Manhunt game.
     usage: /start
