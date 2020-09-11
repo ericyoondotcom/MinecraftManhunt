@@ -31,5 +31,5 @@ Paste relevant console warnings/errors here
 ```
 
 
-**Additional context**
+## Anything else?
 Add any other context about the problem here.
