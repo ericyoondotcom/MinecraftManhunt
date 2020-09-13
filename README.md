@@ -80,7 +80,7 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
 
 ## Permissions
 Permission|Description|Recommended level
---|--
+--|--|--
 `minecraftmanhunt.hunter` | Allow `/hunter` command | everyone
 `minecraftmanhunt.speedrunner` | Allow `/speedrunner` command | everyone
 `minecraftmanhunt.spectator` | Allow `/spectator` command | everyone
