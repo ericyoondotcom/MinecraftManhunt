@@ -25,6 +25,29 @@ Hunters try to kill the runners before they beat the enderdragon. Runners must b
   - Auto role assignment: Automatically assign Discord roles according to teams
   - Music player: Automatically (or manually) play music in your Discord voice channel that mirrors the action happening!
 
+## Instructions For Use
+- Move the .jar from the [Releases tab](https://github.com/yummypasta/MinecraftManhunt/releases/) to your plugins folder.
+- Make sure your config file is up to date and has all the required options.
+- Assign roles with `/speedrunner`, `/hunter`, and `/spectator`.
+- If you want automatic music, type `/music auto` now.
+- Type `/start`!
+- After the headstart period is over, hunters should be able to start tracking runners by selecting someone to track by right-clicking with their compass.
+
+> **Note**: teams are not persistent between server sessions— if you shut down the server you'll have to re-assign teams and type `/start` again. Have players put their items in chests before typing `/start` if you're doing this, since the command clears inventories.
+
+## Discord Setup Instructions
+- Create a Discord app from the [Developer Portal](https://discord.com/developers/applications).
+- Add a Bot under the bots tab.
+- Take note of your **Client ID** (in the General Information tab) and your **Token** (under the Bot tab).
+- Go to the following link, replacing `123YourClientID456` with your client ID: `https://discord.com/oauth2/authorize?scope=bot&client_id=123YourClientID456&permissions=8`
+- Select the Discord server to add your bot to.
+- Add your Client ID and Token to the respective fields in the config file.
+- Go to your Discord server, and add the following values to the config file, in accordance with the table above (you can `Right Click > Copy ID` if you turn on Developer Mode in Discord settings!)
+  - the ID of your server
+  - the ID of the voice channel you want your music to play in
+  - the ID of the hunter, runner, and spectator Discord roles you want to be automatically assigned
+> **Note**: For auto-role-assignment to work, each Discord user's nickname for your Server must be set to their Minecraft username.
+
 ## Commands
 - `/speedrunner <username>`: Assign speedrunner role
 - `/hunter <username>`: Assign hunter role
@@ -55,26 +78,17 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   runnnerRoleId | The ID of the role to assign to Runners. | string | Required if `enableDiscord` is `true`
   spectatorRoleId | The ID of the role to assign to Spectators. | string | Required if `enableDiscord` is `true`
 
-## Instructions For Use
-- Move the .jar from the [Releases tab](https://github.com/yummypasta/MinecraftManhunt/releases/) to your plugins folder.
-- Make sure your config file is up to date and has all the required options.
-- Assign roles with `/speedrunner`, `/hunter`, and `/spectator`.
-- If you want automatic music, type `/music auto` now.
-- Type `/start`!
-- After the headstart period is over, hunters should be able to start tracking runners by selecting someone to track by right-clicking with their compass.
-
-## Discord Setup Instructions
-- Create a Discord app from the [Developer Portal](https://discord.com/developers/applications).
-- Add a Bot under the bots tab.
-- Take note of your **Client ID** (in the General Information tab) and your **Token** (under the Bot tab).
-- Go to the following link, replacing `123YourClientID456` with your client ID: `https://discord.com/oauth2/authorize?scope=bot&client_id=123YourClientID456&permissions=8`
-- Select the Discord server to add your bot to.
-- Add your Client ID and Token to the respective fields in the config file.
-- Go to your Discord server, and add the following values to the config file, in accordance with the table above (you can `Right Click > Copy ID` if you turn on Developer Mode in Discord settings!)
-  - the ID of your server
-  - the ID of the voice channel you want your music to play in
-  - the ID of the hunter, runner, and spectator Discord roles you want to be automatically assigned
-> Note: For auto-role-assignment to work, each Discord user's nickname for your Server must be set to their Minecraft username.
+## Permissions
+Permission|Description|Recommended level
+--|--
+`minecraftmanhunt.hunter` | Allow `/hunter` command | everyone
+`minecraftmanhunt.speedrunner` | Allow `/speedrunner` command | everyone
+`minecraftmanhunt.spectator` | Allow `/spectator` command | everyone
+`minecraftmanhunt.clearteams` | Allow `/clearteams` command | operators
+`minecraftmanhunt.start` | Allow `/start` command | operators
+`minecraftmanhunt.end` | Allow `/end` command | operators
+`minecraftmanhunt.compass` | Allow `/compass` command | everyone
+`minecraftmanhunt.music` | Allow `/music` command. Note that music commands can also be typed in Discord, meaning anyone in the server can issue this command. | everyone
 
 ## Advanced: Developing
 - This project uses Maven. To build, run the `package` script.
