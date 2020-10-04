@@ -64,7 +64,10 @@ public class DiscordManager extends ListenerAdapter {
         hunterRole = guild.getRoleById(hunterRoleId);
         runnerRole = guild.getRoleById(runnerRoleId);
         spectatorRole = guild.getRoleById(spectatorRoleId);
-
+        if(guild == null || hunterRole == null || runnerRole == null || spectatorRole == null){
+            main.logger.warning("The guild or one of the roles was not found");
+            Bukkit.broadcastMessage("Manhunt plugin has most likely been configured improperly. Make sure your Discord guild ID and role IDs are correct and reload the server.");
+        }
         playerManager = new DefaultAudioPlayerManager();
         AudioManager audioManager = guild.getAudioManager();
         music = new MusicManager(playerManager, audioManager, main);

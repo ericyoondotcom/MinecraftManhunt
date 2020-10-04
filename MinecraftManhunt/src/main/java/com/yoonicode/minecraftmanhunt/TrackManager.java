@@ -31,7 +31,6 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     PluginMain main;
     boolean autoEnabled = false;
     boolean specialPlaying = false;
-
     public enum DangerLevel {
         Chasing,
         InSight,
@@ -172,6 +171,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
     public void playDangerLevelTrack(){
         if(!autoEnabled) return;
+
         ArrayList<String> candidates = new ArrayList<String>();
         if(dangerLevel == null) return;
         switch(dangerLevel){
@@ -212,25 +212,25 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         boolean runnerInNetherDimension = false;
         for(String huntername : main.hunters){
             Player hunter = Bukkit.getPlayer(huntername);
-            if(hunter.getWorld().getEnvironment() == World.Environment.NETHER) hunterInNetherDimension = true;
             if(hunter == null) continue;
+            if(hunter.getWorld().getEnvironment() == World.Environment.NETHER) hunterInNetherDimension = true;
             for(String runnername : main.runners){
                 Player runner = Bukkit.getPlayer(runnername);
-                if(runner.getWorld().getEnvironment() == World.Environment.NETHER) runnerInNetherDimension = true;
                 if(runner == null) continue;
+                if(runner.getWorld().getEnvironment() == World.Environment.NETHER) runnerInNetherDimension = true;
                 if(hunter.getWorld().getEnvironment() != runner.getWorld().getEnvironment()) continue;
                 double newDistance = hunter.getLocation().distance(runner.getLocation());
                 if(newDistance < distance) distance = newDistance;
             }
         }
         DangerLevel oldLevel = dangerLevel;
-        if(distance < 15){
+        if(distance < 25){
             dangerLevel = DangerLevel.Chasing;
-        }else if(distance < 80){
+        }else if(distance < 150){
             dangerLevel = DangerLevel.InSight;
-        }else if(distance < 230){
+        }else if(distance < 300){
             dangerLevel = DangerLevel.Stealth;
-        }else if(distance < 350){
+        }else if(distance < 450){
             dangerLevel = DangerLevel.Approaching;
         }else{
             dangerLevel = DangerLevel.FarAway;
@@ -246,6 +246,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     public void playSpecialTrack(String trackName, boolean override){
         if(!autoEnabled) return;
         if(specialPlaying && !override) return;
+
         specialPlaying = true;
         musicManager.playTrack(tracks.get(trackName));
     }

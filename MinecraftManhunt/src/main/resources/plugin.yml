@@ -1,5 +1,5 @@
 name: MinecraftManhunt
-version: 1.2.1
+version: 1.2.2
 main: com.yoonicode.minecraftmanhunt.PluginMain
 api-version: 1.16
 commands:
