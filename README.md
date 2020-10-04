@@ -1,6 +1,9 @@
 # MinecraftManhunt
 [View on Bukkit](https://dev.bukkit.org/projects/dream-style-manhunt) • 
-[View on SpigotMC](https://www.spigotmc.org/resources/dream-style-manhunt.83309/)
+[View on SpigotMC](https://www.spigotmc.org/resources/dream-style-manhunt.83309/) •
+[View on PaperMC](https://papermc.io/forums/t/dream-style-manhunt/5072)
+
+> **Having issues?** Report them on the [Issues tab](https://github.com/yummypasta/MinecraftManhunt/issues/new/choose)!
 
 ---
 
