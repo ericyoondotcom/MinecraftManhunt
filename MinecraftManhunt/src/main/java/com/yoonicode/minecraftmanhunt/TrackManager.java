@@ -52,6 +52,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
         put("relaxing", "https://www.youtube.com/watch?v=ipCeVg-SA-Y");
         put("fun", "https://www.youtube.com/watch?v=O9cWfV_3J7o");
+        put("chill", "https://www.youtube.com/watch?v=eSNXvU-kowc");
 
         put("preparing-safe", "https://www.youtube.com/watch?v=gehk17hjEdU");
         put("preparing-danger", "https://www.youtube.com/watch?v=CYcTNDXUOoY");
@@ -74,11 +75,12 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
         // on runner hit, less than two pieces of armor
         put("chase", "https://www.youtube.com/watch?v=CX9wFdExF_k");
-        put("chase2", "https://www.youtube.com/watch?v=6S3f_AVEnSM");
+        put("chase2", "https://www.youtube.com/watch?v=0TAFhSZXOjI");
 
         // on runner hit, more than two pieces of armor
         put("epicwar", "https://www.youtube.com/watch?v=_UBZmrQwD9o");
         put("endwar", "https://www.youtube.com/watch?v=0EsBItv1Pns");
+        put("fighting", "https://www.youtube.com/watch?v=S4MC7QdayXc");
 
         // On hunter kill by runner
         put("beastmode", "https://www.youtube.com/watch?v=4rGl1KXV4eA");
@@ -90,37 +92,43 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("loss", "https://www.youtube.com/watch?v=9Fx314TyuWI");
         put("sad", "https://www.youtube.com/watch?v=OK7a4EQVRc0");
 
-        put("timesup", "https://www.youtube.com/watch?v=_KaspaKTBw8");
+        put("timesup", "https://soundcloud.com/user-547037461/clock-is-ticking-benny-hawes");
     }};
     public HashMap<String, AudioTrack> tracks = new HashMap<String, AudioTrack>();
 
     public TrackManager(MusicManager musicManager, PluginMain main){
         this.musicManager = musicManager;
         this.main = main;
-        for(Map.Entry<String, String> i : trackURLs.entrySet()){
-            musicManager.playerManager.loadItemOrdered(musicManager, i.getValue(), new AudioLoadResultHandler() {
-                @Override
-                public void trackLoaded(AudioTrack track) {
-                    tracks.put(i.getKey(), track);
-                    main.logger.info("Loaded track " + i.getKey());
-                }
+    }
 
-                @Override
-                public void playlistLoaded(AudioPlaylist playlist) {
-                    main.logger.warning("Playlists not supported");
-                }
+    public void loadTrack(String trackName, String url, TrackLoadHandler callback){
+        musicManager.playerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
+            @Override
+            public void trackLoaded(AudioTrack track) {
+                tracks.put(trackName, track);
+                main.logger.info("Loaded track " + trackName);
+                callback.onTrackLoaded();
+            }
 
-                @Override
-                public void noMatches() {
-                    main.logger.warning("Track not found: " + i.getValue());
-                }
+            @Override
+            public void playlistLoaded(AudioPlaylist playlist) {
+                main.logger.warning("Playlists not supported");
+            }
 
-                @Override
-                public void loadFailed(FriendlyException exception) {
-                    main.logger.warning("Load track failed: " + exception.getMessage());
-                }
-            });
-        }
+            @Override
+            public void noMatches() {
+                main.logger.warning("Track " + trackName + " not found: " + url);
+            }
+
+            @Override
+            public void loadFailed(FriendlyException exception) {
+                main.logger.warning("Load track " + trackName + " failed: " + exception.getMessage());
+            }
+        });
+    }
+
+    public void loadTrack(String trackName, TrackLoadHandler callback){
+        loadTrack(trackName, trackURLs.get(trackName), callback);
     }
 
     public String parseCommand(String argument){
@@ -129,6 +137,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         }
         if(argument.equalsIgnoreCase("forceupdate")){
             specialPlaying = false;
+            if(!autoEnabled) return "Automatic music is disabled. Use /music auto first.";
             playDangerLevelTrack();
             return "Forcing music update to match danger level.";
         }
@@ -143,16 +152,26 @@ public class TrackManager extends AudioEventAdapter implements Listener {
             }
             return ret;
         }
-        autoEnabled = false;
         if(argument.equalsIgnoreCase("stop")){
             musicManager.stopTrack();
+            autoEnabled = false;
             return "Stopped music";
         }
-        AudioTrack found = tracks.get(argument.toLowerCase());
-        if(found == null){
+        if(argument.equalsIgnoreCase("debug")){
+            String ret = "";
+            if(dangerLevel != null){
+                ret += "Level: " + dangerLevel.toString() + ", ";
+            }
+            ret += "playing special: " + specialPlaying + ", ";
+            ret += ", auto enabled: " + autoEnabled;
+            return ret;
+        }
+        if(!trackURLs.containsKey(argument.toLowerCase())){
             return "Track " + argument + " was not found. Use /music list to see a list of valid tracks.";
         }
-        musicManager.playTrack(found);
+
+        autoEnabled = false;
+        playTrack(argument.toLowerCase());
         return "Playing track " + argument;
     }
 
@@ -191,18 +210,20 @@ public class TrackManager extends AudioEventAdapter implements Listener {
                 candidates.add("relaxing");
                 candidates.add("discovered");
                 candidates.add("tense");
+                candidates.add("resolution");
+                candidates.add("resolution2");
             case FarAway:
                 candidates.add("fun");
                 candidates.add("preparing-safe");
+                candidates.add("chill");
+                candidates.add("gatheringresources");
                 candidates.add("lowdanger");
-                candidates.add("resolution");
-                candidates.add("resolution2");
             case RunnerInNether:
                 candidates.add("nether");
                 candidates.add("spooked");
         }
         int random = (int)(Math.random() * candidates.size());
-        musicManager.playTrack(tracks.get(candidates.get(random)));
+        playTrack(candidates.get(random));
     }
 
     public void updateDangerLevel(){
@@ -243,12 +264,25 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         }
     }
 
+    public void playTrack(String trackName){
+        if(tracks.containsKey(trackName)){
+            musicManager.playTrack(tracks.get(trackName));
+            return;
+        }
+        loadTrack(trackName, new TrackLoadHandler() {
+            @Override
+            public void onTrackLoaded() {
+                musicManager.playTrack(tracks.get(trackName));
+            }
+        });
+    }
+
     public void playSpecialTrack(String trackName, boolean override){
         if(!autoEnabled) return;
         if(specialPlaying && !override) return;
 
         specialPlaying = true;
-        musicManager.playTrack(tracks.get(trackName));
+        playTrack(trackName);
     }
 
     public void playSpecialTrack(String trackName){
@@ -325,12 +359,13 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         }else{
             return;
         }
-        int random = (int)(Math.random() * 2);
+        int random = (int)(Math.random() * 3);
         long armorCount = Arrays.stream(damager.getInventory().getArmorContents()).filter(stack -> stack != null).count() +
                 Arrays.stream(damagee.getInventory().getArmorContents()).filter(stack -> stack != null).count();
         if(armorCount > 2){
             if(random == 0) playSpecialTrack("epicwar");
-            else playSpecialTrack("endwar");
+            else if(random == 1) playSpecialTrack("endwar");
+            else playSpecialTrack("fighting");
         }else{
             if(random == 0) playSpecialTrack("chase");
             else playSpecialTrack("chase2");
