@@ -3,7 +3,7 @@
 [View on SpigotMC](https://www.spigotmc.org/resources/dream-style-manhunt.83309/) •
 [View on PaperMC](https://papermc.io/forums/t/dream-style-manhunt/5072)
 
-> **Having issues?** Report them on the [Issues tab](https://github.com/yummypasta/MinecraftManhunt/issues/new/choose)!
+> **Having issues?** Check the [FAQ Issues page](https://github.com/yummypasta/MinecraftManhunt/issues?q=label%3AFAQ), or report a problem on the [Issues tab](https://github.com/yummypasta/MinecraftManhunt/issues/new/choose)!
 
 ---
 
