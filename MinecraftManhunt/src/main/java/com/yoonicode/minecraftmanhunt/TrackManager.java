@@ -99,6 +99,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     public TrackManager(MusicManager musicManager, PluginMain main){
         this.musicManager = musicManager;
         this.main = main;
+        musicManager.player.addListener(this);
     }
 
     public void loadTrack(String trackName, String url, TrackLoadHandler callback){
@@ -176,12 +177,33 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     }
 
     @Override
-    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        super.onTrackEnd(player, track, endReason);
+    public void onTrackStart(AudioPlayer player, AudioTrack track){
+        main.logger.info("Audio track start callback called");
+    }
 
+    @Override
+    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+//        super.onTrackEnd(player, track, endReason);
+        main.logger.info("Track ended for reason: " + endReason.toString());
         if(!autoEnabled) return;
-        specialPlaying = false;
-        playDangerLevelTrack();
+        if(endReason == AudioTrackEndReason.FINISHED){
+            specialPlaying = false;
+            if(endReason.mayStartNext){
+                playDangerLevelTrack();
+            }
+        }
+    }
+
+    @Override
+    public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+        main.logger.warning("Audio track exception: " + exception.getMessage());
+        main.logger.warning(exception.getCause().getMessage());
+        exception.printStackTrace();
+    }
+
+    @Override
+    public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
+        main.logger.warning("Audio track is stuck.");
     }
 
     public void reset(){

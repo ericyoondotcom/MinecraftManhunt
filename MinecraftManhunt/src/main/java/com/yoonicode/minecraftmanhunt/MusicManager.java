@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sun.media.jfxmedia.logging.Logger;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,7 +22,6 @@ public class MusicManager {
         this.audioManager = audioManager;
         player = this.playerManager.createPlayer();
         this.main = main;
-        // player.addListener blah blah
     }
 
     public AudioPlayerSendHandler getSendHandler() {
@@ -47,7 +47,8 @@ public class MusicManager {
 
     public void playTrack(AudioTrack track){
         Connect();
-        player.startTrack(track.makeClone(), false);
+        boolean result = player.startTrack(track.makeClone(), false);
+        main.logger.info("Started track with a result of " + result);
     }
 
     public void stopTrack(){
