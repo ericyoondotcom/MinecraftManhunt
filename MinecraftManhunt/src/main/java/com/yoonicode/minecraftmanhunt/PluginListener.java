@@ -1,5 +1,6 @@
 package com.yoonicode.minecraftmanhunt;
 
+import net.dv8tion.jda.api.Permission;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -28,6 +29,12 @@ public class PluginListener implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent e){
         Player player = e.getPlayer();
+        if(!main.playerIsOnTeam(player)){
+            if(player.isOp()){
+                player.sendMessage("Join a Manhunt team before using the compass!");
+            }
+            return;
+        }
         if(player.getEquipment().getItemInMainHand().getType() == Material.COMPASS){
             TargetSelectInventory inv = new TargetSelectInventory(main);
             inv.DisplayToPlayer(player);
@@ -37,6 +44,10 @@ public class PluginListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player hunter = (Player) event.getWhoClicked();
+        if(!main.playerIsOnTeam(hunter)){
+            hunter.sendMessage("You're not on a Manhunt team!");
+            return;
+        }
         ItemStack clickedHead = event.getCurrentItem();
         if (event.getView().getTitle().equals(TargetSelectInventory.INVENTORY_NAME)) {
             SkullMeta meta = (SkullMeta) clickedHead.getItemMeta();

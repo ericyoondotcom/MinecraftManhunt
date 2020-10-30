@@ -51,6 +51,9 @@ public class PluginCommands implements CommandExecutor {
             if(hunter == null || target == null){
                 continue;
             }
+            if(!main.playerIsOnTeam(hunter)){
+                continue;
+            }
             if(hunter.getWorld().getEnvironment() != target.getWorld().getEnvironment()){
                 Location loc = main.portals.get(target.getName());
                 if(loc != null){
