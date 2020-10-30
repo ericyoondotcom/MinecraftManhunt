@@ -100,6 +100,13 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         this.musicManager = musicManager;
         this.main = main;
         musicManager.player.addListener(this);
+
+//        for(Map.Entry<String, String> i : trackURLs.entrySet()){
+//            loadTrack(i.getKey(), new TrackLoadHandler() {
+//                @Override
+//                public void onTrackLoaded() {}
+//            });
+//        }
     }
 
     public void loadTrack(String trackName, String url, TrackLoadHandler callback){
