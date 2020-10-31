@@ -3,6 +3,7 @@ package com.yoonicode.minecraftmanhunt;
 import net.dv8tion.jda.api.Permission;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.annotation.Target;
@@ -50,7 +52,20 @@ public class PluginListener implements Listener {
         }
         ItemStack clickedHead = event.getCurrentItem();
         if (event.getView().getTitle().equals(TargetSelectInventory.INVENTORY_NAME)) {
-            SkullMeta meta = (SkullMeta) clickedHead.getItemMeta();
+            if(clickedHead.getType() != Material.PLAYER_HEAD){
+                main.logger.warning("Item clicked is not player head.");
+            }
+            if(!clickedHead.hasItemMeta()) {
+                main.logger.warning("Clicked head has no item meta.");
+                return;
+            }
+            ItemMeta itemmeta = clickedHead.getItemMeta();
+            if(!(itemmeta instanceof SkullMeta)){
+                main.logger.warning("Clicked head meta is not instanceof SkullMeta.");
+                main.logger.info(itemmeta.getClass().toString());
+                return;
+            }
+            SkullMeta meta = (SkullMeta)itemmeta;
             OfflinePlayer target = meta.getOwningPlayer();
             main.targets.put(hunter.getName(), target.getName());
             event.setCancelled(true);

@@ -33,8 +33,9 @@ public class TargetSelectInventory {
             SkullMeta meta = (SkullMeta) stack.getItemMeta();
             meta.setOwningPlayer(runner);
             meta.setDisplayName(runner.getName());
-            if(runner.getName().equalsIgnoreCase("i18n")) meta.setLore(Arrays.asList("The best player ever"));
-            if(runner.getName().equalsIgnoreCase("xnvt")) meta.setLore(Arrays.asList("<3"));
+
+            String easteregg = main.getConfig().getString(runner.getName(), "");
+            if(easteregg.length() > 0) meta.setLore(Arrays.asList(easteregg));
             stack.setItemMeta(meta);
 
             inv.setItem(pos, stack);
