@@ -38,7 +38,7 @@ Hunters try to kill the runners before they beat the enderdragon. Runners must b
 
 > **Note**: teams are not persistent between server sessions— if you shut down the server you'll have to re-assign teams and type `/start` again. Have players put their items in chests before typing `/start` if you're doing this, since the command clears inventories.
 
-## Discord Setup Instructions
+### Discord Setup Instructions
 - Create a Discord app from the [Developer Portal](https://discord.com/developers/applications).
 - Add a Bot under the bots tab.
 - Take note of your **Client ID** (in the General Information tab) and your **Token** (under the Bot tab).
@@ -92,6 +92,11 @@ Permission|Description|Recommended level
 `minecraftmanhunt.end` | Allow `/end` command | operators
 `minecraftmanhunt.compass` | Allow `/compass` command | everyone
 `minecraftmanhunt.music` | Allow `/music` command. Note that music commands can also be typed in Discord, meaning anyone in the server can issue this command. | everyone
+
+## Troubleshooting
+- `online-mode` in server.properties must be set to `true` as of version 1.2.4.
+- If you are using Discord integration, make sure your server's system clock is set correctly.
+- Check the [FAQ Issues page](https://github.com/yummypasta/MinecraftManhunt/issues?q=label%3AFAQ), or report a problem on the [Issues tab](https://github.com/yummypasta/MinecraftManhunt/issues/new/choose)!
 
 ## Advanced: Developing
 - This project uses Maven. To build, run the `package` script.
