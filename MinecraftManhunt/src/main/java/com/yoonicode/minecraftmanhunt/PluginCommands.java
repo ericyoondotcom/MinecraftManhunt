@@ -297,9 +297,11 @@ public class PluginCommands implements CommandExecutor {
             BukkitScheduler scheduler = getServer().getScheduler();
             if (compassTask != -1) {
                 scheduler.cancelTask(compassTask);
+                compassTask = -1;
             }
             if (dangerLevelTask != -1) {
                 scheduler.cancelTask(dangerLevelTask);
+                dangerLevelTask = -1;
             }
             getServer().broadcastMessage("Manhunt stopped!");
 

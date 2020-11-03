@@ -31,13 +31,18 @@ public class PluginListener implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent e){
         Player player = e.getPlayer();
-        if(!main.playerIsOnTeam(player)){
-            if(player.isOp()){
-                player.sendMessage("Join a Manhunt team before using the compass!");
-            }
-            return;
-        }
+
         if(player.getEquipment().getItemInMainHand().getType() == Material.COMPASS){
+            if(!main.playerIsOnTeam(player)){
+                if(player.isOp()){
+                    player.sendMessage("Join a Manhunt team before using the compass!");
+                }
+                return;
+            }
+            if(main.commands.compassTask == -1){
+                player.sendMessage("Start the Manhunt game before using the compass!");
+                return;
+            }
             TargetSelectInventory inv = new TargetSelectInventory(main);
             inv.DisplayToPlayer(player);
         }
