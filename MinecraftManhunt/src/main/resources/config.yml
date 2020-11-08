@@ -1,6 +1,11 @@
+# How long the hunters should get blindness and slowness when the match starts.
 headStartDuration: 30
+# Set to true to allow the compass to work in the nether.
 compassEnabledInNether: true
+# Set to true to send anonymized, aggregated usage data to help improve the plugin.
+sendUsageData: true
 
+# Read the plugin README/description for more info on how to set up Discord integration!
 enableDiscord: false
 discordToken: "XXXXX"
 ip: "a minecraft server"
@@ -11,3 +16,8 @@ musicChannelId: "XXXXX"
 hunterRoleId: "XXXXX"
 runnerRoleId: "XXXXX"
 spectatorRoleId: "XXXXX"
+
+
+
+# Please do not touch the value below!
+uuid: ""

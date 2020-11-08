@@ -61,7 +61,7 @@ public class DiscordManager extends ListenerAdapter {
         String runnerRoleId = config.getString("runnerRoleId", "");
         String spectatorRoleId = config.getString("spectatorRoleId", "");
         if(guildId == null){
-            main.logger.warning("Discord guild, hunter role, runner role, or spectator role ID is null. Make sure it's specified in the YAML file.");
+            main.logger.warning("Discord guild ID is null. Make sure it's specified in the YAML file.");
         }
         guild = client.getGuildById(guildId);
         main.logger.info("Found guild: " + guildId);

@@ -72,10 +72,11 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   --|--|--|--
   headStartDuration | How long the hunters should get blindness and slowness when the match starts. | int | Required
   compassEnabledInNether | Set to true to allow the compass to work in the nether. | boolean | Required
+  sendUsageData | Set to true to send anonymized, aggregated usage data to help improve the plugin. | boolean | Optional, defaults to `false`
   enableDiscord | Set to true to turn on Discord integration. Read below for more information. | boolean | Required
   discordToken | Enter the token of your Discord bot here. | string | Required if `enableDiscord` is `true`
   ip | The Discord status message portion. Will display as `Playing {value}` so it's recommended that you make this your server's IP. | string | Optional
-  parseDiscordCommands | Set to true if you want music commands to be run by sending a message in Discord text channels. This allows anyone in your Discord server to run music commands, however. | Optional
+  parseDiscordCommands | Set to true if you want music commands to be run by sending a message in Discord text channels. This allows anyone in your Discord server to run music commands, however. | Optional, defaults to `false`
   discordServerId | The ID of your Discord server that the bot is on. | string | Required if `enableDiscord` is `true`
   musicChannelId | The ID of the voice channel that the bot should play music on. | string | Required if `enableDiscord` is `true`
   hunterRoleId | The ID of the role to assign to Hunters. | string | Required if `enableDiscord` is `true`

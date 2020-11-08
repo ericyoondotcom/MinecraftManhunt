@@ -15,6 +15,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -291,7 +293,15 @@ public class PluginCommands implements CommandExecutor {
                 }, 0L, 20L * 5);
             }
             getServer().broadcastMessage("Manhunt started!");
-
+            JsonObject eventParams = Json.createObjectBuilder()
+                    .add("num_hunters", main.hunters.size())
+                    .add("num_runners", main.runners.size())
+                    .add("num_spectators", main.spectators.size())
+                    .add("discord_enabled", main.discord.enabled)
+                    .add("plugin_version", main.getDescription().getVersion())
+                    .add("server_version", Bukkit.getBukkitVersion())
+                    .build();
+            main.analytics.sendEvent("game_start", eventParams);
             return true;
         } else if ("end".equals(label)) {
             BukkitScheduler scheduler = getServer().getScheduler();

@@ -1,5 +1,6 @@
 package com.yoonicode.minecraftmanhunt;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -32,6 +33,7 @@ public class PluginMain extends JavaPlugin {
     public Logger logger;
     public DiscordManager discord;
     public PluginCommands commands;
+    public AnalyticsManager analytics;
 
     public boolean playerIsOnTeam(Player player){
         String name = player.getName();
@@ -69,6 +71,7 @@ public class PluginMain extends JavaPlugin {
         }
 
         discord = new DiscordManager(this);
+        analytics = new AnalyticsManager(this);
     }
 
     @Override
