@@ -4,6 +4,7 @@ compassEnabledInNether: true
 enableDiscord: false
 discordToken: "XXXXX"
 ip: "a minecraft server"
+processDiscordCommands: true
 
 discordServerId: "XXXXX"
 musicChannelId: "XXXXX"

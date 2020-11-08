@@ -74,7 +74,8 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   compassEnabledInNether | Set to true to allow the compass to work in the nether. | boolean | Required
   enableDiscord | Set to true to turn on Discord integration. Read below for more information. | boolean | Required
   discordToken | Enter the token of your Discord bot here. | string | Required if `enableDiscord` is `true`
-  ip | The Discord status message portion. Will display as `Playing on {value}` so it's recommended that you make this your server's IP. | string | Required if `enableDiscord` is `true`
+  ip | The Discord status message portion. Will display as `Playing {value}` so it's recommended that you make this your server's IP. | string | Optional
+  parseDiscordCommands | Set to true if you want music commands to be run by sending a message in Discord text channels. This allows anyone in your Discord server to run music commands, however. | Optional
   discordServerId | The ID of your Discord server that the bot is on. | string | Required if `enableDiscord` is `true`
   musicChannelId | The ID of the voice channel that the bot should play music on. | string | Required if `enableDiscord` is `true`
   hunterRoleId | The ID of the role to assign to Hunters. | string | Required if `enableDiscord` is `true`
@@ -91,7 +92,7 @@ Permission|Description|Recommended level
 `minecraftmanhunt.start` | Allow `/start` command | operators
 `minecraftmanhunt.end` | Allow `/end` command | operators
 `minecraftmanhunt.compass` | Allow `/compass` command | everyone
-`minecraftmanhunt.music` | Allow `/music` command. Note that music commands can also be typed in Discord, meaning anyone in the server can issue this command. | everyone
+`minecraftmanhunt.music` | Allow `/music` command. Note that music commands can also be typed in Discord if `processDiscordCommands` in config is set to `true`. | everyone
 
 ## Troubleshooting
 - `online-mode` in server.properties must be set to `true` as of version 1.2.4.

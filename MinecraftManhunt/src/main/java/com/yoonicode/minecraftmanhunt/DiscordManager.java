@@ -19,6 +19,7 @@ import java.util.List;
 
 public class DiscordManager extends ListenerAdapter {
     public boolean enabled;
+    boolean processDiscordCommands;
     String discordToken;
     PluginMain main;
     JDA client;
@@ -34,12 +35,15 @@ public class DiscordManager extends ListenerAdapter {
         this.main = main;
         FileConfiguration config = main.getConfig();
         enabled = config.getBoolean("enableDiscord");
+        processDiscordCommands = config.getBoolean("processDiscordCommands", false);
         discordToken = config.getString("discordToken");
-        String ip = config.getString("ip");
+        String presenceMessage = config.getString("ip", "");
 
         if(enabled){
             JDABuilder builder = JDABuilder.createDefault(discordToken);
-            builder.setActivity(Activity.playing(ip));
+            if(presenceMessage.length() > 0) {
+                builder.setActivity(Activity.playing(presenceMessage));
+            }
             try {
                 client = builder.build();
             } catch (LoginException e) {
@@ -92,7 +96,7 @@ public class DiscordManager extends ListenerAdapter {
         }
         List<Member> found = guild.retrieveMembersByPrefix(username, 1).get();
         if(found.size() == 0){
-            main.logger.warning("No username " + username + " found");
+            main.logger.warning("No username " + username + " found in Discord server");
             return false;
         }
 
@@ -137,6 +141,8 @@ public class DiscordManager extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         if(event.getAuthor().isBot()) return;
+        if(!processDiscordCommands) return;
+        if(!event.getGuild().getId().equalsIgnoreCase(guild.getId())) return;
         String message = event.getMessage().getContentDisplay().trim().toLowerCase();
         if(message.startsWith("music")){
             String arg1 = message.replaceAll("music", "").trim();
