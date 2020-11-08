@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -85,6 +86,13 @@ public class PluginListener implements Listener {
     }
 
     @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event){
+        if(main.hunters.contains(event.getPlayer().getName())){
+            event.getPlayer().getInventory().addItem(new ItemStack(Material.COMPASS, 1));
+        }
+    }
+
+    @EventHandler
     public void onAutocomplete(TabCompleteEvent event){
         String buffer = event.getBuffer();
         if(!buffer.startsWith("/")) return;
@@ -93,6 +101,6 @@ public class PluginListener implements Listener {
         List<String> completions = main.commands.getCompletions(args, event.getCompletions());
 
         event.setCompletions(completions);
-
     }
+
 }
