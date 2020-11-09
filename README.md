@@ -79,9 +79,12 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   parseDiscordCommands | Set to true if you want music commands to be run by sending a message in Discord text channels. This allows anyone in your Discord server to run music commands, however. | Optional, defaults to `false`
   discordServerId | The ID of your Discord server that the bot is on. | string | Required if `enableDiscord` is `true`
   musicChannelId | The ID of the voice channel that the bot should play music on. | string | Required if `enableDiscord` is `true`
-  hunterRoleId | The ID of the role to assign to Hunters. | string | Required if `enableDiscord` is `true`
-  runnnerRoleId | The ID of the role to assign to Runners. | string | Required if `enableDiscord` is `true`
-  spectatorRoleId | The ID of the role to assign to Spectators. | string | Required if `enableDiscord` is `true`
+  hunterRoleId | The ID of the role to assign to Hunters. | string | Optional
+  runnnerRoleId | The ID of the role to assign to Runners. | string | Optional
+  spectatorRoleId | The ID of the role to assign to Spectators. | string | Optional
+  uuid | Randomized id that is automatically assigned if `sendUsageData` is enabled. **Please do not touch this field.** | string | Do not set manually
+
+> Note: if any of the role IDs are missing or invalid, no roles will be assigned.
 
 ## Permissions
 Permission|Description|Recommended level
