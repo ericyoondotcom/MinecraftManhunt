@@ -147,6 +147,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         if(argument.equalsIgnoreCase("forceupdate")){
             specialPlaying = false;
             if(!autoEnabled) return "Automatic music is disabled. Use /music auto first.";
+            if(!main.commands.gameIsRunning) return "Cannot use this command when no game is running. Use /start first.";
             playDangerLevelTrack();
             return "Forcing music update to match danger level.";
         }
@@ -220,7 +221,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
     public void playDangerLevelTrack(){
         if(!autoEnabled) return;
-
+        if(!main.commands.gameIsRunning) return;
         ArrayList<String> candidates = new ArrayList<String>();
         if(dangerLevel == null) return;
         switch(dangerLevel){
@@ -310,6 +311,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     public void playSpecialTrack(String trackName, boolean override){
         if(!autoEnabled) return;
         if(specialPlaying && !override) return;
+        if(!main.commands.gameIsRunning) return;
 
         specialPlaying = true;
         playTrack(trackName);

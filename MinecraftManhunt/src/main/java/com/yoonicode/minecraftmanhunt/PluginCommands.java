@@ -38,7 +38,7 @@ public class PluginCommands implements CommandExecutor {
 
     int compassTask = -1;
     int dangerLevelTask = -1;
-
+    public boolean gameIsRunning = false;
     private final PluginMain main;
 
     public PluginCommands(PluginMain main) {
@@ -233,6 +233,10 @@ public class PluginCommands implements CommandExecutor {
             return true;
         } else if ("start".equals(label))
         {
+            if(gameIsRunning){
+                commandSender.sendMessage("Game is already in progress. Use /end before starting another game.");
+                return true;
+            }
             if (main.runners.size() < 1) {
                 commandSender.sendMessage("Not enough speedrunners to start");
                 return true;
@@ -287,10 +291,6 @@ public class PluginCommands implements CommandExecutor {
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
                 }
             }
-            if(main.discord.enabled){
-                main.discord.trackManager.reset();
-                main.discord.trackManager.playSpecialTrack("headstart");
-            }
             BukkitScheduler scheduler = getServer().getScheduler();
             compassTask = scheduler.scheduleSyncRepeatingTask(main, new Runnable() {
                 public void run() {
@@ -305,12 +305,7 @@ public class PluginCommands implements CommandExecutor {
                     }
                 }, 0L, 20L * 5);
             }
-            getServer().broadcastMessage(
-                        ChatColor.DARK_RED.toString() + ChatColor.UNDERLINE + "Thanks for playing!" + ChatColor.RESET + "\n" +
-                        ChatColor.AQUA + "Made by " + ChatColor.GOLD + "Eric" + ChatColor.AQUA + " (yoonicode.com)" + "\n" +
-                        ChatColor.GREEN + "Inspired by " + ChatColor.GOLD + "Dream" + ChatColor.GREEN + " (youtube.com/dream)" + "\n" +
-                        ChatColor.UNDERLINE + ChatColor.BOLD + ChatColor.LIGHT_PURPLE + "MANHUNT STARTED!" + ChatColor.RESET + ChatColor.DARK_GRAY + " Good luck, have fun :D"
-            );
+
             JsonObject eventParams = Json.createObjectBuilder()
                     .add("num_hunters", main.hunters.size())
                     .add("num_runners", main.runners.size())
@@ -320,9 +315,27 @@ public class PluginCommands implements CommandExecutor {
                     .add("server_version", Bukkit.getBukkitVersion())
                     .build();
             main.analytics.sendEvent("game_start", eventParams);
+            gameIsRunning = true;
+
+            if(main.discord.enabled){
+                main.discord.trackManager.reset();
+                main.discord.trackManager.playSpecialTrack("headstart");
+            }
+
+            getServer().broadcastMessage(
+                    ChatColor.DARK_RED.toString() + ChatColor.UNDERLINE + "Thanks for playing!" + ChatColor.RESET + "\n" +
+                            ChatColor.AQUA + "Made by " + ChatColor.GOLD + "Eric" + ChatColor.AQUA + " (yoonicode.com)" + "\n" +
+                            ChatColor.GREEN + "Inspired by " + ChatColor.GOLD + "Dream" + ChatColor.GREEN + " (youtube.com/dream)" + "\n" +
+                            ChatColor.UNDERLINE + ChatColor.BOLD + ChatColor.LIGHT_PURPLE + "MANHUNT STARTED!" + ChatColor.RESET + ChatColor.DARK_GRAY + " Good luck, have fun :D"
+            );
+
             return true;
         } else if ("end".equals(label))
         {
+            if(!gameIsRunning){
+                commandSender.sendMessage("There is no game in progress. Use /start to start a new game.");
+                return true;
+            }
             BukkitScheduler scheduler = getServer().getScheduler();
             if (compassTask != -1) {
                 scheduler.cancelTask(compassTask);
@@ -333,7 +346,7 @@ public class PluginCommands implements CommandExecutor {
                 dangerLevelTask = -1;
             }
             getServer().broadcastMessage("Manhunt stopped!");
-
+            gameIsRunning = false;
             return true;
         } else if("compass".equals(label))
         {
