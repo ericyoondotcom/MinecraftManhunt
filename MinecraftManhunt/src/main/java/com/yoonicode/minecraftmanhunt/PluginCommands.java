@@ -1,9 +1,6 @@
 package com.yoonicode.minecraftmanhunt;
 
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -308,7 +305,12 @@ public class PluginCommands implements CommandExecutor {
                     }
                 }, 0L, 20L * 5);
             }
-            getServer().broadcastMessage("Manhunt started!");
+            getServer().broadcastMessage(
+                        ChatColor.DARK_RED.toString() + ChatColor.UNDERLINE + "Thanks for playing!" + ChatColor.RESET + "\n" +
+                        ChatColor.AQUA + "Made by " + ChatColor.GOLD + "Eric" + ChatColor.AQUA + " (yoonicode.com)" + "\n" +
+                        ChatColor.GREEN + "Inspired by " + ChatColor.GOLD + "Dream" + ChatColor.GREEN + " (youtube.com/dream)" + "\n" +
+                        ChatColor.UNDERLINE + ChatColor.BOLD + ChatColor.LIGHT_PURPLE + "MANHUNT STARTED!" + ChatColor.RESET + ChatColor.DARK_GRAY + " Good luck, have fun :D"
+            );
             JsonObject eventParams = Json.createObjectBuilder()
                     .add("num_hunters", main.hunters.size())
                     .add("num_runners", main.runners.size())
