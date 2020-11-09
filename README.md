@@ -97,6 +97,7 @@ Permission|Description|Recommended level
 `minecraftmanhunt.end` | Allow `/end` command | operators
 `minecraftmanhunt.compass` | Allow `/compass` command | everyone
 `minecraftmanhunt.music` | Allow `/music` command. Note that music commands can also be typed in Discord if `processDiscordCommands` in config is set to `true`. | everyone
+`minecraftmanhunt.config` | Allow config-changing commands, such as `/setheadstart`. | operators
 
 ## Troubleshooting
 - `online-mode` in server.properties must be set to `true` as of version 1.2.4.
