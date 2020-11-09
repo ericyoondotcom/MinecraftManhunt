@@ -64,7 +64,7 @@ Hunters try to kill the runners before they beat the enderdragon. Runners must b
   - `/music stop`: Stops all music playing and turns off auto-music.
   - `/music auto`: Turns on auto-music, which plays different tracks based on game events and hunter/runner distance.
   - `/music forceupdate`: Forces the music to update to match the current hunter/runner distance. Use `/music stop` first if a special event track is playing.
-  
+- `/setheadstart <duration>`: Sets the headstart duration, in seconds. 
 ## Configuration Options
 Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   
