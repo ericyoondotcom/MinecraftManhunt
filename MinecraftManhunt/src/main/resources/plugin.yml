@@ -27,6 +27,10 @@ commands:
     description: Stops the Manhunt game.
     usage: /end
     permission: minecraftmanhunt.end
+  setheadstart:
+    description: Sets the headStartDuration field in plugin config, in seconds.
+    usage: /setheadstart <seconds>
+    permission: minecraftmanhunt.config
   compass:
     description: Use to obtain a compass.
     usage: /compass

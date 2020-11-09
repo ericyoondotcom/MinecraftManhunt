@@ -20,6 +20,7 @@ import javax.json.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.*;
@@ -34,7 +35,8 @@ public class PluginCommands implements CommandExecutor {
             "start",
             "end",
             "compass",
-            "music"
+            "music",
+            "setheadstart"
     };
 
     int compassTask = -1;
@@ -113,6 +115,16 @@ public class PluginCommands implements CommandExecutor {
             case "/compass":
             case "/clearteams":
                 return new ArrayList<String>();
+            case "/setheadstart": {
+                ArrayList<String> ret = new ArrayList<String>(){
+                    {
+                        add("0");
+                        add("30");
+                        add("60");
+                    }
+                };
+                return ret;
+            }
             default:
                 return existingCompletions;
 
@@ -120,7 +132,8 @@ public class PluginCommands implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
-        if ("hunter".equals(label)) {
+        if ("hunter".equals(label))
+        {
             if (args.length != 1) return false;
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
@@ -153,7 +166,8 @@ public class PluginCommands implements CommandExecutor {
             target.sendMessage("You have been marked as a hunter.");
             commandSender.sendMessage("Marked player as hunter");
             return true;
-        } else if ("speedrunner".equals(label)) {
+        } else if ("speedrunner".equals(label))
+        {
             if (args.length != 1) return false;
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
@@ -186,7 +200,8 @@ public class PluginCommands implements CommandExecutor {
             target.sendMessage("You have been marked as a speedrunner.");
             commandSender.sendMessage("Marked player as speedrunner");
             return true;
-        } else if ("spectator".equals(label)) {
+        } else if ("spectator".equals(label))
+        {
             if (args.length != 1) return false;
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
@@ -219,7 +234,8 @@ public class PluginCommands implements CommandExecutor {
             target.sendMessage("You have been marked as a spectator.");
             commandSender.sendMessage("Marked player as spectator");
             return true;
-        } else if ("start".equals(label)) {
+        } else if ("start".equals(label))
+        {
             if (main.runners.size() < 1) {
                 commandSender.sendMessage("Not enough speedrunners to start");
                 return true;
@@ -303,7 +319,8 @@ public class PluginCommands implements CommandExecutor {
                     .build();
             main.analytics.sendEvent("game_start", eventParams);
             return true;
-        } else if ("end".equals(label)) {
+        } else if ("end".equals(label))
+        {
             BukkitScheduler scheduler = getServer().getScheduler();
             if (compassTask != -1) {
                 scheduler.cancelTask(compassTask);
@@ -316,13 +333,15 @@ public class PluginCommands implements CommandExecutor {
             getServer().broadcastMessage("Manhunt stopped!");
 
             return true;
-        } else if("compass".equals(label)){
+        } else if("compass".equals(label))
+        {
             Player sender = (Player) commandSender;
             sender.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
             commandSender.sendMessage("Here you go!");
 
             return true;
-        }else if("music".equals(label)) {
+        }else if("music".equals(label))
+        {
             if (!main.discord.enabled) {
                 commandSender.sendMessage("Cannot use this command when Discord is disabled.");
             }
@@ -331,8 +350,31 @@ public class PluginCommands implements CommandExecutor {
             }
             commandSender.sendMessage(main.discord.trackManager.parseCommand(args[0]));
             return true;
-        } else if("clearteams".equals(label)){
+        } else if("clearteams".equals(label))
+        {
             commandSender.sendMessage(clearTeams());
+            return true;
+        }else if("setheadstart".equals(label))
+        {
+            main.logger.info("setheadstart called.");
+            if(args.length == 0){
+                commandSender.sendMessage("Provide a headstart duration as a nonnegative integer");
+                return false;
+            }
+            int duration;
+            try {
+                duration = Integer.parseInt(args[0]);
+            } catch(NumberFormatException e){
+                commandSender.sendMessage("Headstart duration must be a nonnegative integer");
+                return false;
+            }
+            if(duration < 0){
+                commandSender.sendMessage("Headstart duration must be greater than or equal to 0");
+                return false;
+            }
+            main.getConfig().set("headStartDuration", duration);
+            main.saveConfig();
+            commandSender.sendMessage("Headstart set to " + duration);
             return true;
         }
         return false;
