@@ -1,6 +1,7 @@
 package com.yoonicode.minecraftmanhunt;
 
 import net.dv8tion.jda.api.Permission;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Skull;
@@ -87,8 +88,12 @@ public class PluginListener implements Listener {
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event){
-        if(main.hunters.contains(event.getPlayer().getName())){
+        String playerName = event.getPlayer().getName();
+        if(main.commands.gameIsRunning && main.hunters.contains(playerName)){
             event.getPlayer().getInventory().addItem(new ItemStack(Material.COMPASS, 1));
+        }
+        if(main.commands.gameIsRunning && main.runners.contains(playerName)){
+            event.getPlayer().setGameMode(GameMode.SPECTATOR);
         }
     }
 

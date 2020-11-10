@@ -265,10 +265,12 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         for(String huntername : main.hunters){
             Player hunter = Bukkit.getPlayer(huntername);
             if(hunter == null) continue;
+            if(hunter.getGameMode() != GameMode.SURVIVAL) continue;
             if(hunter.getWorld().getEnvironment() == World.Environment.NETHER) hunterInNetherDimension = true;
             for(String runnername : main.runners){
                 Player runner = Bukkit.getPlayer(runnername);
                 if(runner == null) continue;
+                if(runner.getGameMode() != GameMode.SURVIVAL) continue;
                 if(runner.getWorld().getEnvironment() == World.Environment.NETHER) runnerInNetherDimension = true;
                 if(hunter.getWorld().getEnvironment() != runner.getWorld().getEnvironment()) continue;
                 double newDistance = hunter.getLocation().distance(runner.getLocation());
