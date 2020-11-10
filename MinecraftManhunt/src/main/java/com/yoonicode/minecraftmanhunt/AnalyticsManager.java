@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -40,19 +41,23 @@ public class AnalyticsManager {
         }
     }
 
-    public void sendEvent(String eventName, JsonObject params){
+    public void sendEvent(String eventName, JsonObjectBuilder params){
         if(!enabled) return;
         HttpURLConnection connection = null;
         try {
-            URL url = new URL("https://www.google-analytics.com/" + (VALIDATION_MODE ? "debug/" : "") + "mp/collect?measurement_id=" + MEASUREMENT_ID + "&api_secret=" + API_SECRET + (DEBUG_MODE ? "&_dbg=1" : ""));
+            URL url = new URL("https://www.google-analytics.com/" + (VALIDATION_MODE ? "debug/" : "") + "mp/collect?measurement_id=" + MEASUREMENT_ID + "&api_secret=" + API_SECRET);
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
             OutputStream stream = connection.getOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(stream, "UTF-8");
+            if(DEBUG_MODE){
+                params = params.add("debug_mode", true);
+            }
+            JsonObject paramsObj = params.build();
             JsonObject eventObj = Json.createObjectBuilder()
                 .add("name", eventName)
-                .add("params", params)
+                .add("params", paramsObj)
                 .build();
             JsonArray eventsArray = Json.createArrayBuilder()
                 .add(eventObj)

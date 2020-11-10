@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -306,14 +307,13 @@ public class PluginCommands implements CommandExecutor {
                 }, 0L, 20L * 5);
             }
 
-            JsonObject eventParams = Json.createObjectBuilder()
+            JsonObjectBuilder eventParams = Json.createObjectBuilder()
                     .add("num_hunters", main.hunters.size())
                     .add("num_runners", main.runners.size())
                     .add("num_spectators", main.spectators.size())
                     .add("discord_enabled", main.discord.enabled)
                     .add("plugin_version", main.getDescription().getVersion())
-                    .add("server_version", Bukkit.getBukkitVersion())
-                    .build();
+                    .add("server_version", Bukkit.getBukkitVersion());
             main.analytics.sendEvent("game_start", eventParams);
             gameIsRunning = true;
 
