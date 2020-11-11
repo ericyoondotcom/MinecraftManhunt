@@ -53,23 +53,32 @@ public class PluginListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player hunter = (Player) event.getWhoClicked();
-        if(!main.playerIsOnTeam(hunter)){
-            hunter.sendMessage("You're not on a Manhunt team!");
-            return;
-        }
+
         ItemStack clickedHead = event.getCurrentItem();
         if (event.getView().getTitle().equals(TargetSelectInventory.INVENTORY_NAME)) {
+            if(!main.playerIsOnTeam(hunter)){
+                hunter.sendMessage("You're not on a Manhunt team!");
+                event.setCancelled(true);
+                return;
+            }
+
             if(clickedHead.getType() != Material.PLAYER_HEAD){
                 main.logger.warning("Item clicked is not player head.");
+                event.setCancelled(true);
+                return;
             }
             if(!clickedHead.hasItemMeta()) {
                 main.logger.warning("Clicked head has no item meta.");
+                hunter.sendMessage("Something went wrong: Does not have ItemMeta");
+                event.setCancelled(true);
                 return;
             }
             ItemMeta itemmeta = clickedHead.getItemMeta();
             if(!(itemmeta instanceof SkullMeta)){
                 main.logger.warning("Clicked head meta is not instanceof SkullMeta.");
                 main.logger.info(itemmeta.getClass().toString());
+                hunter.sendMessage("Something went wrong: Not an instanceof SkullMeta");
+                event.setCancelled(true);
                 return;
             }
             SkullMeta meta = (SkullMeta)itemmeta;
