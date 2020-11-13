@@ -319,7 +319,7 @@ public class PluginCommands implements CommandExecutor {
 
             if(main.discord.enabled){
                 main.discord.trackManager.reset();
-                main.discord.trackManager.playSpecialTrack("headstart");
+                main.discord.trackManager.playSpecialTrack("headstart", true);
             }
 
             getServer().broadcastMessage(

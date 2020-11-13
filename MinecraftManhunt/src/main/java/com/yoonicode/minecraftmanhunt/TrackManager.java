@@ -18,19 +18,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 public class TrackManager extends AudioEventAdapter implements Listener {
+    long piratesCooldownMillis = 0;
+
     MusicManager musicManager;
     PluginMain main;
     boolean autoEnabled = false;
     boolean specialPlaying = false;
+
     public enum DangerLevel {
         Chasing,
         InSight,
@@ -112,10 +117,18 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     }};
     public HashMap<String, AudioTrack> tracks = new HashMap<String, AudioTrack>();
 
+    boolean armorObtainedByHunters = false;
+    long piratesLastPlaytime = 0;
+    boolean piglinsTraded = false;
+    boolean ironObtainedByRunners = false;
+
     public TrackManager(MusicManager musicManager, PluginMain main){
         this.musicManager = musicManager;
         this.main = main;
         musicManager.player.addListener(this);
+
+        // Undocumented config option
+        piratesCooldownMillis = main.getConfig().getLong("piratesCooldown", 300000);
 
 //        for(Map.Entry<String, String> i : trackURLs.entrySet()){
 //            loadTrack(i.getKey(), new TrackLoadHandler() {
@@ -232,6 +245,10 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     }
 
     public void reset(){
+        armorObtainedByHunters = false;
+        piratesLastPlaytime = 0;
+        piglinsTraded = false;
+        ironObtainedByRunners = false;
         dangerLevel = DangerLevel.FarAway;
     }
 
@@ -263,16 +280,16 @@ public class TrackManager extends AudioEventAdapter implements Listener {
                 candidates.add("resolution");
                 candidates.add("resolution2");
                 candidates.add("rhythmic");
-                candidates.add("premonition");
+                candidates.add("lowdanger");
                 break;
             case FarAway:
                 candidates.add("fun");
                 candidates.add("preparing-safe");
                 candidates.add("chill");
                 candidates.add("gatheringresources");
-                candidates.add("lowdanger");
                 candidates.add("journey");
                 candidates.add("swing");
+                candidates.add("premonition");
                 break;
             case RunnerInNether:
                 candidates.add("nether");
@@ -306,7 +323,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
             }
         }
         DangerLevel oldLevel = dangerLevel;
-        if(distance < 25){
+        if(distance < 50){
             dangerLevel = DangerLevel.Chasing;
         }else if(distance < 150){
             dangerLevel = DangerLevel.InSight;
@@ -360,8 +377,10 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     public void onPlayerVehicleEnter(VehicleEnterEvent event){
         if(event.getVehicle().getType() != EntityType.BOAT) return;
         if(event.getEntered().getType() != EntityType.PLAYER) return;
+        long serverTimestamp = System.currentTimeMillis();
+        if(serverTimestamp - piratesLastPlaytime < piratesCooldownMillis) return;
 
-        boolean found = false;
+        boolean found = main.hunters.size() == 0; // For debugging: if there are no hunters play anyways
         for(String i : main.hunters){
             Player player = Bukkit.getPlayer(i);
             if(player == null) continue;
@@ -382,22 +401,16 @@ public class TrackManager extends AudioEventAdapter implements Listener {
             }
         }
         if(!found) return;
-
+        piratesLastPlaytime = serverTimestamp;
         playSpecialTrack("pirates");
     }
 
     @EventHandler
     public void onBlockMine(BlockBreakEvent event){
         Material type = event.getBlock().getType();
-        if(type == Material.IRON_ORE){
+        if(type == Material.IRON_ORE && !ironObtainedByRunners){
             if(!main.runners.contains(event.getPlayer().getName())) return;
-
-            for(String i : main.runners){
-                Player p = Bukkit.getPlayer(i);
-                if(p == null) return;
-                if(p.getInventory().contains(Material.IRON_ORE) || p.getInventory().contains(Material.IRON_INGOT)) return;
-            }
-
+            ironObtainedByRunners = true;
             playSpecialTrack("gatheringresources", true);
         }else if(type == Material.DIAMOND_ORE){
             if(event.getPlayer().getInventory().contains(Material.DIAMOND)) return;
@@ -453,6 +466,36 @@ public class TrackManager extends AudioEventAdapter implements Listener {
                 }
             }
             playSpecialTrack("sad", true);
+        }
+    }
+
+    @EventHandler
+    public void onCraftCompleted(CraftItemEvent event) {
+        if(!(event.getWhoClicked() instanceof Player)){
+            return;
+        }
+        Player player = (Player) event.getWhoClicked();
+        if(main.hunters.contains(player.getName())){
+            Material type = event.getRecipe().getResult().getType();
+            boolean isIronArmor = type == Material.IRON_BOOTS || type == Material.IRON_LEGGINGS || type == Material.IRON_CHESTPLATE || type == Material.IRON_HELMET;
+            if(!armorObtainedByHunters && isIronArmor){
+                armorObtainedByHunters = true;
+                playSpecialTrack("upbeat-bite", true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onEntityInteract(PlayerInteractEntityEvent event){
+        Player player = event.getPlayer();
+        if(main.runners.contains(player.getName())){
+            if(event.getRightClicked().getType() == EntityType.PIGLIN && !piglinsTraded){
+                ItemStack mainHand = player.getInventory().getItemInMainHand();
+                if(mainHand != null && mainHand.getType() == Material.GOLD_INGOT){
+                    piglinsTraded = true;
+                    playSpecialTrack("montage", true);
+                }
+            }
         }
     }
 }
