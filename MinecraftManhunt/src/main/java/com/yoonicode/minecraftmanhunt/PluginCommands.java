@@ -283,6 +283,7 @@ public class PluginCommands implements CommandExecutor {
                 player.setGameMode(GameMode.SURVIVAL);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * headStartDuration, 5));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * headStartDuration, 3));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20 * headStartDuration, 10));
                 player.setHealth(20.0);
                 player.setFoodLevel(20);
 //                player.getInventory().clear();
