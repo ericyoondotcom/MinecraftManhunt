@@ -65,7 +65,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("upbeat-bite", "https://www.youtube.com/watch?v=hn7k7z_heOw");
 
         put("preparing-safe", "https://www.youtube.com/watch?v=gehk17hjEdU"); // Race Against Time - Ceiri Torjussen
-        put("preparing-danger", "https://www.youtube.com/watch?v=CYcTNDXUOoY"); // Action Preparation - Jason Donnelly
+        put("preparing-danger", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/jdi-032114-action-preparaton-121913-jd-7_NWM.mp3"); // Action Preparation - Jason Donnelly
         put("lowdanger", "https://www.youtube.com/watch?v=3OSs540jvF4"); // White Lines - Zac Nelson
         put("journey", "https://www.youtube.com/watch?v=7we8rs_YF5w"); // Crucial Conflict - Westar Music
         put("cinematic", "https://www.youtube.com/watch?v=K1p5TCW2tp0"); // Hidden in the Corner - Marc Robillard
@@ -112,7 +112,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("loss", "https://www.youtube.com/watch?v=9Fx314TyuWI"); // Mystery Collection - Lonesome Piano - D. Silverstone
         put("sad", "https://www.youtube.com/watch?v=OK7a4EQVRc0"); // Sad Goodbyes - Mark Kueffner
 
-        put("timesup", "https://www.youtube.com/watch?v=dkqslkBUY6E"); // Clock Is Ticking - Benny Hawes
+        put("timesup", "https://media.proudmusiclibrary.com/en/file/stream/c6a2a45eae97c0de11a11cad286a152f/0/220405.mp3"); // Clock Is Ticking - Benny Hawes
         put("finale", "https://www.youtube.com/watch?v=rQUXUdD3B-4"); // Reach Beyond - Paul Werner
     }};
     public HashMap<String, AudioTrack> tracks = new HashMap<String, AudioTrack>();
