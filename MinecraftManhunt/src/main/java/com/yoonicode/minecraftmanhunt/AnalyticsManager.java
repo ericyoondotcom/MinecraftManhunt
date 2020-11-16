@@ -70,17 +70,17 @@ public class AnalyticsManager {
             writer.write(json.toString());
             writer.close();
 
-            if(DEBUG_MODE){
-                BufferedInputStream inputStream = new BufferedInputStream(connection.getInputStream());
-                ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-                int resInt = inputStream.read();
-                while(resInt != -1){
-                    byteStream.write((byte)resInt);
-                    resInt = inputStream.read();
-                }
-                String result = byteStream.toString();
-                main.logger.info(result);
+
+            BufferedInputStream inputStream = new BufferedInputStream(connection.getInputStream());
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            int resInt = inputStream.read();
+            while(resInt != -1){
+                byteStream.write((byte)resInt);
+                resInt = inputStream.read();
             }
+            String result = byteStream.toString();
+            main.logger.info(result);
+
 
         } catch(Exception e){
             main.logger.info("Exception sending analytics event: " + e.toString());
