@@ -26,10 +26,11 @@ import java.util.List;
 
 public class PluginListener implements Listener {
 
+    boolean setRunnersToSpecOnDeath;
     PluginMain main;
-
     public PluginListener(PluginMain main) {
         this.main = main;
+        setRunnersToSpecOnDeath = main.getConfig().getBoolean("setRunnersToSpecOnDeath", true);
     }
 
     @EventHandler
@@ -103,7 +104,7 @@ public class PluginListener implements Listener {
         if(main.commands.gameIsRunning && main.hunters.contains(playerName)){
             event.getPlayer().getInventory().addItem(new ItemStack(Material.COMPASS, 1));
         }
-        if(main.commands.gameIsRunning && main.runners.contains(playerName)){
+        if(setRunnersToSpecOnDeath && main.commands.gameIsRunning && main.runners.contains(playerName)){
             event.getPlayer().setGameMode(GameMode.SPECTATOR);
         }
     }

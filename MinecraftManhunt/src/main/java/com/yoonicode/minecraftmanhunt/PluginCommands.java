@@ -40,10 +40,12 @@ public class PluginCommands implements CommandExecutor {
     int compassTask = -1;
     int dangerLevelTask = -1;
     public boolean gameIsRunning = false;
+    boolean compassEnabledInNether;
     private final PluginMain main;
 
     public PluginCommands(PluginMain main) {
         this.main = main;
+        compassEnabledInNether = main.getConfig().getBoolean("compassEnabledInNether", true);
     }
 
     public void UpdateCompass(){
@@ -63,7 +65,6 @@ public class PluginCommands implements CommandExecutor {
                 }
             }else{
                 hunter.setCompassTarget(target.getLocation());
-                boolean compassEnabledInNether = main.getConfig().getBoolean("compassEnabledInNether");
 
                 if(compassEnabledInNether) {
                     PlayerInventory inv = hunter.getInventory();

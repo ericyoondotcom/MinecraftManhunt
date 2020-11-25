@@ -71,7 +71,8 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   Key|Description|Type|Required?
   --|--|--|--
   headStartDuration | How long the hunters should get blindness and slowness when the match starts. | int | Required
-  compassEnabledInNether | Set to true to allow the compass to work in the nether. | boolean | Required
+  compassEnabledInNether | Set to true to allow the compass to work in the nether. | boolean | Optional, defaults to `true`
+  setRunnersToSpecOnDeath | Set to true to set runners' gamemodes to spectator when they die. | boolean | Optional, defaults to `true`
   sendUsageData | Set to true to send anonymized, aggregated usage data to help improve the plugin. | boolean | Optional, defaults to `false`
   enableDiscord | Set to true to turn on Discord integration. Read below for more information. | boolean | Required
   discordToken | Enter the token of your Discord bot here. | string | Required if `enableDiscord` is `true`
