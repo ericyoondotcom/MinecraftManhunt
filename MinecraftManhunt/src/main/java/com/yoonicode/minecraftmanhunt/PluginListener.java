@@ -65,7 +65,7 @@ public class PluginListener implements Listener {
                 return;
             }
 
-            if(clickedHead.getType() != Material.PLAYER_HEAD){
+            if(clickedHead == null || clickedHead.getType() != Material.PLAYER_HEAD){
                 main.logger.warning("Item clicked is not player head.");
                 event.setCancelled(true);
                 return;
@@ -86,10 +86,15 @@ public class PluginListener implements Listener {
             }
             SkullMeta meta = (SkullMeta)itemmeta;
             OfflinePlayer target = meta.getOwningPlayer();
-            main.targets.put(hunter.getName(), target.getName());
+            String targetName = target.getName();
+            if(targetName == null){
+                targetName = meta.getDisplayName();
+                main.logger.info("Target name is null, applying offline mode workaround. Using item display name: " + targetName);
+            }
+            main.targets.put(hunter.getName(), targetName);
             event.setCancelled(true);
             hunter.closeInventory();
-            hunter.sendMessage("Compass is now targeting " + target.getName());
+            hunter.sendMessage("Compass is now targeting " + targetName);
         }
     }
 

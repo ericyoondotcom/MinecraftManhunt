@@ -24,6 +24,8 @@ import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.inventory.ItemStack;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -211,6 +213,10 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
         autoEnabled = false;
         playTrack(argument.toLowerCase());
+
+        JsonObjectBuilder eventParams = Json.createObjectBuilder()
+                .add("track", argument.toLowerCase());
+        main.analytics.sendEvent("manual_track_played", eventParams);
         return "Playing track " + argument;
     }
 
@@ -299,7 +305,13 @@ public class TrackManager extends AudioEventAdapter implements Listener {
                 break;
         }
         int random = (int)(Math.random() * candidates.size());
-        playTrack(candidates.get(random));
+        String chosen = candidates.get(random);
+        playTrack(chosen);
+
+        JsonObjectBuilder eventParams = Json.createObjectBuilder()
+                .add("danger_level", dangerLevel.toString())
+                .add("track", chosen);
+        main.analytics.sendEvent("danger_level_track_played", eventParams);
     }
 
     public void updateDangerLevel(){
@@ -362,6 +374,10 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
         specialPlaying = true;
         playTrack(trackName);
+
+        JsonObjectBuilder eventParams = Json.createObjectBuilder()
+                .add("track", trackName);
+        main.analytics.sendEvent("special_track_played", eventParams);
     }
 
     public void playSpecialTrack(String trackName){

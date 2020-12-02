@@ -313,6 +313,7 @@ public class PluginCommands implements CommandExecutor {
                     .add("num_hunters", main.hunters.size())
                     .add("num_runners", main.runners.size())
                     .add("num_spectators", main.spectators.size())
+                    .add("headstart_duration", headStartDuration)
                     .add("discord_enabled", main.discord.enabled)
                     .add("plugin_version", main.getDescription().getVersion())
                     .add("server_version", Bukkit.getBukkitVersion());
