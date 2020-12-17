@@ -64,7 +64,8 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("upbeat", "https://www.youtube.com/watch?v=rxfqhAOfIqo"); // Ready and Go - Diego Martinez
         put("swing", "https://www.youtube.com/watch?v=wJ5Ip9qs9iw"); // Snap Swing - Diego Martinez
         put("jazz", "https://www.youtube.com/watch?v=R_-44VsmTmI"); // Heist Prop Montage - Rob McAllister
-        put("upbeat-bite", "https://www.youtube.com/watch?v=hn7k7z_heOw");
+        put("upbeat-bite", "https://www.youtube.com/watch?v=hn7k7z_heOw"); // Brain Short Circuit - Neil Cross
+        put("preparing-safe2", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/on-queue-2_fyV-vHHO_NWM.mp3"); // On Queue 2 - Bruce Zimmerman
 
         put("preparing-safe", "https://www.youtube.com/watch?v=gehk17hjEdU"); // Race Against Time - Ceiri Torjussen
         put("preparing-danger", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/jdi-032114-action-preparaton-121913-jd-7_NWM.mp3"); // Action Preparation - Jason Donnelly
@@ -72,6 +73,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("journey", "https://www.youtube.com/watch?v=7we8rs_YF5w"); // Crucial Conflict - Westar Music
         put("cinematic", "https://www.youtube.com/watch?v=K1p5TCW2tp0"); // Hidden in the Corner - Marc Robillard
         put("premonition", "https://www.youtube.com/watch?v=pNxcUi50Ge0"); // Evolution of Man - Linus Lau
+        put("orchestral", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HNxwBHlArk43bm5tw/audioblocks-spearfisher-ft-cicely-parnas-_blood-and-strings_hope-and-heisenberg_inst_rAkI7RJ4v_NWM.mp3"); // Hope and Heisenberg - Lance Conrad
 
         put("risingaction", "https://www.youtube.com/watch?v=ghAeHHTID2k"); // Strange Things - Zac Nelson
         put("rhythmic", "https://www.youtube.com/watch?v=vWghhruheNk"); // Escape Theme - Udeze Ukwuoma via. Von Neumann Effect
@@ -81,6 +83,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("spooked", "https://www.youtube.com/watch?v=3kclVzQ3S4M"); // Re-Animation - Peter Godfrey / When Bats Fly - Neil Cross
         put("spooked2", "https://www.youtube.com/watch?v=UZ7OcaFTiA4"); // The Final Decision - Clark Aboud
         put("tense", "https://www.youtube.com/watch?v=Vv9-cxbacOg"); // Tension in the Air - Bobby Cole
+        put("tense2", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/bbc-051117-Feel-the-Tension_NWM.mp3"); // Feel the Tension - Bobby Cole
         put("plotting", "https://www.youtube.com/watch?v=RXyYt8kx740"); // Thinking and Tension - Bobby Cole
         put("approaching", "https://www.youtube.com/watch?v=wD3Mf4asnFk"); // Thinking About Murder - Boby Cole
         put("dramatic", "https://www.youtube.com/watch?v=-u7MW_KkTWU"); // Dramatic Movie Opening - Bobby Cole
@@ -88,11 +91,12 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("danger", "https://www.youtube.com/watch?v=kVJQ74RoHCM"); // Dramatic Anticipation (Alternative version) - PremiumTrax
         put("danger2", "https://www.youtube.com/watch?v=5y4b7jDXf_E"); // Dark Time Ticking - Robert Valenti
 
-        put("discovered", "https://www.youtube.com/watch?v=BMUPNgU3lII"); // Evidence - RTaphael Costa
+        put("discovered", "https://www.youtube.com/watch?v=BMUPNgU3lII"); // Evidence - Raphael Costa
         put("found", "https://www.youtube.com/watch?v=YMwQQJ0ChCU"); // On The Killer's Trail - William Pearson & Robert Watson
 
         put("intense", "https://www.youtube.com/watch?v=VNTLefY9rT0"); // Promo Upbeat Intense Racer 1 - Jermaine Stegall
         put("intense2", "https://www.youtube.com/watch?v=KwxIN6-BNWs"); // Fight to the Death - Bobby Cole
+        put("conflict", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/dangerous-actionwav_MybM1LHO_NWM.mp3"); // Dangerous Action - Mikael Manvelyan
 
         // on runner hit, less than two pieces of armor
         put("chase", "https://www.youtube.com/watch?v=CX9wFdExF_k"); // Navajo Race - Bryan Steele
@@ -102,6 +106,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("epicwar", "https://www.youtube.com/watch?v=_UBZmrQwD9o"); // There Is No Escape - Hollywood Film Music
         put("endwar", "https://www.youtube.com/watch?v=0EsBItv1Pns"); // Heist Gone Wrong - Clark Aboud
         put("fighting", "https://www.youtube.com/watch?v=S4MC7QdayXc"); // Halo - Michael Vignola
+        put("fighting-upbeat", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HBkoCjiJNjpi3pnnv/audioblocks-space-expansion-modern-retrowave-modern-retrowave_rXqU4SchS_NWM.mp3"); // Space Expansion Modern Retrowave - Oleksandr Koltsov
         put("heroic", "https://www.youtube.com/watch?v=eGojBSVYHZA"); // Heroic Fireworks - Paul Werner
 
         // On hunter kill by runner
@@ -287,15 +292,16 @@ public class TrackManager extends AudioEventAdapter implements Listener {
                 candidates.add("resolution2");
                 candidates.add("rhythmic");
                 candidates.add("lowdanger");
+                candidates.add("premonition");
                 break;
             case FarAway:
                 candidates.add("fun");
                 candidates.add("preparing-safe");
+                candidates.add("preparing-safe2");
                 candidates.add("chill");
                 candidates.add("gatheringresources");
                 candidates.add("journey");
                 candidates.add("swing");
-                candidates.add("premonition");
                 break;
             case RunnerInNether:
                 candidates.add("nether");
@@ -454,11 +460,13 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         long armorCount = Arrays.stream(damager.getInventory().getArmorContents()).filter(stack -> stack != null).count() +
                 Arrays.stream(damagee.getInventory().getArmorContents()).filter(stack -> stack != null).count();
         if(armorCount > 2){
-            int random = (int)(Math.random() * 4);
-            if(random == 0) playSpecialTrack("epicwar");
+            int random = (int)(Math.random() * 5);
+            // intense, intense2,
+            if(random == 0) playSpecialTrack("intense");
             else if(random == 1) playSpecialTrack("dramatic");
             else if(random == 2) playSpecialTrack("heroic");
-            else playSpecialTrack("fighting");
+            else if(random == 3) playSpecialTrack("intense2");
+            else if(random == 4) playSpecialTrack("fighting-upbeat");
         }else{
             int random = (int)(Math.random() * 2);
             if(random == 0) playSpecialTrack("chase");
