@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
@@ -42,6 +43,10 @@ public class PluginListener implements Listener {
                 if(player.isOp()){
                     player.sendMessage("Join a Manhunt team before using the compass!");
                 }
+                return;
+            }
+            if(main.runners.contains(player.getName()) && !main.debugMode){
+                player.sendMessage("Speedrunners cannot use the compass!");
                 return;
             }
             if(main.commands.compassTask == -1){
@@ -111,6 +116,13 @@ public class PluginListener implements Listener {
         }
         if(setRunnersToSpecOnDeath && main.commands.gameIsRunning && main.runners.contains(playerName)){
             event.getPlayer().setGameMode(GameMode.SPECTATOR);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event){
+        if(main.hunters.contains(event.getEntity().getName())){
+            event.getDrops().removeIf(i -> i.getType() == Material.COMPASS);
         }
     }
 

@@ -34,6 +34,7 @@ public class PluginMain extends JavaPlugin {
     public DiscordManager discord;
     public PluginCommands commands;
     public AnalyticsManager analytics;
+    public boolean debugMode = false;
 
     public boolean playerIsOnTeam(Player player){
         String name = player.getName();
@@ -45,6 +46,7 @@ public class PluginMain extends JavaPlugin {
         logger = getLogger();
         logger.info("Minecraft Manhunt plugin enabled!");
         saveDefaultConfig();
+        debugMode = getConfig().getBoolean("debugMode", false);
         getServer().getPluginManager().registerEvents(new PluginListener(this), this);
 
         commands = new PluginCommands(this);

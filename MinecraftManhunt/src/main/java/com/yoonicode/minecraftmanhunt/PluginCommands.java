@@ -4,10 +4,13 @@ import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.CompassMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -58,30 +61,37 @@ public class PluginCommands implements CommandExecutor {
             if(!main.playerIsOnTeam(hunter)){
                 continue;
             }
+            PlayerInventory inv = hunter.getInventory();
+
             if(hunter.getWorld().getEnvironment() != target.getWorld().getEnvironment()){
                 Location loc = main.portals.get(target.getName());
                 if(loc != null){
                     hunter.setCompassTarget(loc);
                 }
+                for (int j = 0; j < inv.getSize(); j++) {
+                    ItemStack stack = inv.getItem(j);
+                    if (stack == null) continue;
+                    if (stack.getType() != Material.COMPASS) continue;
+
+                    stack.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1); // Make all compasses glow
+
+                    ItemMeta meta = stack.getItemMeta();
+                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                    stack.setItemMeta(meta);
+                }
             }else{
                 hunter.setCompassTarget(target.getLocation());
 
                 if(compassEnabledInNether) {
-                    PlayerInventory inv = hunter.getInventory();
-                    ItemStack compass = null;
                     for (int j = 0; j < inv.getSize(); j++) {
                         ItemStack stack = inv.getItem(j);
                         if (stack == null) continue;
                         if (stack.getType() != Material.COMPASS) continue;
-                        compass = stack;
 
-                        break;
-                    }
-                    if (compass != null) {
-                        CompassMeta meta = (CompassMeta) compass.getItemMeta();
+                        CompassMeta meta = (CompassMeta) stack.getItemMeta();
                         meta.setLodestone(target.getLocation());
                         meta.setLodestoneTracked(false);
-                        compass.setItemMeta(meta);
+                        stack.setItemMeta(meta);
                     }
                 }
             }
@@ -239,7 +249,7 @@ public class PluginCommands implements CommandExecutor {
                 commandSender.sendMessage("Game is already in progress. Use /end before starting another game.");
                 return true;
             }
-            if (main.runners.size() < 1) {
+            if (main.runners.size() < 1 && !main.debugMode) {
                 commandSender.sendMessage("Not enough speedrunners to start");
                 return true;
             }
