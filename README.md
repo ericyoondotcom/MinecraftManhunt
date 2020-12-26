@@ -83,6 +83,9 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   hunterRoleId | The ID of the role to assign to Hunters. | string | Optional
   runnnerRoleId | The ID of the role to assign to Runners. | string | Optional
   spectatorRoleId | The ID of the role to assign to Spectators. | string | Optional
+  huntersColor | The color to give to Hunters. | string | Optional
+  speedrunnersColor | The color to give to Runners. | string | Optional
+  spectatorsColor | The color to give Spectators. | string | Optional
   uuid | Randomized id that is automatically assigned if `sendUsageData` is enabled. **Please do not touch this field.** | string | Do not set manually
 
 > Note: if any of the role IDs are missing or invalid, no roles will be assigned.
