@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import static org.bukkit.Bukkit.getScoreboardManager;
+import static org.bukkit.ChatColor.getByChar;
 
 enum ManhuntTeam {
     HUNTER,
@@ -59,17 +60,18 @@ public class PluginMain extends JavaPlugin {
         huntersTeam = board.getTeam("hunters");
         runnersTeam = board.getTeam("speedrunners");
         spectatorsTeam = board.getTeam("spectators");
+
         if(huntersTeam == null){
             huntersTeam = board.registerNewTeam("hunters");
-            huntersTeam.setColor(ChatColor.RED);
+            huntersTeam.setColor(getByChar(getConfig().getString("huntersColor", "&c").replace("&", "")));
         }
         if(runnersTeam == null){
             runnersTeam = board.registerNewTeam("speedrunners");
-            runnersTeam.setColor(ChatColor.GREEN);
+            runnersTeam.setColor(getByChar(getConfig().getString("speedrunnersColor", "&a").replace("&", "")));
         }
         if(spectatorsTeam == null){
             spectatorsTeam = board.registerNewTeam("spectators");
-            spectatorsTeam.setColor(ChatColor.AQUA);
+            spectatorsTeam.setColor(getByChar(getConfig().getString("spectatorsColor", "&b").replace("&", "")));
         }
 
         discord = new DiscordManager(this);
