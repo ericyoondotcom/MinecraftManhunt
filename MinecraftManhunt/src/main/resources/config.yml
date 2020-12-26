@@ -22,7 +22,7 @@ spectatorRoleId: "XXXXX"
 # You can change the colours of the teams here.
 # Only one colour is supported.
 huntersColor: "&c"
-speedrunnersColor: "&a"
+runnersColor: "&a"
 spectatorsColor: "&b"
 
 # Please do not touch the value below!

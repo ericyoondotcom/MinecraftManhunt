@@ -67,7 +67,7 @@ public class PluginMain extends JavaPlugin {
         }
         if(runnersTeam == null){
             runnersTeam = board.registerNewTeam("speedrunners");
-            runnersTeam.setColor(getByChar(getConfig().getString("speedrunnersColor", "&a").replace("&", "")));
+            runnersTeam.setColor(getByChar(getConfig().getString("runnersColor", "&a").replace("&", "")));
         }
         if(spectatorsTeam == null){
             spectatorsTeam = board.registerNewTeam("spectators");
