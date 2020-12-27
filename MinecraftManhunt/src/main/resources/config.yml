@@ -7,6 +7,12 @@ setRunnersToSpecOnDeath: true
 # Set to true to send anonymized, aggregated usage data to help improve the plugin.
 sendUsageData: true
 
+# You can change the colours of the teams here.
+# Only one colour is supported.
+huntersColor: "&c"
+runnersColor: "&a"
+spectatorsColor: "&b"
+
 # Read the plugin README/description for more info on how to set up Discord integration!
 enableDiscord: false
 discordToken: "XXXXX"
@@ -18,12 +24,6 @@ musicChannelId: "XXXXX"
 hunterRoleId: "XXXXX"
 runnerRoleId: "XXXXX"
 spectatorRoleId: "XXXXX"
-
-# You can change the colours of the teams here.
-# Only one colour is supported.
-huntersColor: "&c"
-runnersColor: "&a"
-spectatorsColor: "&b"
 
 # Please do not touch the value below!
 uuid: ""

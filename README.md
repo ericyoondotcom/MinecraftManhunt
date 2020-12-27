@@ -74,6 +74,9 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   compassEnabledInNether | Set to true to allow the compass to work in the nether. | boolean | Optional, defaults to `true`
   setRunnersToSpecOnDeath | Set to true to set runners' gamemodes to spectator when they die. | boolean | Optional, defaults to `true`
   sendUsageData | Set to true to send anonymized, aggregated usage data to help improve the plugin. | boolean | Optional, defaults to `false`
+  huntersColor | The color to give to the `hunters` team. | string | Optional
+  runnersColor | The color to give to the `runners` team. | string | Optional
+  spectatorsColor | The color to give to the `spectators` team. | string | Optional
   enableDiscord | Set to true to turn on Discord integration. Read below for more information. | boolean | Required
   discordToken | Enter the token of your Discord bot here. | string | Required if `enableDiscord` is `true`
   ip | The Discord status message portion. Will display as `Playing {value}` so it's recommended that you make this your server's IP. | string | Optional
@@ -83,9 +86,6 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   hunterRoleId | The ID of the role to assign to Hunters. | string | Optional
   runnnerRoleId | The ID of the role to assign to Runners. | string | Optional
   spectatorRoleId | The ID of the role to assign to Spectators. | string | Optional
-  huntersColor | The color to give to Hunters. | string | Optional
-  runnersColor | The color to give to Runners. | string | Optional
-  spectatorsColor | The color to give Spectators. | string | Optional
   uuid | Randomized id that is automatically assigned if `sendUsageData` is enabled. **Please do not touch this field.** | string | Do not set manually
 
 > Note: if any of the role IDs are missing or invalid, no roles will be assigned.
