@@ -19,7 +19,11 @@ hunterRoleId: "XXXXX"
 runnerRoleId: "XXXXX"
 spectatorRoleId: "XXXXX"
 
-
+# You can change the colours of the teams here.
+# Only one colour is supported.
+huntersColor: "&c"
+runnersColor: "&a"
+spectatorsColor: "&b"
 
 # Please do not touch the value below!
 uuid: ""
