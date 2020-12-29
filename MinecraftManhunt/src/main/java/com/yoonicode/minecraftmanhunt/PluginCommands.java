@@ -267,6 +267,10 @@ public class PluginCommands implements CommandExecutor {
                 main.runnersTeam.removeEntry(i);
             }
 
+            if (main.getConfig().getBoolean("clearItemDropsOnStart", false)) {
+                commandSender.getServer().dispatchCommand(getServer().getConsoleSender(), "minecraft:kill @e[type=item]");
+            }
+
             for (String i : main.spectators) {
                 Player player = Bukkit.getPlayer(i);
                 if (player == null) continue;

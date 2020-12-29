@@ -21,6 +21,8 @@ spectatorsColor: "&b"
 clearRunnerInvOnStart: false
 # Set to true to clear hunter inventories and EXP when the game starts.
 clearHunterInvOnStart: false
+# Set to true to clear all item drops when the game starts.
+clearItemDropsOnStart: true
 
 
 # Read the plugin README/description for more info on how to set up Discord integration!
