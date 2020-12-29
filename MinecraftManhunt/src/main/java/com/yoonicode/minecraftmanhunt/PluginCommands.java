@@ -282,7 +282,12 @@ public class PluginCommands implements CommandExecutor {
                 player.setGameMode(GameMode.SURVIVAL);
                 player.setHealth(20.0);
                 player.setFoodLevel(20);
-//                player.getInventory().clear();
+
+                if (main.getConfig().getBoolean("clearRunnerInvOnStart", false)) {
+                    player.getInventory().clear();
+                    player.setExp(0);
+                }
+
                 main.runnersTeam.addEntry(player.getName());
                 if(!main.discord.assignRole(ManhuntTeam.RUNNER, player.getName())){
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
@@ -297,7 +302,12 @@ public class PluginCommands implements CommandExecutor {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20 * headStartDuration, 10));
                 player.setHealth(20.0);
                 player.setFoodLevel(20);
-//                player.getInventory().clear();
+
+                if (main.getConfig().getBoolean("clearHunterInvOnStart", false)) {
+                    player.getInventory().clear();
+                    player.setExp(0);
+                }
+
                 player.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
                 main.huntersTeam.addEntry(player.getName());
                 if(!main.discord.assignRole(ManhuntTeam.HUNTER, player.getName())){
