@@ -24,7 +24,7 @@ public class PluginListener implements Listener {
 
     boolean setRunnersToSpecOnDeath;
     static boolean worldBorderModified = false;
-    static WorldBorder wb;
+    static World world;
     PluginMain main;
     public PluginListener(PluginMain main) {
         this.main = main;
@@ -109,7 +109,8 @@ public class PluginListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         if (!worldBorderModified && main.getConfig().getBoolean("preGameWorldBorder", false)) {
             Location joinLoc = event.getPlayer().getLocation();
-            wb = event.getPlayer().getWorld().getWorldBorder();
+            world = event.getPlayer().getWorld();
+            WorldBorder wb = world.getWorldBorder();
 
             wb.setDamageAmount(0);
             wb.setWarningDistance(0);

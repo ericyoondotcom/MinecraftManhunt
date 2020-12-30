@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.yoonicode.minecraftmanhunt.PluginListener.wb;
+import static com.yoonicode.minecraftmanhunt.PluginListener.world;
 import static com.yoonicode.minecraftmanhunt.PluginListener.worldBorderModified;
 import static org.bukkit.Bukkit.*;
 
@@ -274,8 +274,13 @@ public class PluginCommands implements CommandExecutor {
             }
 
             if (worldBorderModified) {
+                WorldBorder wb = world.getWorldBorder();
                 wb.setCenter(0.5, 0.5);
                 wb.setSize(60000000);
+            }
+
+            if (main.getConfig().getBoolean("setTimeToZero", true)) {
+                world.setTime(0);
             }
 
             for (String i : main.spectators) {

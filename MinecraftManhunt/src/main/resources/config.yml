@@ -23,6 +23,8 @@ clearRunnerInvOnStart: false
 clearHunterInvOnStart: false
 # Set to true to clear all item drops when the game starts.
 clearItemDropsOnStart: true
+# Set to true to set the world time to 0 when the game starts.
+setTimeToZero: true
 
 # Set to true if you want a pre-game world border to be set before the game starts.
 # This may be useful if you don't want a player exploring the world, prior ot starting.
