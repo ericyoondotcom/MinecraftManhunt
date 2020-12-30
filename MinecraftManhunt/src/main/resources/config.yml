@@ -24,6 +24,12 @@ clearHunterInvOnStart: false
 # Set to true to clear all item drops when the game starts.
 clearItemDropsOnStart: true
 
+# Set to true if you want a pre-game world border to be set before the game starts.
+# This may be useful if you don't want a player exploring the world, prior ot starting.
+# If your server isn't only being used for manhunt, you may want to leave this as false.
+preGameWorldBorder: true
+# This will set the size of the pre-game border. Recommended to leave at 100.
+preGameBorderSize: 100
 
 # Read the plugin README/description for more info on how to set up Discord integration!
 enableDiscord: false

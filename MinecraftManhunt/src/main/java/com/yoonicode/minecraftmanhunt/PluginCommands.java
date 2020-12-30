@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.yoonicode.minecraftmanhunt.PluginListener.wb;
+import static com.yoonicode.minecraftmanhunt.PluginListener.worldBorderModified;
 import static org.bukkit.Bukkit.*;
 
 public class PluginCommands implements CommandExecutor {
@@ -269,6 +271,11 @@ public class PluginCommands implements CommandExecutor {
 
             if (main.getConfig().getBoolean("clearItemDropsOnStart", false)) {
                 commandSender.getServer().dispatchCommand(getServer().getConsoleSender(), "minecraft:kill @e[type=item]");
+            }
+
+            if (worldBorderModified) {
+                wb.setCenter(0.5, 0.5);
+                wb.setSize(60000000);
             }
 
             for (String i : main.spectators) {

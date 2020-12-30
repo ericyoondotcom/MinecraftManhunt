@@ -23,6 +23,8 @@ import java.util.List;
 public class PluginListener implements Listener {
 
     boolean setRunnersToSpecOnDeath;
+    static boolean worldBorderModified = false;
+    static WorldBorder wb;
     PluginMain main;
     public PluginListener(PluginMain main) {
         this.main = main;
@@ -101,6 +103,22 @@ public class PluginListener implements Listener {
     @EventHandler
     public void onPlayerEnterPortal(PlayerPortalEvent event){
         main.portals.put(event.getPlayer().getName(), event.getFrom());
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event){
+        if (!worldBorderModified && main.getConfig().getBoolean("preGameWorldBorder", false)) {
+            Location joinLoc = event.getPlayer().getLocation();
+            wb = event.getPlayer().getWorld().getWorldBorder();
+
+            wb.setDamageAmount(0);
+            wb.setWarningDistance(0);
+            wb.setCenter(joinLoc);
+            wb.setSize(main.getConfig().getInt("preGameBorderSize", 100));
+
+            worldBorderModified = true;
+        }
+
     }
 
     @EventHandler
