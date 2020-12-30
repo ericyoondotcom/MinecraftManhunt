@@ -297,6 +297,7 @@ public class PluginCommands implements CommandExecutor {
                 if (main.getConfig().getBoolean("clearRunnerInvOnStart", false)) {
                     player.getInventory().clear();
                     player.setExp(0);
+                    player.setLevel(0);
                 }
 
                 main.runnersTeam.addEntry(player.getName());
