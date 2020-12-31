@@ -356,6 +356,9 @@ public class PluginCommands implements CommandExecutor {
                 commandSender.sendMessage("There is no game in progress. Use /start to start a new game.");
                 return true;
             }
+            if(main.getConfig().getBoolean("startGameByHit", false)){
+                hitHasRegistered = false;
+            }
             BukkitScheduler scheduler = getServer().getScheduler();
             if (compassTask != -1) {
                 scheduler.cancelTask(compassTask);
