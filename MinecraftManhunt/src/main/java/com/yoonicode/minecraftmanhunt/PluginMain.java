@@ -28,8 +28,8 @@ public class PluginMain extends JavaPlugin {
     public ArrayList<String> spectators = new ArrayList<String>();
     public HashMap<String, String> targets = new HashMap<String, String>();
     public HashMap<String, Location> portals = new HashMap<String, Location>();
-    public Team huntersTeam;
-    public Team runnersTeam;
+    public static Team huntersTeam;
+    public static Team runnersTeam;
     public Team spectatorsTeam;
     public Logger logger;
     public DiscordManager discord;
