@@ -39,10 +39,11 @@ public class PluginCommands implements CommandExecutor {
             "music",
             "setheadstart"
     };
+    public static boolean hitHasRegistered;
 
     int compassTask = -1;
     int dangerLevelTask = -1;
-    public boolean gameIsRunning = false;
+    public static boolean gameIsRunning = false;
     boolean compassEnabledInNether;
     private final PluginMain main;
 
@@ -253,6 +254,12 @@ public class PluginCommands implements CommandExecutor {
                 commandSender.sendMessage("Not enough speedrunners to start");
                 return true;
             }
+
+            if (main.getConfig().getBoolean("startGameByHit", false) && !hitHasRegistered) {
+                commandSender.sendMessage("The /start command is disabled. The game will start when a runner hits a hunter.");
+                return true;
+            }
+
             commandSender.sendMessage("Starting game...");
             main.targets.clear();
             int headStartDuration = main.getConfig().getInt("headStartDuration");
@@ -348,6 +355,9 @@ public class PluginCommands implements CommandExecutor {
             if(!gameIsRunning){
                 commandSender.sendMessage("There is no game in progress. Use /start to start a new game.");
                 return true;
+            }
+            if(main.getConfig().getBoolean("startGameByHit", false)){
+                hitHasRegistered = false;
             }
             BukkitScheduler scheduler = getServer().getScheduler();
             if (compassTask != -1) {

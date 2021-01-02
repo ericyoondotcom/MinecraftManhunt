@@ -1,5 +1,7 @@
 # How long the hunters should get blindness and slowness when the match starts.
 headStartDuration: 30
+# Set to true to start the game by having a runner hit a hunter, instead of using the /start command.
+startGameByHit: false
 # Set to true to allow the compass to work in the nether.
 compassEnabledInNether: true
 # Set to true to put runners in spectator mode when they die.
