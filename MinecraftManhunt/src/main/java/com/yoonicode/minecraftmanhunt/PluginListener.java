@@ -9,9 +9,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
@@ -113,7 +111,7 @@ public class PluginListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event){
+    public void onPlayerJoin(PlayerJoinEvent event) {
         if (!worldBorderModified && main.getConfig().getBoolean("preGameWorldBorder", false)) {
             Location joinLoc = event.getPlayer().getLocation();
             world = event.getPlayer().getWorld();
@@ -126,8 +124,9 @@ public class PluginListener implements Listener {
 
             worldBorderModified = true;
         }
+    }
 
-
+    @EventHandler
     public void onPlayerAttacked(EntityDamageByEntityEvent event) {
         if (!PluginCommands.gameIsRunning && main.getConfig().getBoolean("startGameByHit", false)) {
             Entity victim = event.getEntity();
