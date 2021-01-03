@@ -13,6 +13,26 @@ huntersColor: "&c"
 runnersColor: "&a"
 spectatorsColor: "&b"
 
+# You can change game preparations here.
+# Depending on what environment you run this plugin in, this could erase your data.
+# For example, if this is running on primary survival server, you may not want to clear inventory.
+
+# Set to true to clear runner inventories and EXP when the game starts.
+clearRunnerInvOnStart: false
+# Set to true to clear hunter inventories and EXP when the game starts.
+clearHunterInvOnStart: false
+# Set to true to clear all item drops when the game starts.
+clearItemDropsOnStart: true
+# Set to true to set the world time to 0 when the game starts.
+setTimeToZero: true
+
+# Set to true if you want a pre-game world border to be set before the game starts.
+# This may be useful if you don't want a player exploring the world, prior ot starting.
+# If your server isn't only being used for manhunt, you may want to leave this as false.
+preGameWorldBorder: true
+# This will set the size of the pre-game border. Recommended to leave at 100.
+preGameBorderSize: 100
+
 # Read the plugin README/description for more info on how to set up Discord integration!
 enableDiscord: false
 discordToken: "XXXXX"

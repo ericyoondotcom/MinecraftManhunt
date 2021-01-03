@@ -77,6 +77,12 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   huntersColor | The color to give to the `hunters` team. | string | Optional
   runnersColor | The color to give to the `runners` team. | string | Optional
   spectatorsColor | The color to give to the `spectators` team. | string | Optional
+  clearRunnerInvOnStart | Set to true to clear the runner's inventory and experience when the game starts. | boolean | Optional, defaults to `false`
+  clearHunterInvOnStart | Set to true to clear the hunter's inventory and experience when the game starts. | boolean | Optional, defaults to `false`
+  clearItemDropsOnStart | Set to true to clear item drops when the game starts. | boolean | Optional, defaults to `false`
+  setTimeToZero | Set to true to set the time to 0 when the game starts. | boolean | Optional, defaults to `true`
+  preGameWorldBorder | Set to true to enforce a world border for pre-game. | boolean | Optional, defaults to `false`
+  preGameBorderSize | States how big the pre-game world border would be, if enabled. | int | Optional, defaults to `100`, ignored when *preGameWorldBorder* is `false`
   enableDiscord | Set to true to turn on Discord integration. Read below for more information. | boolean | Required
   discordToken | Enter the token of your Discord bot here. | string | Required if `enableDiscord` is `true`
   ip | The Discord status message portion. Will display as `Playing {value}` so it's recommended that you make this your server's IP. | string | Optional

@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.yoonicode.minecraftmanhunt.PluginListener.world;
+import static com.yoonicode.minecraftmanhunt.PluginListener.worldBorderModified;
 import static org.bukkit.Bukkit.*;
 
 public class PluginCommands implements CommandExecutor {
@@ -267,6 +269,20 @@ public class PluginCommands implements CommandExecutor {
                 main.runnersTeam.removeEntry(i);
             }
 
+            if (main.getConfig().getBoolean("clearItemDropsOnStart", false)) {
+                commandSender.getServer().dispatchCommand(getServer().getConsoleSender(), "minecraft:kill @e[type=item]");
+            }
+
+            if (worldBorderModified) {
+                WorldBorder wb = world.getWorldBorder();
+                wb.setCenter(0.5, 0.5);
+                wb.setSize(60000000);
+            }
+
+            if (main.getConfig().getBoolean("setTimeToZero", true)) {
+                world.setTime(0);
+            }
+
             for (String i : main.spectators) {
                 Player player = Bukkit.getPlayer(i);
                 if (player == null) continue;
@@ -282,7 +298,13 @@ public class PluginCommands implements CommandExecutor {
                 player.setGameMode(GameMode.SURVIVAL);
                 player.setHealth(20.0);
                 player.setFoodLevel(20);
-//                player.getInventory().clear();
+
+                if (main.getConfig().getBoolean("clearRunnerInvOnStart", false)) {
+                    player.getInventory().clear();
+                    player.setExp(0);
+                    player.setLevel(0);
+                }
+
                 main.runnersTeam.addEntry(player.getName());
                 if(!main.discord.assignRole(ManhuntTeam.RUNNER, player.getName())){
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
@@ -297,7 +319,12 @@ public class PluginCommands implements CommandExecutor {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20 * headStartDuration, 10));
                 player.setHealth(20.0);
                 player.setFoodLevel(20);
-//                player.getInventory().clear();
+
+                if (main.getConfig().getBoolean("clearHunterInvOnStart", false)) {
+                    player.getInventory().clear();
+                    player.setExp(0);
+                }
+
                 player.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
                 main.huntersTeam.addEntry(player.getName());
                 if(!main.discord.assignRole(ManhuntTeam.HUNTER, player.getName())){
