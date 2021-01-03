@@ -22,14 +22,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.lang.annotation.Target;
 import java.util.List;
 
-import static com.yoonicode.minecraftmanhunt.PluginCommands.gameIsRunning;
 import static org.bukkit.Bukkit.getServer;
 
 public class PluginListener implements Listener {
 
     boolean setRunnersToSpecOnDeath;
-    static boolean worldBorderModified = false;
-    static World world;
+
     PluginMain main;
     public PluginListener(PluginMain main) {
         this.main = main;
@@ -112,31 +110,30 @@ public class PluginListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!worldBorderModified && main.getConfig().getBoolean("preGameWorldBorder", false)) {
+        if (!main.commands.worldBorderModified && main.getConfig().getBoolean("preGameWorldBorder", false)) {
             Location joinLoc = event.getPlayer().getLocation();
-            world = event.getPlayer().getWorld();
-            WorldBorder wb = world.getWorldBorder();
+            WorldBorder wb = main.world.getWorldBorder();
 
             wb.setDamageAmount(0);
             wb.setWarningDistance(0);
             wb.setCenter(joinLoc);
             wb.setSize(main.getConfig().getInt("preGameBorderSize", 100));
 
-            worldBorderModified = true;
+            main.commands.worldBorderModified = true;
         }
     }
 
     @EventHandler
-    public void onPlayerAttacked(EntityDamageByEntityEvent event) {
-        if (!PluginCommands.gameIsRunning && main.getConfig().getBoolean("startGameByHit", false)) {
+    public void onPlayerHit(EntityDamageByEntityEvent event) {
+        if (!main.commands.gameIsRunning && main.getConfig().getBoolean("startGameByHit", false)) {
             Entity victim = event.getEntity();
             Entity attacker = event.getDamager();
             EntityDamageEvent.DamageCause cause = event.getCause();
             if (attacker.getType() == EntityType.PLAYER && victim.getType() == EntityType.PLAYER
                     && cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK
-                    && PluginMain.huntersTeam.getEntries().contains(victim.getName())
-                    && PluginMain.runnersTeam.getEntries().contains(attacker.getName())) {
-                PluginCommands.hitHasRegistered = true;
+                    && main.huntersTeam.getEntries().contains(victim.getName())
+                    && main.runnersTeam.getEntries().contains(attacker.getName())) {
+                main.commands.hitHasRegistered = true;
                 attacker.getServer().dispatchCommand(getServer().getConsoleSender(), "start");
             }
         }
@@ -145,10 +142,10 @@ public class PluginListener implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event){
         String playerName = event.getPlayer().getName();
-        if(gameIsRunning && main.hunters.contains(playerName)){
+        if(main.commands.gameIsRunning && main.hunters.contains(playerName)){
             event.getPlayer().getInventory().addItem(new ItemStack(Material.COMPASS, 1));
         }
-        if(setRunnersToSpecOnDeath && gameIsRunning && main.runners.contains(playerName)){
+        if(setRunnersToSpecOnDeath && main.commands.gameIsRunning && main.runners.contains(playerName)){
             event.getPlayer().setGameMode(GameMode.SPECTATOR);
         }
     }

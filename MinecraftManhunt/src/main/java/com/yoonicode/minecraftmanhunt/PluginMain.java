@@ -3,6 +3,7 @@ package com.yoonicode.minecraftmanhunt;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
@@ -11,6 +12,7 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static org.bukkit.Bukkit.getScoreboardManager;
@@ -28,10 +30,11 @@ public class PluginMain extends JavaPlugin {
     public ArrayList<String> spectators = new ArrayList<String>();
     public HashMap<String, String> targets = new HashMap<String, String>();
     public HashMap<String, Location> portals = new HashMap<String, Location>();
-    public static Team huntersTeam;
-    public static Team runnersTeam;
+    public Team huntersTeam;
+    public Team runnersTeam;
     public Team spectatorsTeam;
     public Logger logger;
+    public World world;
     public DiscordManager discord;
     public PluginCommands commands;
     public AnalyticsManager analytics;
@@ -73,6 +76,12 @@ public class PluginMain extends JavaPlugin {
             spectatorsTeam = board.registerNewTeam("spectators");
             spectatorsTeam.setColor(getByChar(getConfig().getString("spectatorsColor", "&b").replace("&", "")));
         }
+
+        List<World> worlds = Bukkit.getWorlds();
+        if(worlds.size() < 1){
+            logger.warning("Could not detect main world! Plugin will not work.");
+        }
+        world = worlds.get(0);
 
         discord = new DiscordManager(this);
         analytics = new AnalyticsManager(this);
