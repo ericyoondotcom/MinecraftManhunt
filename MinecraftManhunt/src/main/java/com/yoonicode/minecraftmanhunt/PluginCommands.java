@@ -393,6 +393,7 @@ public class PluginCommands implements CommandExecutor {
                 scheduler.cancelTask(dangerLevelTask);
                 dangerLevelTask = -1;
             }
+            worldBorderModified = false;
             Bukkit.broadcastMessage("Manhunt stopped!");
             gameIsRunning = false;
             return true;
