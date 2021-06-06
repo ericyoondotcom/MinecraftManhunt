@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.bukkit.Bukkit.*;
-
 public class PluginCommands implements CommandExecutor {
 
     public static final String[] registeredCommands = {
@@ -39,11 +37,13 @@ public class PluginCommands implements CommandExecutor {
             "music",
             "setheadstart"
     };
+    public boolean hitHasRegistered; // used for startGameByHit option
 
     int compassTask = -1;
     int dangerLevelTask = -1;
     public boolean gameIsRunning = false;
     boolean compassEnabledInNether;
+    boolean worldBorderModified;
     private final PluginMain main;
 
     public PluginCommands(PluginMain main) {
@@ -53,8 +53,8 @@ public class PluginCommands implements CommandExecutor {
 
     public void UpdateCompass(){
         for(Map.Entry<String, String> i : main.targets.entrySet()){
-            Player hunter = getPlayer(i.getKey());
-            Player target = getPlayer(i.getValue());
+            Player hunter = Bukkit.getPlayer(i.getKey());
+            Player target = Bukkit.getPlayer(i.getValue());
             if(hunter == null || target == null){
                 continue;
             }
@@ -103,7 +103,7 @@ public class PluginCommands implements CommandExecutor {
             case "/hunter":
             case "/speedrunner":
             case "/spectator": {
-                return getOnlinePlayers().stream().map(i -> i.getName()).collect(Collectors.toList());
+                return Bukkit.getOnlinePlayers().stream().map(i -> i.getName()).collect(Collectors.toList());
             }
             case "/music": {
                 ArrayList<String> ret = new ArrayList<String>(){
@@ -253,6 +253,12 @@ public class PluginCommands implements CommandExecutor {
                 commandSender.sendMessage("Not enough speedrunners to start");
                 return true;
             }
+
+            if (main.getConfig().getBoolean("startGameByHit", false) && !hitHasRegistered) {
+                commandSender.sendMessage("The /start command is disabled. The game will start when a runner hits a hunter.");
+                return true;
+            }
+
             commandSender.sendMessage("Starting game...");
             main.targets.clear();
             int headStartDuration = main.getConfig().getInt("headStartDuration");
@@ -265,6 +271,20 @@ public class PluginCommands implements CommandExecutor {
             }
             for(String i : main.runnersTeam.getEntries()){
                 main.runnersTeam.removeEntry(i);
+            }
+
+            if (main.getConfig().getBoolean("clearItemDropsOnStart", false)) {
+                commandSender.getServer().dispatchCommand(Bukkit.getConsoleSender(), "minecraft:kill @e[type=item]");
+            }
+
+            if (worldBorderModified) {
+                WorldBorder wb = main.world.getWorldBorder();
+                wb.setCenter(0.5, 0.5);
+                wb.setSize(60000000);
+            }
+
+            if (main.getConfig().getBoolean("setTimeToZero", true)) {
+                main.world.setTime(0);
             }
 
             for (String i : main.spectators) {
@@ -282,7 +302,13 @@ public class PluginCommands implements CommandExecutor {
                 player.setGameMode(GameMode.SURVIVAL);
                 player.setHealth(20.0);
                 player.setFoodLevel(20);
-//                player.getInventory().clear();
+
+                if (main.getConfig().getBoolean("clearRunnerInvOnStart", false)) {
+                    player.getInventory().clear();
+                    player.setExp(0);
+                    player.setLevel(0);
+                }
+
                 main.runnersTeam.addEntry(player.getName());
                 if(!main.discord.assignRole(ManhuntTeam.RUNNER, player.getName())){
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
@@ -297,14 +323,20 @@ public class PluginCommands implements CommandExecutor {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20 * headStartDuration, 10));
                 player.setHealth(20.0);
                 player.setFoodLevel(20);
-//                player.getInventory().clear();
+
+                if (main.getConfig().getBoolean("clearHunterInvOnStart", false)) {
+                    player.getInventory().clear();
+                    player.setExp(0);
+                    player.setLevel(0);
+                }
+
                 player.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
                 main.huntersTeam.addEntry(player.getName());
                 if(!main.discord.assignRole(ManhuntTeam.HUNTER, player.getName())){
                     commandSender.sendMessage("Could not assign Discord role. Make sure the target's username is also their Discord nickname.");
                 }
             }
-            BukkitScheduler scheduler = getServer().getScheduler();
+            BukkitScheduler scheduler = Bukkit.getScheduler();
             compassTask = scheduler.scheduleSyncRepeatingTask(main, new Runnable() {
                 public void run() {
                     UpdateCompass();
@@ -335,7 +367,7 @@ public class PluginCommands implements CommandExecutor {
                 main.discord.trackManager.playSpecialTrack("headstart", true);
             }
 
-            getServer().broadcastMessage(
+            Bukkit.broadcastMessage(
                     ChatColor.DARK_RED.toString() + ChatColor.UNDERLINE + "Thanks for playing!" + ChatColor.RESET + "\n" +
                             ChatColor.AQUA + "Made by " + ChatColor.GOLD + "Eric" + ChatColor.AQUA + " (yoonicode.com)" + "\n" +
                             ChatColor.GREEN + "Inspired by " + ChatColor.GOLD + "Dream" + ChatColor.GREEN + " (youtube.com/dream)" + "\n" +
@@ -349,7 +381,10 @@ public class PluginCommands implements CommandExecutor {
                 commandSender.sendMessage("There is no game in progress. Use /start to start a new game.");
                 return true;
             }
-            BukkitScheduler scheduler = getServer().getScheduler();
+            if(main.getConfig().getBoolean("startGameByHit", false)){
+                hitHasRegistered = false;
+            }
+            BukkitScheduler scheduler = Bukkit.getScheduler();
             if (compassTask != -1) {
                 scheduler.cancelTask(compassTask);
                 compassTask = -1;
@@ -358,7 +393,8 @@ public class PluginCommands implements CommandExecutor {
                 scheduler.cancelTask(dangerLevelTask);
                 dangerLevelTask = -1;
             }
-            getServer().broadcastMessage("Manhunt stopped!");
+            worldBorderModified = false;
+            Bukkit.broadcastMessage("Manhunt stopped!");
             gameIsRunning = false;
             return true;
         } else if("compass".equals(label))

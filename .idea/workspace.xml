@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c82e04b3-d049-4957-a49d-e6fd972f5698" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinecraftManhunt/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MinecraftManhunt/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinecraftManhunt/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MinecraftManhunt/pom.xml" afterDir="false" />
-    </list>
+    <list default="true" id="c82e04b3-d049-4957-a49d-e6fd972f5698" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,24 +37,10 @@
       <option name="presentableId" value="Default" />
       <updated>1599585695767</updated>
       <workItem from="1599596678372" duration="61000" />
-      <workItem from="1617247282349" duration="398000" />
-      <workItem from="1617265505136" duration="12000" />
-      <workItem from="1617302608829" duration="11000" />
-      <workItem from="1617306785290" duration="1474000" />
-      <workItem from="1617311715256" duration="36000" />
-      <workItem from="1617312657308" duration="5062000" />
-      <workItem from="1617319235459" duration="4000" />
-      <workItem from="1617482177804" duration="1017000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="541" y="292" width="597" height="490" key="find.popup" timestamp="1617316803738">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="541" y="292" width="597" height="490" key="find.popup/1680.-690.1920.1055/0.25.1680.1025@0.25.1680.1025" timestamp="1617316803738" />
   </component>
 </project>

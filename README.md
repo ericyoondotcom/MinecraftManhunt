@@ -68,15 +68,32 @@ Hunters try to kill the runners before they beat the enderdragon. Runners must b
 ## Configuration Options
 Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   
+  ### Game Options
   Key|Description|Type|Required?
   --|--|--|--
-  headStartDuration | How long the hunters should get blindness and slowness when the match starts. | int | Required
+  headStartDuration | How long the hunters should get blindness and slowness when the match starts, in secs. | int | Required
   compassEnabledInNether | Set to true to allow the compass to work in the nether. | boolean | Optional, defaults to `true`
-  setRunnersToSpecOnDeath | Set to true to set runners' gamemodes to spectator when they die. | boolean | Optional, defaults to `true`
   sendUsageData | Set to true to send anonymized, aggregated usage data to help improve the plugin. | boolean | Optional, defaults to `false`
+  uuid | Randomized id that is automatically assigned if `sendUsageData` is enabled. **Please do not touch this field.** | string | Do not set manually
+  ### Extra Options
+  Key|Description|Type|Required?
+  --|--|--|--
+  setRunnersToSpecOnDeath | Set to true to set runners' gamemodes to spectator when they die. | boolean | Optional, defaults to `true`
   huntersColor | The color to give to the `hunters` team. | string | Optional
   runnersColor | The color to give to the `runners` team. | string | Optional
   spectatorsColor | The color to give to the `spectators` team. | string | Optional
+  clearRunnerInvOnStart | Set to true to clear the runners' inventories and experience when the game starts. | boolean | Optional, defaults to `false`
+  clearHunterInvOnStart | Set to true to clear the hunters' inventories and experience when the game starts. | boolean | Optional, defaults to `false`
+  clearItemDropsOnStart | Set to true to clear all Item entities when the game starts. | boolean | Optional, defaults to `false`
+  setTimeToZero | Set to true to reset the game time when the game starts. | boolean | Optional, defaults to `true`
+  startGameByHit | Set to true to start the game when a runner hits a hunter, instead of when the `/start` command is used. | boolean | Optional, defaults to `false`
+  preGameWorldBorder | Set to true to enforce a world border before the game starts (useful to keep players from running too far). | boolean | Optional, defaults to `false`
+  preGameBorderSize | States how big the pre-game world border would be, if enabled. | int | Optional, defaults to `100`; ignored when `preGameWorldBorder` is `false`
+
+
+  ### Discord Integration
+  Key|Description|Type|Required?
+  --|--|--|--
   enableDiscord | Set to true to turn on Discord integration. Read below for more information. | boolean | Required
   discordToken | Enter the token of your Discord bot here. | string | Required if `enableDiscord` is `true`
   ip | The Discord status message portion. Will display as `Playing {value}` so it's recommended that you make this your server's IP. | string | Optional
@@ -86,7 +103,6 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   hunterRoleId | The ID of the role to assign to Hunters. | string | Optional
   runnnerRoleId | The ID of the role to assign to Runners. | string | Optional
   spectatorRoleId | The ID of the role to assign to Spectators. | string | Optional
-  uuid | Randomized id that is automatically assigned if `sendUsageData` is enabled. **Please do not touch this field.** | string | Do not set manually
 
 > Note: if any of the role IDs are missing or invalid, no roles will be assigned.
 
