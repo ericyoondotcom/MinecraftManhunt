@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.lang.annotation.Target;
 import java.util.List;
@@ -146,7 +147,14 @@ public class PluginListener implements Listener {
             event.getPlayer().getInventory().addItem(new ItemStack(Material.COMPASS, 1));
         }
         if(setRunnersToSpecOnDeath && main.commands.gameIsRunning && main.runners.contains(playerName)){
-            event.getPlayer().setGameMode(GameMode.SPECTATOR);
+            BukkitScheduler scheduler = Bukkit.getScheduler();
+            scheduler.scheduleSyncDelayedTask(main, new Runnable() {
+                @Override
+                public void run() {
+                    main.logger.info("Setting player to gamemode spectator");
+                    event.getPlayer().setGameMode(GameMode.SPECTATOR);
+                }
+            }, 20L * 1); // Wait a bit before setting to spectator to prevent a race condition
         }
     }
 
