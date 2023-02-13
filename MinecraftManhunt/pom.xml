@@ -6,7 +6,7 @@
 
     <groupId>com.yoonicode</groupId>
     <artifactId>MinecraftManhunt</artifactId>
-    <version>1.3.3.8</version>
+    <version>1.4</version>
 
     <build>
         <plugins>

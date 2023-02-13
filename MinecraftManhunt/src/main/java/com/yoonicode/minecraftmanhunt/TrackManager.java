@@ -51,7 +51,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
     public HashMap<String, String> trackURLs = new HashMap<String, String>() {{
         put("intro", "https://www.youtube.com/watch?v=beCC9xJjLZQ"); // Epic Dawn - Bobby Cole
-        put("intro2", "https://www.youtube.com/watch?v=JoTEaIMMnbE"); // Forgotten Ones - Will Van De Crommert via. Cinematic Sky
+        put("intro2", "https://www.youtube.com/watch?v=Ht7cNljCYM4"); // Forgotten Ones - Will Van De Crommert via. Cinematic Sky
         put("headstart", "https://www.youtube.com/watch?v=tJFqdLg58i4"); // Trance Music for Racing Game - Bobby Cole
         put("pirates", "https://www.youtube.com/watch?v=27mB8verLK8"); // Pirates of the Caribbean theme song
         put("gatheringresources", "https://www.youtube.com/watch?v=tKfpwSVpXxU"); // Do the Funky Strut - Bobby Cole
@@ -69,7 +69,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
         put("preparing-safe", "https://www.youtube.com/watch?v=gehk17hjEdU"); // Race Against Time - Ceiri Torjussen
         put("preparing-danger", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/jdi-032114-action-preparaton-121913-jd-7_NWM.mp3"); // Action Preparation - Jason Donnelly
-        put("lowdanger", "https://www.youtube.com/watch?v=3OSs540jvF4"); // White Lines - Zac Nelson
+        put("lowdanger", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/white-lines_NWM.mp3"); // White Lines - Zac Nelson
         put("journey", "https://www.youtube.com/watch?v=7we8rs_YF5w"); // Crucial Conflict - Westar Music
         put("cinematic", "https://www.youtube.com/watch?v=K1p5TCW2tp0"); // Hidden in the Corner - Marc Robillard
         put("premonition", "https://www.youtube.com/watch?v=pNxcUi50Ge0"); // Evolution of Man - Linus Lau
