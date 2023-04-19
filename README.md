@@ -129,7 +129,7 @@ The intensity of the music depends on the distance between the runners and the h
 - < 150 blocks away: In Sight
 - < 300 blocks away: Stealth
 - < 450 blocks away: Approaching
-- >= 450 blocks away: Far away
+- \>= 450 blocks away: Far away
 
 Additionally, there is a set of tracks that play if the runners, but not the hunters, are in the Nether.
 
