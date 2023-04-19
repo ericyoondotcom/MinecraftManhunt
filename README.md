@@ -120,6 +120,33 @@ Permission|Description|Recommended level
 `minecraftmanhunt.music` | Allow `/music` command. Note that music commands can also be typed in Discord if `processDiscordCommands` in config is set to `true`. | everyone
 `minecraftmanhunt.config` | Allow config-changing commands, such as `/setheadstart`. | operators
 
+## Music Queues
+Part of the fun of this plugin is learning what each music queue means to get a competitive advantage. Here's a list of what causes each track to play.
+
+### Distance
+The intensity of the music depends on the distance between the runners and the hunters. Tracks are selected at random from the following categories:
+- < 50 blocks away: Chasing
+- < 150 blocks away: In Sight
+- < 300 blocks away: Stealth
+- < 450 blocks away: Approaching
+- >= 450 blocks away: Far away
+
+Additionally, there is a set of tracks that play if the runners, but not the hunters, are in the Nether.
+
+### Special Events
+Special tracks play when events related to the game occur. Some events are:
+- The runners mine their first iron ore
+- The runners mine a diamond ore
+- The hunters craft their first piece of iron armor
+- The hunters and runners damage each other
+  - "Chase" music plays if the fighters have a combined total of less than two pieces of armor
+  - "Fight" music plays if they have more than two pieces of armor
+- A hunter dies
+- A runner dies
+- Both players are in boats
+- A runner trades with a Piglin for the first time
+- A runner teleports to the end
+
 ## Troubleshooting
 - `online-mode` in server.properties must be set to `true` as of version 1.2.4.
 - If you are using Discord integration, make sure your server's system clock is set correctly.

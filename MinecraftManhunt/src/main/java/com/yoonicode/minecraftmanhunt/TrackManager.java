@@ -20,7 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -50,30 +50,30 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     public DangerLevel dangerLevel;
 
     public HashMap<String, String> trackURLs = new HashMap<String, String>() {{
-        put("intro", "https://www.youtube.com/watch?v=beCC9xJjLZQ"); // Epic Dawn - Bobby Cole
+         put("intro", "https://www.youtube.com/watch?v=lDjfRqkUlN4"); // Epic Dawn - Bobby Cole
         put("intro2", "https://www.youtube.com/watch?v=Ht7cNljCYM4"); // Forgotten Ones - Will Van De Crommert via. Cinematic Sky
-        put("headstart", "https://www.youtube.com/watch?v=tJFqdLg58i4"); // Trance Music for Racing Game - Bobby Cole
+         put("headstart", "https://www.youtube.com/watch?v=ILtYQftxJ3k"); // Trance Music for Racing Game - Bobby Cole
         put("pirates", "https://www.youtube.com/watch?v=27mB8verLK8"); // Pirates of the Caribbean theme song
-        put("gatheringresources", "https://www.youtube.com/watch?v=tKfpwSVpXxU"); // Do the Funky Strut - Bobby Cole
+         put("gatheringresources", "https://www.youtube.com/watch?v=wlRkXTqy5Ng"); // Do the Funky Strut - Bobby Cole
         put("montage", "https://www.youtube.com/watch?v=BezpUnoZObw"); // The Elevator Bossa Nova - Bensound
         put("xmas", "https://www.youtube.com/watch?v=R5swgaETU1g"); // Jingle Bells - Bill Robuck & Jerrold W Lambert
 
         put("relaxing", "https://www.youtube.com/watch?v=ipCeVg-SA-Y"); // Inhale and Exhale - For Peace of Mind and Serenity
         put("fun", "https://www.youtube.com/watch?v=O9cWfV_3J7o"); // Playtime - Peter Godfrey
-        put("chill", "https://www.youtube.com/watch?v=eSNXvU-kowc"); // Crime and Robbery Music
+        // put("chill", "https://www.youtube.com/watch?v=eSNXvU-kowc"); // Crime and Robbery Music
         put("upbeat", "https://www.youtube.com/watch?v=rxfqhAOfIqo"); // Ready and Go - Diego Martinez
         put("swing", "https://www.youtube.com/watch?v=wJ5Ip9qs9iw"); // Snap Swing - Diego Martinez
         put("jazz", "https://www.youtube.com/watch?v=R_-44VsmTmI"); // Heist Prop Montage - Rob McAllister
         put("upbeat-bite", "https://www.youtube.com/watch?v=hn7k7z_heOw"); // Brain Short Circuit - Neil Cross
-        put("preparing-safe2", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/on-queue-2_fyV-vHHO_NWM.mp3"); // On Queue 2 - Bruce Zimmerman
+         put("preparing-safe2", "https://www.youtube.com/watch?v=A6L-LNf5mhE"); // On Queue 2 - Bruce Zimmerman
 
         put("preparing-safe", "https://www.youtube.com/watch?v=gehk17hjEdU"); // Race Against Time - Ceiri Torjussen
-        put("preparing-danger", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/jdi-032114-action-preparaton-121913-jd-7_NWM.mp3"); // Action Preparation - Jason Donnelly
-        put("lowdanger", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/white-lines_NWM.mp3"); // White Lines - Zac Nelson
+         put("preparing-danger", "https://www.youtube.com/watch?v=ORHevqbtJFE"); // Action Preparation - Jason Donnelly
+         put("lowdanger", "https://www.youtube.com/watch?v=yWw0_rUlfIA"); // White Lines - Zac Nelson
         put("journey", "https://www.youtube.com/watch?v=7we8rs_YF5w"); // Crucial Conflict - Westar Music
         put("cinematic", "https://www.youtube.com/watch?v=K1p5TCW2tp0"); // Hidden in the Corner - Marc Robillard
         put("premonition", "https://www.youtube.com/watch?v=pNxcUi50Ge0"); // Evolution of Man - Linus Lau
-        put("orchestral", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HNxwBHlArk43bm5tw/audioblocks-spearfisher-ft-cicely-parnas-_blood-and-strings_hope-and-heisenberg_inst_rAkI7RJ4v_NWM.mp3"); // Hope and Heisenberg - Lance Conrad
+        // put("orchestral", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HNxwBHlArk43bm5tw/audioblocks-spearfisher-ft-cicely-parnas-_blood-and-strings_hope-and-heisenberg_inst_rAkI7RJ4v_NWM.mp3"); // Hope and Heisenberg - Lance Conrad
 
         put("risingaction", "https://www.youtube.com/watch?v=ghAeHHTID2k"); // Strange Things - Zac Nelson
         put("rhythmic", "https://www.youtube.com/watch?v=vWghhruheNk"); // Escape Theme - Udeze Ukwuoma via. Von Neumann Effect
@@ -82,21 +82,21 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
         put("spooked", "https://www.youtube.com/watch?v=3kclVzQ3S4M"); // Re-Animation - Peter Godfrey / When Bats Fly - Neil Cross
         put("spooked2", "https://www.youtube.com/watch?v=UZ7OcaFTiA4"); // The Final Decision - Clark Aboud
-        put("tense", "https://www.youtube.com/watch?v=Vv9-cxbacOg"); // Tension in the Air - Bobby Cole
-        put("tense2", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/bbc-051117-Feel-the-Tension_NWM.mp3"); // Feel the Tension - Bobby Cole
-        put("plotting", "https://www.youtube.com/watch?v=RXyYt8kx740"); // Thinking and Tension - Bobby Cole
-        put("approaching", "https://www.youtube.com/watch?v=wD3Mf4asnFk"); // Thinking About Murder - Boby Cole
+        // put("tense", "https://www.youtube.com/watch?v=Vv9-cxbacOg"); // Tension in the Air - Bobby Cole
+        // put("tense2", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/bbc-051117-Feel-the-Tension_NWM.mp3"); // Feel the Tension - Bobby Cole
+         put("approaching", "https://www.youtube.com/watch?v=e3J-A7ze038"); // Thinking About Murder - Boby Cole
         put("dramatic", "https://www.youtube.com/watch?v=-u7MW_KkTWU"); // Dramatic Movie Opening - Bobby Cole
 
-        put("danger", "https://www.youtube.com/watch?v=kVJQ74RoHCM"); // Dramatic Anticipation (Alternative version) - PremiumTrax
+        put("plotting", "https://www.youtube.com/watch?v=RXyYt8kx740"); // Thinking and Tension - Bobby Cole
+         put("danger", "https://www.youtube.com/watch?v=V-5MQywZlaw"); // Dramatic Anticipation (Alternative version) - PremiumTrax
         put("danger2", "https://www.youtube.com/watch?v=5y4b7jDXf_E"); // Dark Time Ticking - Robert Valenti
 
-        put("discovered", "https://www.youtube.com/watch?v=BMUPNgU3lII"); // Evidence - Raphael Costa
+         put("discovered", "https://www.youtube.com/watch?v=FDTY6EILSLc"); // Evidence - Raphael Costa
         put("found", "https://www.youtube.com/watch?v=YMwQQJ0ChCU"); // On The Killer's Trail - William Pearson & Robert Watson
 
         put("intense", "https://www.youtube.com/watch?v=VNTLefY9rT0"); // Promo Upbeat Intense Racer 1 - Jermaine Stegall
         put("intense2", "https://www.youtube.com/watch?v=KwxIN6-BNWs"); // Fight to the Death - Bobby Cole
-        put("conflict", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/dangerous-actionwav_MybM1LHO_NWM.mp3"); // Dangerous Action - Mikael Manvelyan
+         put("conflict", "https://www.youtube.com/watch?v=GaWcNDK9N10"); // Dangerous Action - Mikael Manvelyan
 
         // on runner hit, less than two pieces of armor
         put("chase", "https://www.youtube.com/watch?v=CX9wFdExF_k"); // Navajo Race - Bryan Steele
@@ -106,7 +106,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("epicwar", "https://www.youtube.com/watch?v=_UBZmrQwD9o"); // There Is No Escape - Hollywood Film Music
         put("endwar", "https://www.youtube.com/watch?v=0EsBItv1Pns"); // Heist Gone Wrong - Clark Aboud
         put("fighting", "https://www.youtube.com/watch?v=S4MC7QdayXc"); // Halo - Michael Vignola
-        put("fighting-upbeat", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HBkoCjiJNjpi3pnnv/audioblocks-space-expansion-modern-retrowave-modern-retrowave_rXqU4SchS_NWM.mp3"); // Space Expansion Modern Retrowave - Oleksandr Koltsov
+         put("fighting-upbeat", "https://www.youtube.com/watch?v=0HD3rQ64YJw"); // Space Expansion Modern Retrowave - Oleksandr Koltsov
         put("heroic", "https://www.youtube.com/watch?v=eGojBSVYHZA"); // Heroic Fireworks - Paul Werner
 
         // On hunter kill by runner
@@ -119,14 +119,14 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("loss", "https://www.youtube.com/watch?v=9Fx314TyuWI"); // Mystery Collection - Lonesome Piano - D. Silverstone
         put("sad", "https://www.youtube.com/watch?v=OK7a4EQVRc0"); // Sad Goodbyes - Mark Kueffner
 
-        put("timesup", "https://media.proudmusiclibrary.com/en/file/stream/c6a2a45eae97c0de11a11cad286a152f/0/220405.mp3"); // Clock Is Ticking - Benny Hawes
+        // put("timesup", "https://media.proudmusiclibrary.com/en/file/stream/c6a2a45eae97c0de11a11cad286a152f/0/220405.mp3"); // Clock Is Ticking - Benny Hawes
         put("finale", "https://www.youtube.com/watch?v=rQUXUdD3B-4"); // Reach Beyond - Paul Werner
     }};
     public HashMap<String, AudioTrack> tracks = new HashMap<String, AudioTrack>();
 
     boolean armorObtainedByHunters = false;
     long piratesLastPlaytime = 0;
-    boolean piglinsTraded = false;
+    boolean runnersHaveTradedWithPiglins = false;
     boolean ironObtainedByRunners = false;
 
     public TrackManager(MusicManager musicManager, PluginMain main){
@@ -208,7 +208,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
             if(dangerLevel != null){
                 ret += "Level: " + dangerLevel.toString() + ", ";
             }
-            ret += "playing special: " + specialPlaying + ", ";
+            ret += "playing special: " + specialPlaying;
             ret += ", auto enabled: " + autoEnabled;
             return ret;
         }
@@ -258,7 +258,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     public void reset(){
         armorObtainedByHunters = false;
         piratesLastPlaytime = 0;
-        piglinsTraded = false;
+        runnersHaveTradedWithPiglins = false;
         ironObtainedByRunners = false;
         dangerLevel = DangerLevel.FarAway;
     }
@@ -275,19 +275,19 @@ public class TrackManager extends AudioEventAdapter implements Listener {
                 candidates.add("endwar");
                 break;
             case InSight:
+                candidates.add("plotting");
                 candidates.add("danger");
                 candidates.add("preparing-danger");
-                candidates.add("timesup");
+//                candidates.add("timesup");
                 break;
             case Stealth:
                 candidates.add("approaching");
                 candidates.add("found");
-                candidates.add("plotting");
                 candidates.add("discovered");
                 break;
             case Approaching:
                 candidates.add("relaxing");
-                candidates.add("tense");
+//                candidates.add("tense");
                 candidates.add("resolution");
                 candidates.add("resolution2");
                 candidates.add("rhythmic");
@@ -298,7 +298,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
                 candidates.add("fun");
                 candidates.add("preparing-safe");
                 candidates.add("preparing-safe2");
-                candidates.add("chill");
+//                candidates.add("chill");
                 candidates.add("gatheringresources");
                 candidates.add("journey");
                 candidates.add("swing");
@@ -391,11 +391,6 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     }
 
     @EventHandler
-    public void playerEnterPortalEvent(PlayerPortalEvent event){
-        playDangerLevelTrack();
-    }
-
-    @EventHandler
     public void onPlayerVehicleEnter(VehicleEnterEvent event){
         if(event.getVehicle().getType() != EntityType.BOAT) return;
         if(event.getEntered().getType() != EntityType.PLAYER) return;
@@ -425,6 +420,19 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         if(!found) return;
         piratesLastPlaytime = serverTimestamp;
         playSpecialTrack("pirates");
+    }
+
+    @EventHandler
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        if(main.runners.contains(event.getPlayer().getName())) {
+            World.Environment startingWorld = event.getFrom().getWorld().getEnvironment();
+            World.Environment endingWorld = event.getTo().getWorld().getEnvironment();
+            if(startingWorld == World.Environment.NORMAL && endingWorld == World.Environment.NETHER) {
+                playDangerLevelTrack();
+            } else if(startingWorld == World.Environment.NORMAL && endingWorld == World.Environment.THE_END) {
+                playSpecialTrack("finale");
+            }
+        }
     }
 
     @EventHandler
@@ -513,10 +521,10 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     public void onEntityInteract(PlayerInteractEntityEvent event){
         Player player = event.getPlayer();
         if(main.runners.contains(player.getName())){
-            if(event.getRightClicked().getType() == EntityType.PIGLIN && !piglinsTraded){
+            if(event.getRightClicked().getType() == EntityType.PIGLIN && !runnersHaveTradedWithPiglins){
                 ItemStack mainHand = player.getInventory().getItemInMainHand();
                 if(mainHand != null && mainHand.getType() == Material.GOLD_INGOT){
-                    piglinsTraded = true;
+                    runnersHaveTradedWithPiglins = true;
                     playSpecialTrack("montage", true);
                 }
             }
