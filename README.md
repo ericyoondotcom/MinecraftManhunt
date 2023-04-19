@@ -41,6 +41,7 @@ Hunters try to kill the runners before they beat the enderdragon. Runners must b
 ### Discord Setup Instructions
 - Create a Discord app from the [Developer Portal](https://discord.com/developers/applications).
 - Add a Bot under the bots tab.
+- Scroll down and enable the toggles under "server members intent" and "message content intent".
 - Take note of your **Client ID** (in the General Information tab) and your **Token** (under the Bot tab).
 - Go to the following link, replacing `123YourClientID456` with your client ID: `https://discord.com/oauth2/authorize?scope=bot&client_id=123YourClientID456&permissions=8`
 - Select the Discord server to add your bot to.

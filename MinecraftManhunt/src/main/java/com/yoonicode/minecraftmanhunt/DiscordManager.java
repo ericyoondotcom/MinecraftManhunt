@@ -6,16 +6,14 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
-import sun.reflect.annotation.ExceptionProxy;
-
-import javax.security.auth.login.LoginException;
 import java.util.List;
 
 public class DiscordManager extends ListenerAdapter {
@@ -42,15 +40,11 @@ public class DiscordManager extends ListenerAdapter {
         String presenceMessage = config.getString("ip", "");
 
         if(enabled){
-            JDABuilder builder = JDABuilder.createDefault(discordToken);
+            JDABuilder builder = JDABuilder.create(discordToken, GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES);
             if(presenceMessage.length() > 0) {
                 builder.setActivity(Activity.playing(presenceMessage));
             }
-            try {
-                client = builder.build();
-            } catch (LoginException e) {
-                main.logger.warning("LoginException: Discord token is invalid. " + e.getMessage());
-            }
+            client = builder.build();
             client.addEventListener(this);
         }
     }
@@ -159,8 +153,9 @@ public class DiscordManager extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         if(event.getAuthor().isBot()) return;
+        if(!event.isFromGuild()) return;
         if(!processDiscordCommands) return;
         if(!event.getGuild().getId().equalsIgnoreCase(guild.getId())) return;
         String message = event.getMessage().getContentDisplay().trim().toLowerCase();

@@ -4,8 +4,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sun.media.jfxmedia.logging.Logger;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -36,7 +35,7 @@ public class MusicManager {
                 main.logger.warning("Music channel ID not specified in config.");
                 return;
             }
-            VoiceChannel vc = audioManager.getGuild().getVoiceChannelById(voiceId);
+            AudioChannel vc = audioManager.getGuild().getVoiceChannelById(voiceId);
             if(vc == null){
                 main.logger.warning("Voice channel with id " + voiceId + " does not exist.");
                 return;
