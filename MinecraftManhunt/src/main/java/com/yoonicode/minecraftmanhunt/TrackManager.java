@@ -120,7 +120,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("sad", "https://www.youtube.com/watch?v=OK7a4EQVRc0"); // Sad Goodbyes - Mark Kueffner
 
         // put("timesup", "https://media.proudmusiclibrary.com/en/file/stream/c6a2a45eae97c0de11a11cad286a152f/0/220405.mp3"); // Clock Is Ticking - Benny Hawes
-        put("finale", "https://www.youtube.com/watch?v=rQUXUdD3B-4"); // Reach Beyond - Paul Werner
+        put("finale", "https://www.youtube.com/watch?v=uQgFNc0dN0U"); // Reach Beyond - Paul Werner
     }};
     public HashMap<String, AudioTrack> tracks = new HashMap<String, AudioTrack>();
 
