@@ -52,8 +52,6 @@ public class TrackManager extends AudioEventAdapter implements Listener {
     public DangerLevel dangerLevel;
 
 
-    public HashMap<String, AudioTrack> tracks = new HashMap<String, AudioTrack>();
-
     boolean armorObtainedByHunters = false;
     long piratesLastPlaytime = 0;
     boolean runnersHaveTradedWithPiglins = false;
