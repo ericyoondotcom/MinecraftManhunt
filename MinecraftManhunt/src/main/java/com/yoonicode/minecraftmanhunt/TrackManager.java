@@ -33,6 +33,8 @@ import java.util.HashMap;
 public class TrackManager extends AudioEventAdapter implements Listener {
     long piratesCooldownMillis = 0;
 
+    public HashMap<String, String> trackURLs;
+
     MusicManager musicManager;
     PluginMain main;
     boolean autoEnabled = false;
@@ -49,79 +51,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
     public DangerLevel dangerLevel;
 
-    public HashMap<String, String> trackURLs = new HashMap<String, String>() {{
-         put("intro", "https://www.youtube.com/watch?v=lDjfRqkUlN4"); // Epic Dawn - Bobby Cole
-        put("intro2", "https://www.youtube.com/watch?v=Ht7cNljCYM4"); // Forgotten Ones - Will Van De Crommert via. Cinematic Sky
-         put("headstart", "https://www.youtube.com/watch?v=ILtYQftxJ3k"); // Trance Music for Racing Game - Bobby Cole
-        put("pirates", "https://www.youtube.com/watch?v=27mB8verLK8"); // Pirates of the Caribbean theme song
-         put("gatheringresources", "https://www.youtube.com/watch?v=wlRkXTqy5Ng"); // Do the Funky Strut - Bobby Cole
-        put("montage", "https://www.youtube.com/watch?v=BezpUnoZObw"); // The Elevator Bossa Nova - Bensound
-        put("xmas", "https://www.youtube.com/watch?v=R5swgaETU1g"); // Jingle Bells - Bill Robuck & Jerrold W Lambert
 
-        put("relaxing", "https://www.youtube.com/watch?v=ipCeVg-SA-Y"); // Inhale and Exhale - For Peace of Mind and Serenity
-        put("fun", "https://www.youtube.com/watch?v=O9cWfV_3J7o"); // Playtime - Peter Godfrey
-        // put("chill", "https://www.youtube.com/watch?v=eSNXvU-kowc"); // Crime and Robbery Music
-        put("upbeat", "https://www.youtube.com/watch?v=rxfqhAOfIqo"); // Ready and Go - Diego Martinez
-        put("swing", "https://www.youtube.com/watch?v=wJ5Ip9qs9iw"); // Snap Swing - Diego Martinez
-        put("jazz", "https://www.youtube.com/watch?v=R_-44VsmTmI"); // Heist Prop Montage - Rob McAllister
-        put("upbeat-bite", "https://www.youtube.com/watch?v=hn7k7z_heOw"); // Brain Short Circuit - Neil Cross
-         put("preparing-safe2", "https://www.youtube.com/watch?v=A6L-LNf5mhE"); // On Queue 2 - Bruce Zimmerman
-
-        put("preparing-safe", "https://www.youtube.com/watch?v=gehk17hjEdU"); // Race Against Time - Ceiri Torjussen
-         put("preparing-danger", "https://www.youtube.com/watch?v=ORHevqbtJFE"); // Action Preparation - Jason Donnelly
-         put("lowdanger", "https://www.youtube.com/watch?v=yWw0_rUlfIA"); // White Lines - Zac Nelson
-        put("journey", "https://www.youtube.com/watch?v=7we8rs_YF5w"); // Crucial Conflict - Westar Music
-        put("cinematic", "https://www.youtube.com/watch?v=K1p5TCW2tp0"); // Hidden in the Corner - Marc Robillard
-        put("premonition", "https://www.youtube.com/watch?v=pNxcUi50Ge0"); // Evolution of Man - Linus Lau
-        // put("orchestral", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HNxwBHlArk43bm5tw/audioblocks-spearfisher-ft-cicely-parnas-_blood-and-strings_hope-and-heisenberg_inst_rAkI7RJ4v_NWM.mp3"); // Hope and Heisenberg - Lance Conrad
-
-        put("risingaction", "https://www.youtube.com/watch?v=ghAeHHTID2k"); // Strange Things - Zac Nelson
-        put("rhythmic", "https://www.youtube.com/watch?v=vWghhruheNk"); // Escape Theme - Udeze Ukwuoma via. Von Neumann Effect
-
-        put("nether", "https://www.youtube.com/watch?v=tQdAiG29HiM"); // Music For a Killer - Bobby Cole
-
-        put("spooked", "https://www.youtube.com/watch?v=3kclVzQ3S4M"); // Re-Animation - Peter Godfrey / When Bats Fly - Neil Cross
-        put("spooked2", "https://www.youtube.com/watch?v=UZ7OcaFTiA4"); // The Final Decision - Clark Aboud
-        // put("tense", "https://www.youtube.com/watch?v=Vv9-cxbacOg"); // Tension in the Air - Bobby Cole
-        // put("tense2", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/bbc-051117-Feel-the-Tension_NWM.mp3"); // Feel the Tension - Bobby Cole
-         put("approaching", "https://www.youtube.com/watch?v=e3J-A7ze038"); // Thinking About Murder - Boby Cole
-        put("dramatic", "https://www.youtube.com/watch?v=-u7MW_KkTWU"); // Dramatic Movie Opening - Bobby Cole
-
-        put("plotting", "https://www.youtube.com/watch?v=RXyYt8kx740"); // Thinking and Tension - Bobby Cole
-         put("danger", "https://www.youtube.com/watch?v=V-5MQywZlaw"); // Dramatic Anticipation (Alternative version) - PremiumTrax
-        put("danger2", "https://www.youtube.com/watch?v=5y4b7jDXf_E"); // Dark Time Ticking - Robert Valenti
-
-         put("discovered", "https://www.youtube.com/watch?v=FDTY6EILSLc"); // Evidence - Raphael Costa
-        put("found", "https://www.youtube.com/watch?v=YMwQQJ0ChCU"); // On The Killer's Trail - William Pearson & Robert Watson
-
-        put("intense", "https://www.youtube.com/watch?v=VNTLefY9rT0"); // Promo Upbeat Intense Racer 1 - Jermaine Stegall
-        put("intense2", "https://www.youtube.com/watch?v=KwxIN6-BNWs"); // Fight to the Death - Bobby Cole
-         put("conflict", "https://www.youtube.com/watch?v=GaWcNDK9N10"); // Dangerous Action - Mikael Manvelyan
-
-        // on runner hit, less than two pieces of armor
-        put("chase", "https://www.youtube.com/watch?v=CX9wFdExF_k"); // Navajo Race - Bryan Steele
-        put("chase2", "https://www.youtube.com/watch?v=0TAFhSZXOjI"); // The Tribal Chase Cue - Bobby Cole
-
-        // on runner hit, more than two pieces of armor
-        put("epicwar", "https://www.youtube.com/watch?v=_UBZmrQwD9o"); // There Is No Escape - Hollywood Film Music
-        put("endwar", "https://www.youtube.com/watch?v=0EsBItv1Pns"); // Heist Gone Wrong - Clark Aboud
-        put("fighting", "https://www.youtube.com/watch?v=S4MC7QdayXc"); // Halo - Michael Vignola
-         put("fighting-upbeat", "https://www.youtube.com/watch?v=0HD3rQ64YJw"); // Space Expansion Modern Retrowave - Oleksandr Koltsov
-        put("heroic", "https://www.youtube.com/watch?v=eGojBSVYHZA"); // Heroic Fireworks - Paul Werner
-
-        // On hunter kill by runner
-        put("beastmode", "https://www.youtube.com/watch?v=4rGl1KXV4eA"); // Dominating - Ray Aley
-
-        put("resolution", "https://www.youtube.com/watch?v=B4K7Hqv4vts"); // Out of the Skies, Under the Earth - Chris Zabriskie
-        put("resolution2", "https://www.youtube.com/watch?v=eM6WxujEGy8"); // Divider - Chris Zabriskie
-
-        // On runner death
-        put("loss", "https://www.youtube.com/watch?v=9Fx314TyuWI"); // Mystery Collection - Lonesome Piano - D. Silverstone
-        put("sad", "https://www.youtube.com/watch?v=OK7a4EQVRc0"); // Sad Goodbyes - Mark Kueffner
-
-        // put("timesup", "https://media.proudmusiclibrary.com/en/file/stream/c6a2a45eae97c0de11a11cad286a152f/0/220405.mp3"); // Clock Is Ticking - Benny Hawes
-        put("finale", "https://www.youtube.com/watch?v=uQgFNc0dN0U"); // Reach Beyond - Paul Werner
-    }};
     public HashMap<String, AudioTrack> tracks = new HashMap<String, AudioTrack>();
 
     boolean armorObtainedByHunters = false;
@@ -143,6 +73,79 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 //                public void onTrackLoaded() {}
 //            });
 //        }
+
+        trackURLs = new HashMap<String, String>() {{
+            put("intro", main.getConfig().getString("intro", "https://www.youtube.com/watch?v=lDjfRqkUlN4")); // Epic Dawn - Bobby Cole
+            put("intro2", main.getConfig().getString("intro2", "https://www.youtube.com/watch?v=Ht7cNljCYM4")); // Forgotten Ones - Will Van De Crommert via. Cinematic Sky
+            put("headstart", main.getConfig().getString("headstart", "https://www.youtube.com/watch?v=ILtYQftxJ3k")); // Trance Music for Racing Game - Bobby Cole
+            put("pirates", main.getConfig().getString("pirates", "https://www.youtube.com/watch?v=27mB8verLK8")); // Pirates of the Caribbean theme song
+            put("gatheringresources", main.getConfig().getString("gatheringresources", "https://www.youtube.com/watch?v=wlRkXTqy5Ng")); // Do the Funky Strut - Bobby Cole
+            put("montage", main.getConfig().getString("montage", "https://www.youtube.com/watch?v=BezpUnoZObw")); // The Elevator Bossa Nova - Bensound
+            put("xmas", main.getConfig().getString("xmas", "https://www.youtube.com/watch?v=R5swgaETU1g")); // Jingle Bells - Bill Robuck & Jerrold W Lambert
+
+            put("relaxing", main.getConfig().getString("relaxing", "https://www.youtube.com/watch?v=ipCeVg-SA-Y")); // Inhale and Exhale - For Peace of Mind and Serenity
+            put("fun", main.getConfig().getString("fun", "https://www.youtube.com/watch?v=O9cWfV_3J7o")); // Playtime - Peter Godfrey
+            // put("chill", "https://www.youtube.com/watch?v=eSNXvU-kowc"); // Crime and Robbery Music
+            put("upbeat", main.getConfig().getString("upbeat", "https://www.youtube.com/watch?v=rxfqhAOfIqo")); // Ready and Go - Diego Martinez
+            put("swing", main.getConfig().getString("swing", "https://www.youtube.com/watch?v=wJ5Ip9qs9iw")); // Snap Swing - Diego Martinez
+            put("jazz", main.getConfig().getString("jazz", "https://www.youtube.com/watch?v=R_-44VsmTmI")); // Heist Prop Montage - Rob McAllister
+            put("upbeat-bite", main.getConfig().getString("upbeat-bite", "https://www.youtube.com/watch?v=hn7k7z_heOw")); // Brain Short Circuit - Neil Cross
+            put("preparing-safe2", main.getConfig().getString("preparing-safe2", "https://www.youtube.com/watch?v=A6L-LNf5mhE")); // On Queue 2 - Bruce Zimmerman
+
+            put("preparing-safe", main.getConfig().getString("preparing-safe", "https://www.youtube.com/watch?v=gehk17hjEdU")); // Race Against Time - Ceiri Torjussen
+            put("preparing-danger", main.getConfig().getString("preparing-danger", "https://www.youtube.com/watch?v=ORHevqbtJFE")); // Action Preparation - Jason Donnelly
+            put("lowdanger", main.getConfig().getString("lowdanger", "https://www.youtube.com/watch?v=yWw0_rUlfIA")); // White Lines - Zac Nelson
+            put("journey", main.getConfig().getString("journey", "https://www.youtube.com/watch?v=7we8rs_YF5w")); // Crucial Conflict - Westar Music
+            put("cinematic", main.getConfig().getString("cinematic", "https://www.youtube.com/watch?v=K1p5TCW2tp0")); // Hidden in the Corner - Marc Robillard
+            put("premonition", main.getConfig().getString("premonition", "https://www.youtube.com/watch?v=pNxcUi50Ge0")); // Evolution of Man - Linus Lau
+            // put("orchestral", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HNxwBHlArk43bm5tw/audioblocks-spearfisher-ft-cicely-parnas-_blood-and-strings_hope-and-heisenberg_inst_rAkI7RJ4v_NWM.mp3"); // Hope and Heisenberg - Lance Conrad
+
+            put("risingaction", main.getConfig().getString("risingaction", "https://www.youtube.com/watch?v=ghAeHHTID2k")); // Strange Things - Zac Nelson
+            put("rhythmic", main.getConfig().getString("rhythmic", "https://www.youtube.com/watch?v=vWghhruheNk")); // Escape Theme - Udeze Ukwuoma via. Von Neumann Effect
+
+            put("nether", main.getConfig().getString("nether", "https://www.youtube.com/watch?v=tQdAiG29HiM")); // Music For a Killer - Bobby Cole
+
+            put("spooked", main.getConfig().getString("spooked", "https://www.youtube.com/watch?v=3kclVzQ3S4M")); // Re-Animation - Peter Godfrey / When Bats Fly - Neil Cross
+            put("spooked2", main.getConfig().getString("spooked2", "https://www.youtube.com/watch?v=UZ7OcaFTiA4")); // The Final Decision - Clark Aboud
+            // put("tense", "https://www.youtube.com/watch?v=Vv9-cxbacOg"); // Tension in the Air - Bobby Cole
+            // put("tense2", "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/bbc-051117-Feel-the-Tension_NWM.mp3"); // Feel the Tension - Bobby Cole
+            put("approaching", main.getConfig().getString("approaching", "https://www.youtube.com/watch?v=e3J-A7ze038")); // Thinking About Murder - Boby Cole
+            put("dramatic", main.getConfig().getString("dramatic", "https://www.youtube.com/watch?v=-u7MW_KkTWU")); // Dramatic Movie Opening - Bobby Cole
+
+            put("plotting", main.getConfig().getString("plotting", "https://www.youtube.com/watch?v=RXyYt8kx740")); // Thinking and Tension - Bobby Cole
+            put("danger", main.getConfig().getString("danger", "https://www.youtube.com/watch?v=V-5MQywZlaw")); // Dramatic Anticipation (Alternative version) - PremiumTrax
+            put("danger2", main.getConfig().getString("danger2", "https://www.youtube.com/watch?v=5y4b7jDXf_E")); // Dark Time Ticking - Robert Valenti
+
+            put("discovered", main.getConfig().getString("discovered", "https://www.youtube.com/watch?v=FDTY6EILSLc")); // Evidence - Raphael Costa
+            put("found", main.getConfig().getString("found", "https://www.youtube.com/watch?v=YMwQQJ0ChCU")); // On The Killer's Trail - William Pearson & Robert Watson
+
+            put("intense", main.getConfig().getString("intense", "https://www.youtube.com/watch?v=VNTLefY9rT0")); // Promo Upbeat Intense Racer 1 - Jermaine Stegall
+            put("intense2", main.getConfig().getString("intense2", "https://www.youtube.com/watch?v=KwxIN6-BNWs")); // Fight to the Death - Bobby Cole
+            put("conflict", main.getConfig().getString("conflict", "https://www.youtube.com/watch?v=GaWcNDK9N10")); // Dangerous Action - Mikael Manvelyan
+            // on runner hit, less than two pieces of armor
+            put("chase", main.getConfig().getString("chase", "https://www.youtube.com/watch?v=CX9wFdExF_k")); // Navajo Race - Bryan Steele
+            put("chase2", main.getConfig().getString("chase2", "https://www.youtube.com/watch?v=0TAFhSZXOjI")); // The Tribal Chase Cue - Bobby Cole
+
+            // on runner hit, more than two pieces of armor
+            put("epicwar", main.getConfig().getString("epicwar", "https://www.youtube.com/watch?v=_UBZmrQwD9o")); // There Is No Escape - Hollywood Film Music
+            put("endwar", main.getConfig().getString("endwar", "https://www.youtube.com/watch?v=0EsBItv1Pns")); // Heist Gone Wrong - Clark Aboud
+            put("fighting", main.getConfig().getString("fighting", "https://www.youtube.com/watch?v=S4MC7QdayXc")); // Halo - Michael Vignola
+            put("fighting-upbeat", main.getConfig().getString("fighting-upbeat", "https://www.youtube.com/watch?v=0HD3rQ64YJw")); // Space Expansion Modern Retrowave - Oleksandr Koltsov
+            put("heroic", main.getConfig().getString("heroic", "https://www.youtube.com/watch?v=eGojBSVYHZA")); // Heroic Fireworks - Paul Werner
+
+            // On hunter kill by runner
+            put("beastmode", main.getConfig().getString("beastmode", "https://www.youtube.com/watch?v=4rGl1KXV4eA")); // Dominating - Ray Aley
+
+            put("resolution", main.getConfig().getString("resolution", "https://www.youtube.com/watch?v=B4K7Hqv4vts")); // Out of the Skies, Under the Earth - Chris Zabriskie
+            put("resolution2", main.getConfig().getString("resolution2", "https://www.youtube.com/watch?v=eM6WxujEGy8")); // Divider - Chris Zabriskie
+
+            // On runner death
+            put("loss", main.getConfig().getString("loss", "https://www.youtube.com/watch?v=9Fx314TyuWI")); // Mystery Collection - Lonesome Piano - D. Silverstone
+            put("sad", main.getConfig().getString("sad", "https://www.youtube.com/watch?v=OK7a4EQVRc0")); // Sad Goodbyes - Mark Kueffner
+
+            // put("timesup", "https://media.proudmusiclibrary.com/en/file/stream/c6a2a45eae97c0de11a11cad286a152f/0/220405.mp3"); // Clock Is Ticking - Benny Hawes
+            put("finale", main.getConfig().getString("finale", "https://www.youtube.com/watch?v=rQUXUdD3B-4")); // Reach Beyond - Paul Werner
+        }};
     }
 
     public void loadTrack(String trackName, String url, TrackLoadHandler callback){

@@ -6,7 +6,7 @@
 
     <groupId>com.yoonicode</groupId>
     <artifactId>MinecraftManhunt</artifactId>
-    <version>1.4.2</version>
+    <version>1.4.1</version>
 
     <build>
         <plugins>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0-beta.13</version>
+            <version>5.0.0-beta.8</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
