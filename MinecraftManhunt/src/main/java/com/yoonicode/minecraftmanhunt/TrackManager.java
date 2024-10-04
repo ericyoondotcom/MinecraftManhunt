@@ -68,7 +68,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
          put("preparing-safe2", "https://www.youtube.com/watch?v=A6L-LNf5mhE"); // On Queue 2 - Bruce Zimmerman
 
         put("preparing-safe", "https://www.youtube.com/watch?v=gehk17hjEdU"); // Race Against Time - Ceiri Torjussen
-         put("preparing-danger", "https://www.youtube.com/watch?v=ORHevqbtJFE"); // Action Preparation - Jason Donnelly
+         put("preparing-danger", "https://www.youtube.com/watch?v=ShBnLolf3B0"); // Action Preparation - Jason Donnelly
          put("lowdanger", "https://www.youtube.com/watch?v=yWw0_rUlfIA"); // White Lines - Zac Nelson
         put("journey", "https://www.youtube.com/watch?v=7we8rs_YF5w"); // Crucial Conflict - Westar Music
         put("cinematic", "https://www.youtube.com/watch?v=K1p5TCW2tp0"); // Hidden in the Corner - Marc Robillard
@@ -78,7 +78,7 @@ public class TrackManager extends AudioEventAdapter implements Listener {
         put("risingaction", "https://www.youtube.com/watch?v=ghAeHHTID2k"); // Strange Things - Zac Nelson
         put("rhythmic", "https://www.youtube.com/watch?v=vWghhruheNk"); // Escape Theme - Udeze Ukwuoma via. Von Neumann Effect
 
-        put("nether", "https://www.youtube.com/watch?v=tQdAiG29HiM"); // Music For a Killer - Bobby Cole
+        put("nether", "https://www.youtube.com/watch?v=sGHUlaiVdBc"); // Music For a Killer - Bobby Cole
 
         put("spooked", "https://www.youtube.com/watch?v=3kclVzQ3S4M"); // Re-Animation - Peter Godfrey / When Bats Fly - Neil Cross
         put("spooked2", "https://www.youtube.com/watch?v=UZ7OcaFTiA4"); // The Final Decision - Clark Aboud
@@ -136,13 +136,6 @@ public class TrackManager extends AudioEventAdapter implements Listener {
 
         // Undocumented config option
         piratesCooldownMillis = main.getConfig().getLong("piratesCooldown", 300000);
-
-//        for(Map.Entry<String, String> i : trackURLs.entrySet()){
-//            loadTrack(i.getKey(), new TrackLoadHandler() {
-//                @Override
-//                public void onTrackLoaded() {}
-//            });
-//        }
     }
 
     public void loadTrack(String trackName, String url, TrackLoadHandler callback){
@@ -192,11 +185,11 @@ public class TrackManager extends AudioEventAdapter implements Listener {
             return "Automatic music enabled";
         }
         if(argument.equalsIgnoreCase("list")){
-            String ret = "Music choices: ";
+            StringBuilder ret = new StringBuilder("Music choices: ");
             for(String i : trackURLs.keySet()){
-                ret += i + ", ";
+                ret.append(i).append(", ");
             }
-            return ret;
+            return ret.toString();
         }
         if(argument.equalsIgnoreCase("stop")){
             musicManager.stopTrack();

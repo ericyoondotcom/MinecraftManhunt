@@ -1,9 +1,8 @@
 package com.yoonicode.minecraftmanhunt;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.player.*;
+import com.sedmelluq.discord.lavaplayer.source.*;
+import com.sedmelluq.discord.lavaplayer.track.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.bukkit.configuration.file.FileConfiguration;
